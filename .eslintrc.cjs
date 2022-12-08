@@ -14,6 +14,9 @@ module.exports = {
         'prettier',
     ],
     root: true,
+    env: {
+        browser: true,
+    },
     ignorePatterns: ['.eslintrc.cjs'],
     overrides: [
         {
