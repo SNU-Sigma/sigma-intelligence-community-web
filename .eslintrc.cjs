@@ -17,7 +17,7 @@ module.exports = {
     env: {
         browser: true,
     },
-    ignorePatterns: ['.eslintrc.cjs'],
+    ignorePatterns: ['/*', '!/src'],
     overrides: [
         {
             files: ['*.svelte'],
