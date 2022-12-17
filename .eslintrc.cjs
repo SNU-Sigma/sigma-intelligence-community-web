@@ -18,6 +18,9 @@ module.exports = {
         browser: true,
     },
     ignorePatterns: ['/*', '!/src'],
+    rules: {
+        eqeqeq: ['warn', 'always'],
+    },
     overrides: [
         {
             files: ['*.svelte'],
