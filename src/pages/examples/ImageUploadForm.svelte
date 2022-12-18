@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createImageUpload } from '../lib/util/createImageUpload'
+    import { createImageUpload } from '../../lib/util/createImageUpload'
 
     let uploadedImageUrl: string | undefined = undefined
 
