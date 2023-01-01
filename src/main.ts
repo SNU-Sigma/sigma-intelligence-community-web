@@ -1,3 +1,4 @@
+import '@skeletonlabs/skeleton/themes/theme-skeleton.css'
 import './app.postcss'
 import axios from 'axios'
 import App from './App.svelte'
