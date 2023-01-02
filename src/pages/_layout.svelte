@@ -9,8 +9,10 @@
     )
 </script>
 
-{#if $shouldShowLoginPage}
-    <Login />
-{:else}
-    <slot />
-{/if}
+<div class="flex items-center justify-center h-screen w-96 m-auto">
+    {#if $shouldShowLoginPage}
+        <Login />
+    {:else}
+        <slot />
+    {/if}
+</div>
