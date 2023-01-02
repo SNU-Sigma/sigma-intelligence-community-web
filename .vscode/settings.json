@@ -1,5 +1,10 @@
 {
   "eslint.validate": ["javascript", "typescript", "svelte"],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.enableFiletypes": ["svelte"]
+  "cSpell.enableFiletypes": ["svelte"],
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  }
 }
