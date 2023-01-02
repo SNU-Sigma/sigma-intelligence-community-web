@@ -1,10 +1,15 @@
 <script lang="ts">
+    import { derived } from 'svelte/store'
     import Login from '../lib/login/Login.svelte'
+    import { LoginInfo$ } from '../lib/login/store/LoginInfo$'
 
-    $: shouldShowLoginPage = true
+    const shouldShowLoginPage = derived(
+        LoginInfo$,
+        ({ isLoggedIn }) => isLoggedIn === false,
+    )
 </script>
 
-{#if shouldShowLoginPage}
+{#if $shouldShowLoginPage}
     <Login />
 {:else}
     <slot />

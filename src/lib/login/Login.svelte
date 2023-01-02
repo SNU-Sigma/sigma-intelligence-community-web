@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createForm } from 'felte'
+    import { LoginInfo$ } from './store/LoginInfo$'
 
     type LoginInputData = {
         email: string
@@ -10,6 +11,10 @@
         onSubmit: (values) => {
             const { email, password } = values
             console.log({ email, password })
+            LoginInfo$.update((loginInfo) => ({
+                ...loginInfo,
+                isLoggedIn: true,
+            }))
         },
     })
 </script>
