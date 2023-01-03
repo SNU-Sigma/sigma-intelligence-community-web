@@ -4,6 +4,20 @@ type LoginInfo = {
     isLoggedIn: boolean
 }
 
-export const LoginInfo$ = localStorageStore<LoginInfo>('loginInfo', {
-    isLoggedIn: false,
-})
+export const LoginInfo$ = (() => {
+    const { subscribe, update } = localStorageStore<LoginInfo>('loginInfo', {
+        isLoggedIn: false,
+    })
+
+    const setIsLoggedIn = (value: boolean) => {
+        update((prev) => ({
+            ...prev,
+            isLoggedIn: value,
+        }))
+    }
+
+    return {
+        subscribe,
+        setIsLoggedIn,
+    }
+})()
