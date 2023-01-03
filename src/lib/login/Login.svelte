@@ -21,7 +21,7 @@
 
 <form use:form class="w-64 flex flex-col gap-4">
     <label>
-        <span>아이디</span>
+        <span>이메일</span>
         <input type="text" name="email" />
     </label>
     <label>
