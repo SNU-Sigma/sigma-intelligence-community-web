@@ -11,10 +11,7 @@
         onSubmit: (values) => {
             const { email, password } = values
             console.log({ email, password })
-            LoginInfo$.update((loginInfo) => ({
-                ...loginInfo,
-                isLoggedIn: true,
-            }))
+            LoginInfo$.setIsLoggedIn(true)
         },
     })
 </script>
