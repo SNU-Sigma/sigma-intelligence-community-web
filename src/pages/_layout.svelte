@@ -1,8 +1,8 @@
 <script lang="ts">
     import { LightSwitch, Toast } from '@skeletonlabs/skeleton'
     import { derived } from 'svelte/store'
-    import Login from '../lib/login/Login.svelte'
-    import { LoginInfo$ } from '../lib/login/store/LoginInfo$'
+    import Login from '../lib/ui/login/Login.svelte'
+    import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
 
     const shouldShowLoginPage = derived(
         LoginInfo$,
