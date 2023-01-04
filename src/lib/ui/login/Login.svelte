@@ -34,14 +34,20 @@
 {#if isLoading}
     <OverlaySpinner />
 {/if}
-<form use:form class="w-64 flex flex-col gap-4">
-    <label>
-        <span>이메일</span>
-        <input type="text" name="email" />
-    </label>
-    <label>
-        <span>비밀번호</span>
-        <input type="password" name="password" />
-    </label>
-    <button type="submit" class="btn btn-filled-primary">로그인</button>
-</form>
+<div class="flex flex-col items-center">
+    <img src="/logo.svg" alt="시그마 인텔리전스 로고" class="w-40" />
+    <div class="h-4" />
+    <h1>SIGMA</h1>
+    <div class="h-8" />
+    <form use:form class="w-64 flex flex-col gap-4">
+        <label>
+            <span>이메일</span>
+            <input type="text" name="email" />
+        </label>
+        <label>
+            <span>비밀번호</span>
+            <input type="password" name="password" />
+        </label>
+        <button type="submit" class="btn btn-filled-primary">로그인</button>
+    </form>
+</div>
