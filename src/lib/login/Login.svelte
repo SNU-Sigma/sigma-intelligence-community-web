@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { toastStore } from '@skeletonlabs/skeleton'
     import { createForm } from 'felte'
+    import { LoginAPIImpl } from '../infrastructure/sigma-api/LoginAPIImpl'
     import { LoginInfo$ } from './store/LoginInfo$'
 
     type LoginInputData = {
@@ -8,10 +10,17 @@
     }
 
     const { form } = createForm<LoginInputData>({
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const { email, password } = values
-            console.log({ email, password })
-            LoginInfo$.setIsLoggedIn(true)
+            try {
+                await LoginAPIImpl.login(email, password)
+                LoginInfo$.setIsLoggedIn(true)
+            } catch (e) {
+                toastStore.trigger({
+                    message: '로그인에 실패했습니다.',
+                    preset: 'error',
+                })
+            }
         },
     })
 </script>
