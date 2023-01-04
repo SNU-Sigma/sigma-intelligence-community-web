@@ -8,7 +8,11 @@ const config = {
     ],
 
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                scdream: ['SCDream'],
+            },
+        },
     },
 
     plugins: [
