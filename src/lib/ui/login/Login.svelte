@@ -3,6 +3,9 @@
     import { createForm } from 'felte'
     import { LoginAPIImpl } from '../../infrastructure/sigma-api/LoginAPIImpl'
     import { LoginInfo$ } from '../../domain/login/LoginInfo$'
+    import OverlaySpinner from '../common/OverlaySpinner.svelte'
+
+    let isLoading = false
 
     type LoginInputData = {
         email: string
@@ -12,6 +15,7 @@
     const { form } = createForm<LoginInputData>({
         onSubmit: async (values) => {
             const { email, password } = values
+            isLoading = true
             try {
                 await LoginAPIImpl.login(email, password)
                 LoginInfo$.setIsLoggedIn(true)
@@ -20,11 +24,16 @@
                     message: '로그인에 실패했습니다.',
                     preset: 'error',
                 })
+            } finally {
+                isLoading = false
             }
         },
     })
 </script>
 
+{#if isLoading}
+    <OverlaySpinner />
+{/if}
 <form use:form class="w-64 flex flex-col gap-4">
     <label>
         <span>이메일</span>
