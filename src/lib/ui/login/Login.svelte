@@ -1,8 +1,8 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
     import { createForm } from 'felte'
-    import { LoginAPIImpl } from '../infrastructure/sigma-api/LoginAPIImpl'
-    import { LoginInfo$ } from './store/LoginInfo$'
+    import { LoginAPIImpl } from '../../infrastructure/sigma-api/LoginAPIImpl'
+    import { LoginInfo$ } from '../../domain/login/LoginInfo$'
 
     type LoginInputData = {
         email: string
