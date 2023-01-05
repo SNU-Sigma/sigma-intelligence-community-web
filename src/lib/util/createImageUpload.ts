@@ -16,7 +16,7 @@ export const createImageUpload = () => {
                         `/images/pre-signed-url?fileName=${file.name}`,
                     )
                     await axios.put(url, file, {
-                        validateStatus: (status) => status < 300,
+                        withCredentials: false,
                     })
                     return uploadedUrl
                 } catch (e) {
