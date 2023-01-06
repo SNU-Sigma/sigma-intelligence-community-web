@@ -20,6 +20,7 @@
                     message: '메일이 전송되었습니다.',
                     preset: 'success',
                 })
+                history.back()
             } catch (e) {
                 toastStore.trigger({
                     message:
