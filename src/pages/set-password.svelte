@@ -33,10 +33,10 @@
     })
 </script>
 
+<!-- routify:options name="setPassword" -->
 {#if isLoading}
     <OverlaySpinner />
 {/if}
-<!-- routify:options name="setPassword" -->
 <div class="flex flex-col items-center">
     <h2>비밀번호 설정</h2>
     <div class="h-9" />

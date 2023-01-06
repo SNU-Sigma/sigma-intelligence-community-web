@@ -18,7 +18,6 @@
                 await AuthAPIImpl.signUpOrUpdatePassword(email)
                 toastStore.trigger({
                     message: '메일이 전송되었습니다.',
-                    autohide: false,
                     preset: 'success',
                 })
             } catch (e) {
