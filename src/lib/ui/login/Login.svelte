@@ -4,6 +4,7 @@
     import { AuthAPIImpl } from '../../infrastructure/sigma-api/AuthAPIImpl'
     import { LoginInfo$ } from '../../domain/login/LoginInfo$'
     import OverlaySpinner from '../common/OverlaySpinner.svelte'
+    import { url } from '@roxi/routify'
 
     let isLoading = false
 
@@ -54,4 +55,6 @@
         </label>
         <button type="submit" class="btn btn-filled-primary">로그인</button>
     </form>
+    <div class="h-8" />
+    <a href={$url('signUp')}>회원가입 / 비밀번호 찾기</a>
 </div>

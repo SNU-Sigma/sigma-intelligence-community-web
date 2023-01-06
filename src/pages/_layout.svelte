@@ -9,7 +9,12 @@
         [LoginInfo$, isActive],
         ([{ isLoggedIn }, isActiveHelper]) => {
             const isInSetPasswordPage = isActiveHelper('setPassword')
-            return isLoggedIn === false && isInSetPasswordPage === false
+            const isInSignUpPage = isActiveHelper('signUp')
+            return (
+                isLoggedIn === false &&
+                isInSetPasswordPage === false &&
+                isInSignUpPage === false
+            )
         },
     )
 </script>
