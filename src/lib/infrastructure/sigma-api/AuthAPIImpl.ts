@@ -7,7 +7,7 @@ export const AuthAPIImpl = {
             password,
         })
     },
-    signUp: async (email: string): Promise<void> => {
+    signUpOrUpdatePassword: async (email: string): Promise<void> => {
         await axios.post('/auth/sign-up', { email })
     },
     setPassword: async (token: string, password: string): Promise<void> => {

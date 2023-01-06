@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { params } from '@roxi/routify'
+    import { goto, params } from '@roxi/routify'
     import { toastStore } from '@skeletonlabs/skeleton'
     import { createForm } from 'felte'
     import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
@@ -15,6 +15,11 @@
             try {
                 await AuthAPIImpl.setPassword(token, password)
                 LoginInfo$.setIsLoggedIn(true)
+                toastStore.trigger({
+                    message: '성공적으로 설정되었습니다.',
+                    preset: 'success',
+                })
+                $goto('/')
             } catch (e) {
                 toastStore.trigger({
                     message:
