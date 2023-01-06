@@ -1,7 +1,7 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
     import { createForm } from 'felte'
-    import { LoginAPIImpl } from '../../infrastructure/sigma-api/LoginAPIImpl'
+    import { AuthAPIImpl } from '../../infrastructure/sigma-api/AuthAPIImpl'
     import { LoginInfo$ } from '../../domain/login/LoginInfo$'
     import OverlaySpinner from '../common/OverlaySpinner.svelte'
 
@@ -17,7 +17,7 @@
             const { email, password } = values
             isLoading = true
             try {
-                await LoginAPIImpl.login(email, password)
+                await AuthAPIImpl.login(email, password)
                 LoginInfo$.setIsLoggedIn(true)
             } catch (e) {
                 toastStore.trigger({
