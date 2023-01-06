@@ -3,10 +3,14 @@
     import { derived } from 'svelte/store'
     import Login from '../lib/ui/login/Login.svelte'
     import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
+    import { isActive } from '@roxi/routify'
 
     const shouldShowLoginPage = derived(
-        LoginInfo$,
-        ({ isLoggedIn }) => isLoggedIn === false,
+        [LoginInfo$, isActive],
+        ([{ isLoggedIn }, isActiveHelper]) => {
+            const isInSetPasswordPage = isActiveHelper('setPassword')
+            return isLoggedIn === false && isInSetPasswordPage === false
+        },
     )
 </script>
 

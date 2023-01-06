@@ -40,13 +40,17 @@
     <h1>SIGMA</h1>
     <div class="h-8" />
     <form use:form class="w-64 flex flex-col gap-4">
-        <label>
+        <label for="email">
             <span>이메일</span>
-            <input type="text" name="email" />
+            <input type="text" name="email" autocomplete="username" />
         </label>
-        <label>
+        <label for="password">
             <span>비밀번호</span>
-            <input type="password" name="password" />
+            <input
+                type="password"
+                name="password"
+                autocomplete="current-password"
+            />
         </label>
         <button type="submit" class="btn btn-filled-primary">로그인</button>
     </form>
