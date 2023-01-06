@@ -3,7 +3,7 @@
 </script>
 
 <div
-    class="absolute w-full h-full flex items-center justify-center backdrop-brightness-75"
+    class="absolute w-full h-full flex items-center justify-center backdrop-brightness-75 z-50"
 >
     <div class="w-8 h-8">
         <Spinner />
