@@ -1,5 +1,6 @@
 import { localStorageStore } from '@skeletonlabs/skeleton'
 import type { Readable } from 'svelte/store'
+import { LoginInfo$ } from '../login/LoginInfo$'
 
 declare global {
     interface Window {
@@ -16,10 +17,12 @@ export const APIBaseUrl$: Readable<string> = (() => {
 
     window.setAPIBaseUrl = (newUrl) => {
         set(newUrl)
+        LoginInfo$.setIsLoggedIn(false)
     }
 
     window.resetAPIBaseUrl = () => {
         set(import.meta.env.VITE_API_BASE_URL)
+        LoginInfo$.setIsLoggedIn(false)
     }
 
     return {
