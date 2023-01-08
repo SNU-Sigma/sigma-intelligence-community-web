@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@roxi/routify": "^2.18.8",
+    "@sveltech/routify": "^1.9.10",
     "@sveltejs/vite-plugin-svelte": "^1.1.0",
     "@tsconfig/svelte": "^3.0.0",
     "@types/node": "^18.11.17",
