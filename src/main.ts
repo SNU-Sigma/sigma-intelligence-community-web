@@ -6,8 +6,11 @@ import axios from 'axios'
 import App from './App.svelte'
 import { LoginInfo$ } from './lib/domain/login/LoginInfo$'
 import { toastStore } from '@skeletonlabs/skeleton'
+import { APIBaseUrl$ } from './lib/domain/root/APIBaseUrl$'
 
-axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL
+APIBaseUrl$.subscribe((url) => {
+    axios.defaults.baseURL = url
+})
 axios.defaults.withCredentials = true
 axios.defaults.validateStatus = (status) => status < 400
 axios.interceptors.response.use(undefined, (error) => {
