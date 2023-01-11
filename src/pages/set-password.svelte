@@ -6,10 +6,39 @@
     import { AuthAPIImpl } from '../lib/infrastructure/sigma-api/AuthAPIImpl'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
 
+    type InputData = {
+        password: string
+        passwordCheck: string
+    }
+
     let isLoading = false
 
-    const { form } = createForm<{ password: string }>({
-        onSubmit: async ({ password }) => {
+    const { form } = createForm<InputData>({
+        onSubmit: async ({ password, passwordCheck }) => {
+            if (password !== passwordCheck) {
+                toastStore.trigger({
+                    message: '비밀번호가 일치하지 않습니다.',
+                    preset: 'error',
+                })
+                return
+            }
+
+            if (/\s/.test(password)) {
+                toastStore.trigger({
+                    message: '비밀번호에 공백이 포함되어있습니다.',
+                    preset: 'error',
+                })
+                return
+            }
+
+            if (password.length === 0) {
+                toastStore.trigger({
+                    message: '비밀번호를 입력해주세요.',
+                    preset: 'error',
+                })
+                return
+            }
+
             const { token } = $params
             isLoading = true
             try {
@@ -61,7 +90,7 @@
         <label for="password-check">
             <input
                 type="password"
-                name="password-check"
+                name="passwordCheck"
                 autocomplete="new-password"
                 placeholder="새로운 비밀번호 확인"
             />
