@@ -3,6 +3,7 @@
     import axios from 'axios'
     import { postData } from '../../store'
     import { onMount } from 'svelte'
+    import { url } from '@roxi/routify'
 
     let editMode = 0
     let editPublishedMode = true
@@ -22,7 +23,6 @@
     }
     async function updatePostsAsFalse() {
         editedPost.published = false
-        console.log('working')
         await axios.patch(
             `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/update/${editMode}`,
             editedPost,
@@ -60,7 +60,9 @@
                         bind:value={editedPost.content}
                     />
                 </li>
-                <button on:click={updatePosts}>완료하기</button>
+                <a href={$url('/postHome')} class="btn" on:click={updatePosts}
+                    >완료하기</a
+                >
             </ul>
         {:else}
             <ul>
@@ -76,8 +78,14 @@
                         bind:value={editedPost.content}
                     />
                 </li>
-                <button on:click={updatePosts}>완료하기</button>
-                <button on:click={updatePostsAsFalse}>임시저장하기</button>
+                <a href={$url('/postHome')} class="btn" on:click={updatePosts}
+                    >완료하기</a
+                >
+                <a
+                    href={$url('/postHome')}
+                    class="btn"
+                    on:click={updatePostsAsFalse}>임시저장</a
+                >
             </ul>
         {/if}
     </div>
@@ -99,5 +107,16 @@
         flex-direction: column;
         align-items: center;
         width: 800px;
+    }
+    .btn {
+        padding: 1;
+        padding-bottom: 10px;
+        color: #070707;
+        font-size: 0.8em;
+        border: '1px solid #000000';
+        margin-left: 0;
+        margin-right: 5px;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>

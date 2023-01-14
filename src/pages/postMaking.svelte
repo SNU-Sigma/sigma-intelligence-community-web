@@ -25,12 +25,20 @@
                 />
             </li>
 
-            <button on:click={() => falseNewPost.tempSavePost(newPost)}
-                >임시저장하기</button
+            <a
+                href={$url('/postHome')}
+                class="btn"
+                on:click={() => falseNewPost.tempSavePost(newPost)}
             >
-            <button on:click={() => trueNewPost.realSavePost(newPost)}
-                >완료하기</button
+                임시 저장하기
+            </a>
+            <a
+                href={$url('/postHome')}
+                class="btn"
+                on:click={() => trueNewPost.realSavePost(newPost)}
             >
+                완료하기
+            </a>
         </ul>
     </div>
 </header>
@@ -51,5 +59,16 @@
         flex-direction: column;
         align-items: center;
         width: 800px;
+    }
+    .btn {
+        padding: 1;
+        padding-bottom: 10px;
+        color: #070707;
+        font-size: 0.8em;
+        border: none;
+        margin-left: 0;
+        margin-right: 5px;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>

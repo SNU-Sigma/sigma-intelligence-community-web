@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { derived, writable } from 'svelte/store'
+import { url } from '@roxi/routify'
 
 // postmaking part
 function changePostMode() {
@@ -63,9 +64,11 @@ function setPostData() {
 
     async function deletePost(postData) {
         const deleteMode = postData.id
-        await axios.delete(
-            `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/delete/${deleteMode}`,
-        )
+        if (window.confirm('삭제하시겠습니까?')) {
+            await axios.delete(
+                `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/delete/${deleteMode}`,
+            )
+        }
     }
 
     return {
@@ -75,6 +78,26 @@ function setPostData() {
     }
 }
 
+function setCountFalsePosts() {
+    const falsePosts = derived(postData, ($postdata) => {
+        const falseposts = $postdata.filter((post) => post.published === false)
+        return falseposts.length
+    })
+
+    return falsePosts
+}
+
+function setCountTruePosts() {
+    const truePosts = derived(postData, ($postdata) => {
+        const trueposts = $postdata.filter((post) => post.published === true)
+        return trueposts.length
+    })
+
+    return truePosts
+}
+
 export const postData = setPostData()
 export const falseNewPost = changePostMode()
 export const trueNewPost = notChangePostMode()
+export const falseCount = setCountFalsePosts()
+export const trueCount = setCountTruePosts()
