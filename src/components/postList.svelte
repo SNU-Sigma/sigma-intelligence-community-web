@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from 'svelte'
+    import { afterUpdate, beforeUpdate, onMount, tick } from 'svelte'
     import axios from 'axios'
     import { postData } from '../store'
     import { fade } from 'svelte/transition'

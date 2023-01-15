@@ -6,28 +6,35 @@
     const handleDeletePost = () => postData.deletePost(postdata)
 </script>
 
-{#if postdata.published === true}
-    <ul>
-        <li><p class="bold_big_text">[{postdata.id}] {postdata.title}</p></li>
-        <button on:click={handleDeletePost}>delete</button>
-        <a href={$url('/postEdit/:id', { id: postdata.id })} class="btn">
-            Edit
-        </a>
-        <li><span class="small_text">{postdata.content}</span></li>
-    </ul>
-{:else}
-    <ul>
-        <li>
-            <p class="transparent_big_text">[{postdata.id}] {postdata.title}</p>
-            <br />
-        </li>
-        <button on:click={handleDeletePost}>delete</button>
-        <a href={$url('/postEdit/:id', { id: postdata.id })} class="btn">
-            Edit
-        </a>
-        <li><span class="transparent_small_text"> {postdata.content}</span></li>
-    </ul>
-{/if}
+<div class="main">
+    {#if postdata.published === true}
+        <ul>
+            <li>
+                <p class="bold_big_text">[{postdata.id}] {postdata.title}</p>
+            </li>
+            <button on:click={handleDeletePost}>delete</button>
+            <a href={$url('/postEdit/:id', { id: postdata.id })} class="btn">
+                Edit
+            </a>
+            <li><span class="small_text">{postdata.content}</span></li>
+        </ul>
+    {:else}
+        <ul>
+            <li>
+                <p class="transparent_big_text">
+                    [{postdata.id}] {postdata.title}
+                </p>
+            </li>
+            <button on:click={handleDeletePost}>delete</button>
+            <a href={$url('/postEdit/:id', { id: postdata.id })} class="btn">
+                Edit
+            </a>
+            <li>
+                <span class="transparent_small_text"> {postdata.content}</span>
+            </li>
+        </ul>
+    {/if}
+</div>
 
 <style>
     .transparent_big_text {
@@ -47,5 +54,27 @@
     }
     .small_text {
         font-size: 12px;
+    }
+    .main ul li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+        font-size: 1rem;
+        color: #444444;
+        border-radius: 3px;
+    }
+    .main ul li span {
+        padding: 7px;
+    }
+    .main ul li a {
+        position: absolute;
+        top: 25px;
+        right: 20px;
+        text-decoration: none;
+        color: #b8b8b8;
     }
 </style>
