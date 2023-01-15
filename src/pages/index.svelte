@@ -1,4 +1,5 @@
 <script lang="ts">
+    import PostItem from '../component/postItem.svelte'
     import { posts } from '../store'
     posts.updatePost()
 </script>
@@ -7,7 +8,7 @@
     <ul>
         {#each $posts as post}
             <li>
-                [id:{post.id}] {post.title}
+                <PostItem {post} />
             </li>
         {/each}
     </ul>
