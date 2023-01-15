@@ -22,6 +22,12 @@
             <img src={uploadedImageUrl} alt="이미지" />
         {/if}
     </div>
+    <p>
+        validFileTypes: {validFileTypes}
+    </p>
+    <p>
+        files: {files$}
+    </p>
 </main>
 
 <style>
