@@ -7,11 +7,6 @@
 
     let editMode = 0
     let editPublishedMode = true
-    let editedPost = {
-        title: '',
-        content: '',
-        published: true,
-    }
 
     async function updatePosts() {
         editedPost.published = true
@@ -42,6 +37,12 @@
     )
     editPublishedMode = filteredData[0].published
     editMode = $params.id
+
+    let editedPost = {
+        title: filteredData[0].title,
+        content: filteredData[0].content,
+        published: true,
+    }
 </script>
 
 <header>
