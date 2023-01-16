@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { url, posts } from '../store'
+    import { url, posts } from '../../store'
     import axios from 'axios'
 
     let title = ''

@@ -1,15 +1,32 @@
 <script lang="ts">
     import type { PostDto } from '../store'
     export let post: PostDto
+
+    let opened = false
 </script>
 
-<div class="layout">
-    No. {post.id}
+<div class="vertical">
+    <div class="layout">
+        No. {post.id}
 
-    <button class="btn">{post.content} </button>
+        <button
+            class="btn"
+            class:gray={!post.published}
+            on:click={() => (opened = !opened)}
+            >{post.title}
+        </button>
 
-    updated: {post.updatedAt.substring(0, 10)}
-    {post.updatedAt.substring(11, 16)}
+        updated: {post.updatedAt.substring(0, 10)}
+        {post.updatedAt.substring(11, 16)}
+    </div>
+    {#if opened}
+        <div class="textfield">{post.content}</div>
+        <div style="margin-top:10px">
+            {#if post.published}published {:else}unpublished {/if}
+            <a href="/editor/{post.id}"> 수정하기 </a>
+            <button>삭제하기</button>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -23,7 +40,6 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
     }
     .btn {
         padding: 0;
@@ -39,5 +55,15 @@
     }
     .btn:hover {
         border-bottom: 2px solid #005eff;
+    }
+
+    .textfield {
+        margin-top: 10px;
+        white-space: pre;
+    }
+
+    .gray {
+        color: gray;
+        font-style: italic;
     }
 </style>
