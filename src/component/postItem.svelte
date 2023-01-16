@@ -1,8 +1,20 @@
 <script lang="ts">
     import type { PostDto } from '../store'
+    import { url, posts } from '../store'
+    import axios from 'axios'
     export let post: PostDto
 
     let opened = false
+
+    async function deletePost(id: number): Promise<void> {
+        try {
+            const deleteResult = await axios.delete(url + '/delete/' + id)
+            console.log(deleteResult.data)
+            posts.updatePost()
+        } catch (e) {
+            console.error('Post Update failed', e)
+        }
+    }
 </script>
 
 <div class="vertical">
@@ -24,7 +36,7 @@
         <div style="margin-top:10px">
             {#if post.published}published {:else}unpublished {/if}
             <a href="/editor/{post.id}"> 수정하기 </a>
-            <button>삭제하기</button>
+            <button on:click={() => deletePost(post.id)}>삭제하기</button>
         </div>
     {/if}
 </div>

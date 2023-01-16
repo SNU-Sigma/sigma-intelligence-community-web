@@ -26,7 +26,7 @@
                 content: content,
                 published: published,
             })
-            console.log(updateResult)
+            console.log(updateResult.data)
             posts.updatePost()
         } catch (e) {
             console.error('Post Update failed', e)
