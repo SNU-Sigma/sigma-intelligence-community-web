@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { url, posts, PostDto } from '../../store'
+    import { url, posts } from '../../store'
+    import type { PostDto } from '../../store'
     import axios from 'axios'
     import { params } from '@roxi/routify'
     import { get } from 'svelte/store'
@@ -15,11 +16,11 @@
     let title = post.title
     let content = post.content
     let published = post.published
-    let sended = false
+    let requested = false
     let failed = false
 
     async function changePost(): Promise<void> {
-        sended = true
+        requested = true
         try {
             const updateResult = await axios.patch(url + '/update/' + id, {
                 title: title,
@@ -35,7 +36,7 @@
     }
 </script>
 
-{#if !sended}
+{#if !requested}
     <p>title</p>
     <input type="text" name="title" bind:value={title} />
     <p>content</p>

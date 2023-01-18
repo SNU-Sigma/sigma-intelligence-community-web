@@ -25,11 +25,10 @@
             class="btn"
             class:gray={!post.published}
             on:click={() => (opened = !opened)}
-            >{post.title}
+            >{#if post.title}{post.title}{:else}null{/if}
         </button>
 
-        updated: {post.updatedAt.substring(0, 10)}
-        {post.updatedAt.substring(11, 16)}
+        updated: {new Date(post.updatedAt).toLocaleString()}
     </div>
     {#if opened}
         <div class="textfield">{post.content}</div>

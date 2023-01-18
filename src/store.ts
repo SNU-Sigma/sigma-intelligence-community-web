@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 import axios from 'axios'
 
-export class PostDto {
+export type PostDto = {
     id: number
     title: string
     content: string
@@ -9,7 +9,7 @@ export class PostDto {
     updatedAt: string
     createdAt: string
 }
-export class PostsDto {
+export type PostsDto = {
     data: {
         posts: PostDto[]
     }
@@ -26,8 +26,10 @@ function setPostData() {
 
     const updatePost = async (): Promise<void> => {
         try {
-            const newData: PostsDto = await axios.get(url + '/read')
-            set(newData.data.posts)
+            const { data } = await axios.get<{ posts: Array<PostDto> }>(
+                url + '/read',
+            )
+            set(data.posts)
         } catch (e) {
             console.error('Post Update failed', e)
         }

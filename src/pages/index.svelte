@@ -6,7 +6,7 @@
 
 <div class="main">
     <ul>
-        {#each $posts as post}
+        {#each $posts as post (post.id)}
             <li>
                 <PostItem {post} />
             </li>
