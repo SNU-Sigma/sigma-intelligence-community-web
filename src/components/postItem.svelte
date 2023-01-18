@@ -1,5 +1,5 @@
 <script>
-    import { postData } from '../store'
+    import { postData } from '../store/postGet'
     import { url } from '@roxi/routify'
     export let postdata
 

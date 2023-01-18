@@ -1,7 +1,6 @@
 <script>
-    import { afterUpdate, beforeUpdate, onMount, tick } from 'svelte'
-    import axios from 'axios'
-    import { postData } from '../store'
+    import { onMount } from 'svelte'
+    import { postData } from '../store/postGet'
     import { fade } from 'svelte/transition'
     import { flip } from 'svelte/animate'
     import PostItem from './postItem.svelte'

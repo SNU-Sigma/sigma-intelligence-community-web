@@ -1,10 +1,9 @@
 <script>
-    import axios from 'axios'
-    import { url, isActive } from '@roxi/routify'
-    import { falseNewPost, trueNewPost } from '../store'
+    import { url } from '@roxi/routify'
+    import { tempNewPost, publNewPost } from '../store/postMaking'
     let newPost = {
-        title: 'null',
-        content: 'null',
+        title: '',
+        content: '',
         published: true,
     }
 </script>
@@ -28,14 +27,14 @@
             <a
                 href={$url('/postHome')}
                 class="btn"
-                on:click={() => falseNewPost.tempSavePost(newPost)}
+                on:click={() => tempNewPost.tempSavePost(newPost)}
             >
                 임시 저장하기
             </a>
             <a
                 href={$url('/postHome')}
                 class="btn"
-                on:click={() => trueNewPost.realSavePost(newPost)}
+                on:click={() => publNewPost.publSavePost(newPost)}
             >
                 완료하기
             </a>

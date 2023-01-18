@@ -1,17 +1,17 @@
 <script>
     import { params } from '@roxi/routify'
     import axios from 'axios'
-    import { postData } from '../../store'
+    import { postData } from '../../store/postGet'
     import { onMount } from 'svelte'
     import { url } from '@roxi/routify'
 
-    let editMode = 0
     let editPublishedMode = true
+    const editingPostId = $params.id
 
     async function updatePosts() {
         editedPost.published = true
         await axios.patch(
-            `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/update/${editMode}`,
+            `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/update/${editingPostId}`,
             editedPost,
         )
         resetPost()
@@ -19,7 +19,7 @@
     async function updatePostsAsFalse() {
         editedPost.published = false
         await axios.patch(
-            `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/update/${editMode}`,
+            `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/update/${editingPostId}`,
             editedPost,
         )
         resetPost()
@@ -36,7 +36,6 @@
         (post) => post.id === parseInt($params.id),
     )
     editPublishedMode = filteredData[0].published
-    editMode = $params.id
 
     let editedPost = {
         title: filteredData[0].title,

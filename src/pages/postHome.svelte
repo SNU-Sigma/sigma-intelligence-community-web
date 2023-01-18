@@ -1,6 +1,5 @@
 <script>
     import PostHeader from '../components/postHeader.svelte'
-    import PostItem from '../components/postItem.svelte'
     import PostList from '../components/postList.svelte'
     import PostInfo from '../components/postInfo.svelte'
 </script>
