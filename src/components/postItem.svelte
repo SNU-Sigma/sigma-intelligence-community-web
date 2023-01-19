@@ -1,6 +1,6 @@
 <script>
     import { postData } from '../store/postGet'
-    import { url } from '@roxi/routify'
+    import { goto } from '@roxi/routify'
     export let postdata
 
     const handleDeletePost = () => postData.deletePost(postdata)
@@ -12,10 +12,19 @@
             <li>
                 <p class="bold_big_text">[{postdata.id}] {postdata.title}</p>
             </li>
-            <button on:click={handleDeletePost}>delete</button>
-            <a href={$url('/postEdit/:id', { id: postdata.id })} class="btn">
-                Edit
-            </a>
+            <button
+                on:click={async () => {
+                    await handleDeletePost()
+                }}>삭제하기</button
+            >
+            <button
+                class="btn"
+                on:click={async () => {
+                    $goto('/postEdit/:id', { id: postdata.id })
+                }}
+            >
+                수정하기
+            </button>
             <li><span class="small_text">{postdata.content}</span></li>
         </ul>
     {:else}
@@ -25,10 +34,15 @@
                     [{postdata.id}] {postdata.title}
                 </p>
             </li>
-            <button on:click={handleDeletePost}>delete</button>
-            <a href={$url('/postEdit/:id', { id: postdata.id })} class="btn">
-                Edit
-            </a>
+            <button on:click={handleDeletePost}>삭제하기</button>
+            <button
+                class="btn"
+                on:click={async () => {
+                    $goto('/postEdit/:id', { id: postdata.id })
+                }}
+            >
+                수정하기
+            </button>
             <li>
                 <span class="transparent_small_text"> {postdata.content}</span>
             </li>
@@ -69,12 +83,5 @@
     }
     .main ul li span {
         padding: 7px;
-    }
-    .main ul li a {
-        position: absolute;
-        top: 25px;
-        right: 20px;
-        text-decoration: none;
-        color: #b8b8b8;
     }
 </style>

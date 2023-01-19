@@ -3,7 +3,7 @@
     import axios from 'axios'
     import { postData } from '../../store/postGet'
     import { onMount } from 'svelte'
-    import { url } from '@roxi/routify'
+    import { url, goto } from '@roxi/routify'
 
     let editPublishedMode = true
     const editingPostId = $params.id
@@ -60,9 +60,15 @@
                         bind:value={editedPost.content}
                     />
                 </li>
-                <a href={$url('/postHome')} class="btn" on:click={updatePosts}
-                    >완료하기</a
+                <button
+                    class="btn"
+                    on:click={async () => {
+                        await updatePosts()
+                        $goto('/postHome')
+                    }}
                 >
+                    완료하기
+                </button>
             </ul>
         {:else}
             <ul>
@@ -78,14 +84,24 @@
                         bind:value={editedPost.content}
                     />
                 </li>
-                <a href={$url('/postHome')} class="btn" on:click={updatePosts}
-                    >완료하기</a
-                >
-                <a
-                    href={$url('/postHome')}
+                <button
                     class="btn"
-                    on:click={updatePostsAsFalse}>임시저장</a
+                    on:click={async () => {
+                        await updatePosts()
+                        $goto('/postHome')
+                    }}
                 >
+                    완료하기
+                </button>
+                <button
+                    class="btn"
+                    on:click={async () => {
+                        await updatePostsAsFalse()
+                        $goto('/postHome')
+                    }}
+                >
+                    임시 저장하기
+                </button>
             </ul>
         {/if}
     </div>

@@ -1,5 +1,5 @@
 <script>
-    import { url } from '@roxi/routify'
+    import { url, goto } from '@roxi/routify'
     import { tempNewPost, publNewPost } from '../store/postMaking'
     let newPost = {
         title: '',
@@ -23,21 +23,24 @@
                     bind:value={newPost.content}
                 />
             </li>
-
-            <a
-                href={$url('/postHome')}
+            <button
                 class="btn"
-                on:click={() => tempNewPost.tempSavePost(newPost)}
+                on:click={async () => {
+                    await tempNewPost.tempSavePost(newPost)
+                    $goto('/postHome')
+                }}
             >
                 임시 저장하기
-            </a>
-            <a
-                href={$url('/postHome')}
+            </button>
+            <button
                 class="btn"
-                on:click={() => publNewPost.publSavePost(newPost)}
+                on:click={async () => {
+                    await publNewPost.publSavePost(newPost)
+                    $goto('/postHome')
+                }}
             >
                 완료하기
-            </a>
+            </button>
         </ul>
     </div>
 </header>
