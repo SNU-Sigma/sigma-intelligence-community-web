@@ -48,12 +48,10 @@ async function setPostData() {
                     published,
                 },
             )
-            const newPost: Post[] = [createResult.data]
-
+            const newPost: Post[] = [createResult.data.post]
             update((datas) => {
-                const setData = [...postLists, ...newPost]
-                postLists = setData
-                return datas
+                const setData = [...datas, ...newPost]
+                return setData
             })
         }
     }
