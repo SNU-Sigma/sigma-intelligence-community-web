@@ -1,8 +1,5 @@
 import axios from 'axios'
 import { writable, derived } from 'svelte/store'
-import { uuid } from 'uuidv4'
-
-//type Show = 'F'|'NF';
 
 interface Post {
     id: number
