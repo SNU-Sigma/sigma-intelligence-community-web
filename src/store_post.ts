@@ -14,13 +14,10 @@ interface Post {
 function setFormpost() {
     const postValue = ''
 
-    const { subscribe, update, set } = writable(postValue)
+    const { subscribe, set } = writable(postValue)
 
     const resetForm = () => {
-        update((postValue) => {
-            postValue = ''
-            return postValue
-        })
+        set('')
     }
 
     return {
@@ -40,16 +37,21 @@ async function setPostData() {
 
     const { subscribe, update } = writable(postLists)
 
-    const addPost = (title, content, published) => {
+    const addPost = async (
+        title: string,
+        content: string,
+        published: boolean,
+    ) => {
         if (title && content && published) {
-            const newPost: Post[] = [
+            const createResult = await axios.post(
+                `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/create`,
                 {
-                    id: uuid(),
-                    title: title,
-                    content: content,
-                    published: published,
+                    title,
+                    content,
+                    published,
                 },
-            ]
+            )
+            const newPost: Post[] = [createResult.data]
 
             update((datas) => {
                 const setData = [...postLists, ...newPost]
