@@ -2,7 +2,6 @@
     import { onMount } from 'svelte'
     import { postData } from '../store/postGet'
     import { fade } from 'svelte/transition'
-    import { flip } from 'svelte/animate'
     import PostItem from './postItem.svelte'
 
     onMount(postData.readPostDatas)
@@ -10,12 +9,8 @@
 
 <div class="main">
     <ul>
-        {#each $postData as postdata, index (postdata)}
-            <li
-                in:fade
-                out:fade={{ duration: 100 }}
-                animate:flip={{ duration: 1000 }}
-            >
+        {#each $postData as postdata}
+            <li in:fade out:fade={{ duration: 100 }}>
                 <PostItem {postdata} />
             </li>
         {/each}

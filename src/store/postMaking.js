@@ -4,7 +4,7 @@ import { writable } from 'svelte/store'
 // postmaking part
 export const publNewPost = (() => {
     const saved = false
-    const { subscribe, update } = writable(saved)
+    const { subscribe, set } = writable(saved)
 
     async function publSavePost(newPost) {
         newPost.published = true
@@ -12,9 +12,7 @@ export const publNewPost = (() => {
             `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/create`,
             newPost,
         )
-        update((datas) => {
-            datas = true
-        })
+        set(true)
     }
 
     return {
@@ -24,7 +22,7 @@ export const publNewPost = (() => {
 })()
 export const tempNewPost = (() => {
     const saved = false
-    const { subscribe, update } = writable(saved)
+    const { subscribe, set } = writable(saved)
 
     async function tempSavePost(newPost) {
         newPost.published = false
@@ -32,9 +30,7 @@ export const tempNewPost = (() => {
             `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/create`,
             newPost,
         )
-        update((datas) => {
-            datas = true
-        })
+        set(true)
     }
 
     return {
