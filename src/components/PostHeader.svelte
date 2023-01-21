@@ -1,6 +1,6 @@
 <script lang="ts">
     import { postForm1, postForm2, posts } from '../store_post'
-    let yes: boolean
+    let yes = true
     const handleTodoAdd = () => {
         posts.addPost($postForm1, $postForm2, yes)
         postForm1.resetForm()
