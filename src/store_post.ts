@@ -33,7 +33,7 @@ async function setPostData() {
     const readResult = await axios.get(
         `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/read`,
     )
-    let postLists: Post[] = readResult.data
+    let postLists: Post[] = readResult.data.posts
 
     const { subscribe, update } = writable(postLists)
 
@@ -60,7 +60,7 @@ async function setPostData() {
             })
         }
     }
-    const editPost = (editPost) => {
+    const editPost = (editPost: Post) => {
         update((datas) => {
             const setData = postLists.map((post) => {
                 if (post.id === editPost.id) {
@@ -72,7 +72,7 @@ async function setPostData() {
             return datas
         })
     }
-    const removePost = (id) => {
+    const removePost = (id: number) => {
         update((datas) => {
             const setData = postLists.filter((todo) => todo.id !== id)
             postLists = setData
@@ -105,6 +105,6 @@ function setCountPost() {
 
 export const postForm1 = setFormpost()
 export const postForm2 = setFormpost()
-export const posts = setPostData()
+export const posts = await setPostData()
 export const fetchPosts = setFetchPosts()
 export const countTodo = setCountPost()
