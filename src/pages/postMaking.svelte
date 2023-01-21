@@ -1,5 +1,5 @@
 <script>
-    import { url, goto } from '@roxi/routify'
+    import { goto } from '@roxi/routify'
     import { tempNewPost, publNewPost } from '../store/postMaking'
     let newPost = {
         title: '',

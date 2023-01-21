@@ -3,7 +3,7 @@
     import axios from 'axios'
     import { postData } from '../../store/postGet'
     import { onMount } from 'svelte'
-    import { url, goto } from '@roxi/routify'
+    import { goto } from '@roxi/routify'
 
     let editPublishedMode = true
     const editingPostId = $params.id
