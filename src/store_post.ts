@@ -3,9 +3,9 @@ import { writable, derived } from 'svelte/store'
 
 interface Post {
     id: number
-    title: string
-    content: string
-    published: boolean
+    title?: string
+    content?: string
+    published?: boolean
 }
 
 function setFormpost() {
@@ -55,21 +55,33 @@ async function setPostData() {
             })
         }
     }
-    const editPost = (editPost: Post) => {
+    const editPost = async (editPost: Post) => {
+        const updateResult = await axios.patch(
+            `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/update`,
+            {
+                title: editPost.title,
+                content: editPost.content,
+                published: editPost.published,
+            },
+        )
         update((datas) => {
-            const setData = postLists.map((post) => {
+            const setData = datas.map((post) => {
                 if (post.id === editPost.id) {
-                    post = editPost
+                    post = updateResult.data.post
                 }
                 return post
             })
-            postLists = setData
-            return datas
+            return setData
         })
     }
-    const removePost = (id: number) => {
+    const removePost = async () => {
+        const deleteResult = await axios.delete(
+            `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete`,
+        )
         update((datas) => {
-            const setData = postLists.filter((todo) => todo.id !== id)
+            const setData = postLists.filter(
+                (post) => post.id !== deleteResult.data.post.id,
+            )
             postLists = setData
             return datas
         })
