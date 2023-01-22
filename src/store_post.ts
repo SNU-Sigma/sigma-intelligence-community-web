@@ -76,17 +76,17 @@ async function setPostData() {
         })
     }
     const removePost = async (removepost: Post) => {
-        const deleteResult = await axios.delete(
-            `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete/${removepost.id}`,
-        )
-        console.log('안녕')
-        update((datas) => {
-            const setData = postLists.filter(
-                (post) => post.id !== deleteResult.data.post.id,
+        if (window.confirm('정말로 삭제하시겠습니까?')) {
+            const deleteResult = await axios.delete(
+                `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete/${removepost.id}`,
             )
-            datas = setData
-            return datas
-        })
+            update((datas) => {
+                const setData = postLists.filter(
+                    (post) => post !== deleteResult.data.post,
+                )
+                return setData
+            })
+        }
     }
 
     return {
