@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { goto } from '@roxi/routify'
-    import { posts } from '../store_post'
-    interface Post {
-        id: number
-        title: string
-        content: string
-        published: boolean
-    }
-    export let post: Post
+    import { goto, params } from '@roxi/routify'
+    import { posts, type Post } from '../store_post'
+
+    const post = {
+        ...$params,
+        published: $params.published === 'true',
+    } as Post
 </script>
 
 <p>title: <input type="text" bind:value={post.title} /></p>

@@ -23,13 +23,15 @@
         <p>
             <button
                 on:click={() => {
-                    handleTosavepre
+                    handleTosavepre()
                     $goto('/Post')
                 }}>임시저장</button
             >
             <button
-                on:click={//handleTodoAdd
-                () => $goto('/Post')}>완료하기</button
+                on:click={() => {
+                    handleTodoAdd()
+                    $goto('/Post')
+                }}>완료하기</button
             >
         </p>
     </div>

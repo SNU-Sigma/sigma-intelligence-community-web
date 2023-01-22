@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { writable, derived } from 'svelte/store'
 
-interface Post {
+export interface Post {
     id: number
     title?: string
     content?: string
