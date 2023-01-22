@@ -1,13 +1,13 @@
 <script lang="ts">
     import { posts } from '../store_post'
     import { createEventDispatcher } from 'svelte'
-    export let post
+    import { url, isActive } from '@roxi/routify'
 
-    const handleRemovePost = () => posts.removePost()
+    export let post
 </script>
 
 <p>
     title: {post.title}
-    <button on:click={handleRemovePost}> 삭제</button>
-    <button on:click={handleRemovePost}>수정</button>
+    <button on:click={() => posts.removePost(post)}> 삭제</button>
+    <a href={$url('/edit')} class="button">수정</a>
 </p>

@@ -55,9 +55,10 @@ async function setPostData() {
             })
         }
     }
+
     const editPost = async (editPost: Post) => {
         const updateResult = await axios.patch(
-            `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/update`,
+            `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/update/${editPost.id}`,
             {
                 title: editPost.title,
                 content: editPost.content,
@@ -74,15 +75,16 @@ async function setPostData() {
             return setData
         })
     }
-    const removePost = async () => {
+    const removePost = async (removepost: Post) => {
         const deleteResult = await axios.delete(
-            `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete`,
+            `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete/${removepost.id}`,
         )
+        console.log('안녕')
         update((datas) => {
             const setData = postLists.filter(
                 (post) => post.id !== deleteResult.data.post.id,
             )
-            postLists = setData
+            datas = setData
             return datas
         })
     }
