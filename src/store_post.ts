@@ -30,7 +30,7 @@ async function setPostData() {
     const readResult = await axios.get(
         `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/read`,
     )
-    let postLists: Post[] = readResult.data.posts
+    const postLists: Post[] = readResult.data.posts
 
     const { subscribe, update } = writable(postLists)
 

@@ -8,7 +8,7 @@
 
 <div class="main">
     <ul>
-        {#each $fetchPosts as post, index (post)}
+        {#each $fetchPosts as post (post.id)}
             <li
                 in:fade
                 out:fade={{ duration: 100 }}

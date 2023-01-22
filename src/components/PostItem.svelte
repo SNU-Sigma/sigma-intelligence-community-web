@@ -1,8 +1,6 @@
 <script lang="ts">
     import { posts, type Post } from '../store_post'
-    import { createEventDispatcher } from 'svelte'
     import { goto } from '@roxi/routify'
-    import Edit from '../pages/edit.svelte'
     export let post: Post
 </script>
 
