@@ -77,12 +77,12 @@ async function setPostData() {
     }
     const removePost = async (removepost: Post) => {
         if (window.confirm('정말로 삭제하시겠습니까?')) {
-            const deleteResult = await axios.delete(
+            await axios.delete(
                 `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete/${removepost.id}`,
             )
             update((datas) => {
-                const setData = postLists.filter(
-                    (post) => post !== deleteResult.data.post,
+                const setData = datas.filter(
+                    (post) => post.id !== removepost.id,
                 )
                 return setData
             })

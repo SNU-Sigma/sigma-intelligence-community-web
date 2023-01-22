@@ -9,5 +9,5 @@
 <p>
     title: {post.title}
     <button on:click={() => posts.removePost(post)}> 삭제</button>
-    <button on:click={() => $goto('/edit', post)}>수정</button>
+    <button on:click={() => $goto('/edit', { id: post.id })}>수정</button>
 </p>

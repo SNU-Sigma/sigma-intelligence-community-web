@@ -2,10 +2,9 @@
     import { goto, params } from '@roxi/routify'
     import { posts, type Post } from '../store_post'
 
-    const post = {
-        ...$params,
-        published: $params.published === 'true',
-    } as Post
+    const id = Number($params.id)
+
+    const post = $posts.find((post) => post.id === id) as Post
 </script>
 
 <p>title: <input type="text" bind:value={post.title} /></p>
