@@ -39,7 +39,7 @@ async function setPostData() {
         content: string,
         published: boolean,
     ) => {
-        if (title && content && published) {
+        if (title && content) {
             const createResult = await axios.post(
                 `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/create`,
                 {

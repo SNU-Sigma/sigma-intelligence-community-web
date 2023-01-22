@@ -14,8 +14,21 @@
                 out:fade={{ duration: 100 }}
                 animate:flip={{ duration: 1000 }}
             >
-                <PostItem {post} />
+                {#if post.published === true}
+                    <p class="true"><PostItem {post} /></p>
+                {:else}
+                    <p class="false"><PostItem {post} /></p>
+                {/if}
             </li>
         {/each}
     </ul>
 </div>
+
+<style>
+    .true {
+        color: black;
+    }
+    .false {
+        color: gray;
+    }
+</style>

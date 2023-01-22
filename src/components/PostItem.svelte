@@ -3,8 +3,11 @@
     import { createEventDispatcher } from 'svelte'
     export let post
 
-    const handleRemovePost = () => posts.removePost(post.id)
+    const handleRemovePost = () => posts.removePost()
 </script>
 
-<input type="text" bind:value={post.title} />
-<a href="#null" on:click={handleRemovePost}>X</a>
+<p>
+    title: {post.title}
+    <button on:click={handleRemovePost}> 삭제</button>
+    <button on:click={handleRemovePost}>수정</button>
+</p>
