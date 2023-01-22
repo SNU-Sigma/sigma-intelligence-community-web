@@ -4,11 +4,8 @@
 </script>
 
 <nav class="menu-box">
-    <a href={$url('/index')} class:located={$isActive('/index')} class="btn">
-        Home</a
-    >
     <a href={$url('/Post')} class:located={$isActive('/Post')} class="btn">
-        Posts</a
+        MAIN</a
     >
 </nav>
 
