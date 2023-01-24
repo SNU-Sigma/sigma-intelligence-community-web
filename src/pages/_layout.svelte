@@ -19,6 +19,7 @@
     )
 </script>
 
+<!-- routify:options preload="proximity" -->
 <div
     class="relative flex items-center justify-center h-screen max-w-md mx-auto bg-gray-50 dark:bg-gray-900"
 >
