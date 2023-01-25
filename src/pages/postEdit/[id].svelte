@@ -11,7 +11,7 @@
 
     onMount(postData.readPostDatas)
     const filteredData: PostItem[] | undefined = $postData.filter(
-        (post) => post.id === parseInt($params.id),
+        (post: PostItem) => post.id === parseInt($params.id),
     )
 
     if (filteredData[0] === undefined) {
