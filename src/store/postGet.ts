@@ -2,13 +2,22 @@ import axios from 'axios'
 import { derived, writable } from 'svelte/store'
 //post list & item part
 
+export type PostItem = {
+    id: number
+    title: string
+    content: string
+    published: boolean
+    updatedAt: string
+    createdAt: string
+}
+
 function setPostData() {
-    const postDatas = []
+    const postDatas: PostItem[] = []
 
     const { subscribe, update } = writable(postDatas)
 
     async function readPostDatas() {
-        let tempDatas = []
+        let tempDatas: PostItem[] = []
         await axios
             .get(
                 `https://example-crud-api-using-next-jihoon416.vercel.app/api/재석/read`,
@@ -22,7 +31,7 @@ function setPostData() {
         })
     }
 
-    async function deletePost(postData) {
+    async function deletePost(postData: PostItem): Promise<void> {
         const deleteMode = postData.id
         if (window.confirm('삭제하시겠습니까?')) {
             await axios.delete(
@@ -40,7 +49,9 @@ function setPostData() {
 
 function temporaryPostCount() {
     const tempPostsCount = derived(postData, ($postdata) => {
-        const falseposts = $postdata.filter((post) => post.published === false)
+        const falseposts: Array<PostItem> = $postdata.filter(
+            (post) => post.published === false,
+        )
         return falseposts.length
     })
 
@@ -49,7 +60,9 @@ function temporaryPostCount() {
 
 function publishedPostCount() {
     const publPostsCount = derived(postData, ($postdata) => {
-        const trueposts = $postdata.filter((post) => post.published === true)
+        const trueposts: Array<PostItem> = $postdata.filter(
+            (post) => post.published === true,
+        )
         return trueposts.length
     })
 

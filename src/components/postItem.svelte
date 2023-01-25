@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
     import { postData } from '../store/postGet'
+    import type { PostItem } from '../store/postGet'
     import { goto } from '@roxi/routify'
-    export let postdata
+    export let postdata: PostItem
 
     const handleDeletePost = () => postData.deletePost(postdata)
 </script>

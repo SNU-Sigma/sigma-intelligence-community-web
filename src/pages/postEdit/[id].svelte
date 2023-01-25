@@ -1,12 +1,30 @@
-<script>
+<script lang="ts">
     import { params } from '@roxi/routify'
     import axios from 'axios'
     import { postData } from '../../store/postGet'
     import { onMount } from 'svelte'
     import { goto } from '@roxi/routify'
+    import type { PostItem } from '../../store/postMaking'
 
     let editPublishedMode = true
     const editingPostId = $params.id
+
+    onMount(postData.readPostDatas)
+    const filteredData: PostItem[] | undefined = $postData.filter(
+        (post) => post.id === parseInt($params.id),
+    )
+
+    if (filteredData[0] === undefined) {
+        throw new Error('undefined id')
+    }
+
+    editPublishedMode = filteredData[0].published
+
+    let editedPost: PostItem = {
+        title: filteredData[0].title,
+        content: filteredData[0].content,
+        published: true,
+    }
 
     async function updatePosts() {
         editedPost.published = true
@@ -25,22 +43,10 @@
         resetPost()
     }
 
-    function resetPost() {
+    function resetPost(): void {
         editedPost.title = ''
         editedPost.content = ''
         editedPost.published = true
-    }
-
-    onMount(postData.readPostDatas)
-    const filteredData = $postData.filter(
-        (post) => post.id === parseInt($params.id),
-    )
-    editPublishedMode = filteredData[0].published
-
-    let editedPost = {
-        title: filteredData[0].title,
-        content: filteredData[0].content,
-        published: true,
     }
 </script>
 

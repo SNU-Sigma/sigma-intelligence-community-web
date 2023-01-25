@@ -1,10 +1,18 @@
 <script>
     import { url, isActive } from '@roxi/routify'
+    import { checkLogin } from '../store/postLogin'
 </script>
 
 <nav class="menu-box">
     <a href={$url('/index')} class:located={$isActive('/index')} class="btn">
         Home
+    </a>
+    <a
+        href={$url('/postLogin')}
+        class:located={$isActive('/postLogin')}
+        class="btn"
+    >
+        Login
     </a>
     <a
         href={$url('/postHome')}
@@ -20,6 +28,7 @@
     >
         Add Post
     </a>
+    <button on:click={checkLogin.logOut}> 로그아웃하기 </button>
 </nav>
 
 <style>
@@ -46,5 +55,9 @@
         font-size: 1.2rem;
         margin-left: 20px;
         padding-bottom: 8px;
+    }
+    nav.menu-box button {
+        font-size: 1rem;
+        margin-left: 20px;
     }
 </style>
