@@ -1,14 +1,22 @@
 <script lang="ts">
     import Confirm from '../lib/ui/common/Confirm.svelte'
     import { createImageUpload } from '../lib/util/createImageUpload'
-    let uploadedImageUrl: string | undefined = undefined
-
-    const { files$, validFileTypes, handleUpload } = createImageUpload()
-
-    const handleClick = async () => {
-        uploadedImageUrl = await handleUpload()
+    let uploadedImageUrl: string[]
+    async function updateUrl() {
+        uploadedImageUrl = await multiHandleUpload()
     }
 
+    const { files$, validFileTypes, multiHandleUpload } = createImageUpload()
+
+    $: if ($files$ && $files$.length) {
+        updateUrl()
+        textRows = 12
+    } else {
+        updateUrl()
+        textRows = 20
+    }
+
+    let textRows = 20
     let showAlert = false
     function NOfunc() {
         showAlert = false
@@ -51,10 +59,15 @@
 
     <div>글쓴이</div>
     <input type="text" placeholder="제목" class="text-sm w-full" />
-    {#if $files$ !== undefined}
-        <div class="overflow-x-auto whitespace-nowrap inline">
-            dd
-            <div>{$files$.length}</div>
+    {#if $files$ && uploadedImageUrl}
+        <div class="overflow-x-auto overflow-y-hidden whitespace-nowrap inline">
+            {#each uploadedImageUrl as imgUrl}
+                <img
+                    src={imgUrl}
+                    alt="이미지 미리보기"
+                    class="whitespace-nowrap h-40 mx-3 mb-4 inline-block"
+                />
+            {/each}
         </div>
     {/if}
 
@@ -62,7 +75,7 @@
         name="content"
         id="content"
         cols="30"
-        rows="20"
+        rows={textRows}
         placeholder="게시글을 작성해주세요."
         class="text-sm w-full"
     />
