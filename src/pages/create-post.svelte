@@ -1,5 +1,13 @@
 <script lang="ts">
     import Confirm from '../lib/ui/common/Confirm.svelte'
+    import { createImageUpload } from '../lib/util/createImageUpload'
+    let uploadedImageUrl: string | undefined = undefined
+
+    const { files$, validFileTypes, handleUpload } = createImageUpload()
+
+    const handleClick = async () => {
+        uploadedImageUrl = await handleUpload()
+    }
 
     let showAlert = false
     function NOfunc() {
@@ -7,6 +15,9 @@
     }
     function OKfunc() {
         showAlert = false
+        window.location.href = '/'
+    }
+    function PostUpload() {
         window.location.href = '/'
     }
 </script>
@@ -20,14 +31,33 @@
             취소하기
         </button>
         게시글 작성하기
-        <button
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-2 text-center"
-            >사진첨부
-        </button>
+        <label for="file">
+            <div
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-2 text-center"
+            >
+                사진첨부
+            </div>
+        </label>
+        <input
+            name="file"
+            id="file"
+            class="hidden"
+            accept={validFileTypes.join(',')}
+            type="file"
+            bind:files={$files$}
+            multiple
+        />
     </div>
 
     <div>글쓴이</div>
     <input type="text" placeholder="제목" class="text-sm w-full" />
+    {#if $files$ !== undefined}
+        <div class="overflow-x-auto whitespace-nowrap inline">
+            dd
+            <div>{$files$.length}</div>
+        </div>
+    {/if}
+
     <textarea
         name="content"
         id="content"
@@ -47,7 +77,7 @@
 {#if showAlert}
     <Confirm
         title="이 게시물을 삭제하시겠어요?"
-        content="지금 삭제하면 이 게시물이 사라집니다"
+        content="지금 삭제하면 이 게시물이 사라집니다."
         OKmsg="게시물 삭제"
         NOmsg="계속 수정"
         {NOfunc}
