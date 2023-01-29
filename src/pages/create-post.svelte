@@ -10,13 +10,13 @@
 
     $: if ($files$ && $files$.length) {
         updateUrl()
-        textRows = 12
+        textRows = 14
     } else {
         updateUrl()
-        textRows = 20
+        textRows = 22
     }
 
-    let textRows = 20
+    let textRows = 22
     let showAlert = false
     function NOfunc() {
         showAlert = false
@@ -56,8 +56,6 @@
             multiple
         />
     </div>
-
-    <div>글쓴이</div>
     <input type="text" placeholder="제목" class="text-sm w-full" />
     {#if $files$ && uploadedImageUrl}
         <div class="overflow-x-auto overflow-y-hidden whitespace-nowrap inline">
