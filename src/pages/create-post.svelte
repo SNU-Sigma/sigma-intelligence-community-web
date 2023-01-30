@@ -1,7 +1,20 @@
 <script lang="ts">
+    import type { CreatePostDto } from '../lib/domain/posts/model/CreatePostDto'
+    import { toastStore } from '@skeletonlabs/skeleton'
     import Confirm from '../lib/ui/common/Confirm.svelte'
     import { createImageUpload } from '../lib/util/createImageUpload'
-    let uploadedImageUrl: string[]
+    import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
+
+    let {
+        title,
+        content,
+        imageUrls: uploadedImageUrl,
+    }: CreatePostDto = {
+        title: '',
+        content: '',
+        imageUrls: [],
+    }
+
     async function updateUrl() {
         uploadedImageUrl = await multiHandleUpload()
     }
@@ -25,8 +38,25 @@
         showAlert = false
         window.location.href = '/'
     }
+
     function PostUpload() {
-        window.location.href = '/'
+        if (title.trim().length && content.trim().length) {
+            PostAPIImpl.createPost({
+                title,
+                content,
+                imageUrls: uploadedImageUrl,
+            })
+            toastStore.trigger({
+                message: '게시글이 업로드 되었습니다.',
+                preset: 'success',
+            })
+            // window.location.href = '/'
+        } else {
+            toastStore.trigger({
+                message: '제목과 내용이 비어있지 않아야 합니다.',
+                preset: 'error',
+            })
+        }
     }
 </script>
 
@@ -56,7 +86,12 @@
             multiple
         />
     </div>
-    <input type="text" placeholder="제목" class="text-sm w-full" />
+    <input
+        type="text"
+        placeholder="제목"
+        class="text-sm w-full"
+        bind:value={title}
+    />
     {#if $files$ && uploadedImageUrl}
         <div class="overflow-x-auto overflow-y-hidden whitespace-nowrap inline">
             {#each uploadedImageUrl as imgUrl}
@@ -76,11 +111,13 @@
         rows={textRows}
         placeholder="게시글을 작성해주세요."
         class="text-sm w-full"
+        bind:value={content}
     />
 </div>
 <div class="absolute bottom-6 right-6">
     <button
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 text-xl focus:outline-none focus:ring-blue-300 rounded-lg px-2 text-center"
+        on:click={PostUpload}
         >게시
     </button>
 </div>

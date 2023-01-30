@@ -28,8 +28,8 @@ export const createImageUpload = () => {
         }
     }
 
-    const multiHandleUpload = async (): Promise<string[]> => {
-        const multiUploadedUrl: string[] = []
+    const multiHandleUpload = async (): Promise<Array<string>> => {
+        const multiUploadedUrl: Array<string> = []
         for (const file of get(files$) ?? []) {
             if (validFileTypes.includes(file.type)) {
                 try {
