@@ -95,6 +95,8 @@
                 placeholder="새로운 비밀번호 확인"
             />
         </label>
-        <button type="submit" class="btn btn-filled-primary">설정하기</button>
+        <button type="submit" class="btn variant-filled-primary"
+            >설정하기</button
+        >
     </form>
 </div>
