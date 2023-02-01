@@ -43,7 +43,7 @@
         회원가입 / 비밀번호 찾기
     </GradientHeading>
     <div class="h-8" />
-    <form use:form class="w-64 flex flex-col gap-4">
+    <form use:form class="flex w-64 flex-col gap-4">
         <label for="email">
             <span>이메일</span>
             <input type="text" name="email" autocomplete="username" />

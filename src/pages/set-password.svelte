@@ -69,7 +69,7 @@
 <div class="flex flex-col items-center">
     <h2>비밀번호 설정</h2>
     <div class="h-9" />
-    <form use:form class="w-64 flex flex-col gap-4">
+    <form use:form class="flex w-64 flex-col gap-4">
         <label for="username">
             <input
                 class="hidden"

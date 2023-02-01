@@ -21,7 +21,7 @@
 
 <!-- routify:options preload="proximity" -->
 <div
-    class="relative flex items-center justify-center h-screen max-w-md mx-auto bg-gray-50 dark:bg-gray-900"
+    class="relative mx-auto flex h-screen max-w-md items-center justify-center bg-gray-50 dark:bg-gray-900"
 >
     <Toast />
     <div class="absolute bottom-4 left-4">
