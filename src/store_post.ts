@@ -8,31 +8,14 @@ export interface Post {
     published?: boolean
 }
 
-function setFormpost() {
-    const postValue = ''
-
-    const { subscribe, set } = writable(postValue)
-
-    const resetForm = () => {
-        set('')
-    }
-
-    return {
-        subscribe,
-        set,
-        resetForm,
-    }
-}
-
 async function setPostData() {
     const member = '승연'
 
     const readResult = await axios.get(
         `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/read`,
     )
-    const postLists: Post[] = readResult.data.posts
 
-    const { subscribe, update } = writable(postLists)
+    const { subscribe, update } = writable(readResult.data.posts as Post[])
 
     const addPost = async (
         title: string,
@@ -48,10 +31,9 @@ async function setPostData() {
                     published,
                 },
             )
-            const newPost: Post[] = [createResult.data.post]
+            const newPost: Post = createResult.data.post
             update((datas) => {
-                const setData = [...datas, ...newPost]
-                return setData
+                return [...datas, newPost]
             })
         }
     }
@@ -75,15 +57,13 @@ async function setPostData() {
             return setData
         })
     }
-    const removePost = async (removepost: Post) => {
+    const removePost = async (removeid: number) => {
         if (window.confirm('정말로 삭제하시겠습니까?')) {
             await axios.delete(
-                `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete/${removepost.id}`,
+                `https://example-crud-api-using-next-jihoon416.vercel.app/api/${member}/delete/${removeid}`,
             )
             update((datas) => {
-                const setData = datas.filter(
-                    (post) => post.id !== removepost.id,
-                )
+                const setData = datas.filter((post) => post.id !== removeid)
                 return setData
             })
         }
@@ -97,14 +77,6 @@ async function setPostData() {
     }
 }
 
-function setFetchPosts() {
-    const fetch = derived(posts, ($posts) => {
-        return $posts
-    })
-
-    return fetch
-}
-
 function setCountPost() {
     const count = derived(fetchPosts, ($fetchPosts) => {
         return $fetchPosts.length
@@ -112,8 +84,8 @@ function setCountPost() {
     return count
 }
 
-export const postForm1 = setFormpost()
-export const postForm2 = setFormpost()
 export const posts = await setPostData()
-export const fetchPosts = setFetchPosts()
+export const fetchPosts = derived(posts, ($posts) => {
+    return $posts
+})
 export const countTodo = setCountPost()

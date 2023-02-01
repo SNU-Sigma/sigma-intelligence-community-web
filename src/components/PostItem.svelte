@@ -6,6 +6,6 @@
 
 <p>
     title: {post.title}
-    <button on:click={() => posts.removePost(post)}> 삭제</button>
+    <button on:click={() => posts.removePost(post.id)}> 삭제</button>
     <button on:click={() => $goto('/edit', { id: post.id })}>수정</button>
 </p>

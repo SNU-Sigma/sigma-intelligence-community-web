@@ -1,17 +1,19 @@
 <script lang="ts">
-    import { postForm1, postForm2, posts } from '../store_post'
+    import { posts } from '../store_post'
     import { goto } from '@roxi/routify'
-    let yes = true
-    let no = false
-    const handleTosavepre = () => {
-        posts.addPost($postForm1, $postForm2, no)
-        postForm1.resetForm()
-        postForm2.resetForm()
+
+    let title = ''
+    let content = ''
+
+    const handlePostTemporarySave = () => {
+        posts.addPost(title, content, false)
+        title = ''
+        content = ''
     }
-    const handleTodoAdd = () => {
-        posts.addPost($postForm1, $postForm2, yes)
-        postForm1.resetForm()
-        postForm2.resetForm()
+    const handlePostPublish = () => {
+        posts.addPost(title, content, true)
+        title = ''
+        content = ''
     }
 </script>
 
@@ -23,13 +25,13 @@
         <p>
             <button
                 on:click={() => {
-                    handleTosavepre()
+                    handlePostTemporarySave()
                     $goto('/Post')
                 }}>임시저장</button
             >
             <button
                 on:click={() => {
-                    handleTodoAdd()
+                    handlePostPublish()
                     $goto('/Post')
                 }}>완료하기</button
             >

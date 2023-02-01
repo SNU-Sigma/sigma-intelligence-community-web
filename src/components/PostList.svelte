@@ -11,7 +11,7 @@
         {#each $fetchPosts as post (post.id)}
             <li
                 in:fade
-                out:fade={{ duration: 100 }}
+                out:fade|local={{ duration: 100 }}
                 animate:flip={{ duration: 1000 }}
             >
                 {#if post.published === true}
