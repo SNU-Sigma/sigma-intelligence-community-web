@@ -20,8 +20,8 @@
 <header class="header">
     <div class="wrap" style="text-align:center">
         <h1 class="main-title">WRITE POST</h1>
-        <p>title: <input type="text" bind:value={$postForm1} /></p>
-        <p>content: <input type="text" bind:value={$postForm2} /></p>
+        <p>title: <input type="text" bind:value={title} /></p>
+        <p>content: <input type="text" bind:value={content} /></p>
         <p>
             <button
                 on:click={() => {
