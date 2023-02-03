@@ -41,11 +41,11 @@
     <h1>SIGMA</h1>
     <div class="h-8" />
     <form use:form class="flex w-64 flex-col gap-4">
-        <label for="email">
+        <label for="email" class="input-label">
             <span>이메일</span>
             <input type="text" name="email" autocomplete="username" />
         </label>
-        <label for="password">
+        <label for="password" class="input-label">
             <span>비밀번호</span>
             <input
                 type="password"
@@ -53,7 +53,7 @@
                 autocomplete="current-password"
             />
         </label>
-        <button type="submit" class="btn btn-filled-primary">로그인</button>
+        <button type="submit" class="btn variant-filled-primary">로그인</button>
     </form>
     <div class="h-8" />
     <a href={$url('signUp')}>회원가입 / 비밀번호 찾기</a>

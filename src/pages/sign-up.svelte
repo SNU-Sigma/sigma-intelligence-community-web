@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { GradientHeading, toastStore } from '@skeletonlabs/skeleton'
+    import { toastStore } from '@skeletonlabs/skeleton'
     import { createForm } from 'felte'
     import { AuthAPIImpl } from '../lib/infrastructure/sigma-api/AuthAPIImpl'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
@@ -39,15 +39,15 @@
     <OverlaySpinner />
 {/if}
 <div class="flex flex-col items-center">
-    <GradientHeading tag="h2" from="from-primary-500" to="to-tertiary-500">
-        회원가입 / 비밀번호 찾기
-    </GradientHeading>
+    <h2>회원가입 / 비밀번호 찾기</h2>
     <div class="h-8" />
     <form use:form class="flex w-64 flex-col gap-4">
-        <label for="email">
+        <label for="email" class="input-label">
             <span>이메일</span>
             <input type="text" name="email" autocomplete="username" />
         </label>
-        <button type="submit" class="btn btn-filled-primary">가입/찾기</button>
+        <button type="submit" class="btn variant-filled-primary">
+            가입/찾기
+        </button>
     </form>
 </div>
