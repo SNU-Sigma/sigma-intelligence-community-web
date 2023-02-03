@@ -42,12 +42,12 @@
     <h2>회원가입 / 비밀번호 찾기</h2>
     <div class="h-8" />
     <form use:form class="flex w-64 flex-col gap-4">
-        <label for="email">
+        <label for="email" class="input-label">
             <span>이메일</span>
             <input type="text" name="email" autocomplete="username" />
         </label>
-        <button type="submit" class="btn variant-filled-primary"
-            >가입/찾기</button
-        >
+        <button type="submit" class="btn variant-filled-primary">
+            가입/찾기
+        </button>
     </form>
 </div>
