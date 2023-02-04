@@ -4,7 +4,6 @@
     import Login from '../lib/ui/login/Login.svelte'
     import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
     import { isActive } from '@roxi/routify'
-    import { Modal } from '@skeletonlabs/skeleton'
 
     const shouldShowLoginPage = derived(
         [LoginInfo$, isActive],
@@ -33,4 +32,3 @@
         <slot />
     {/if}
 </div>
-<Modal />
