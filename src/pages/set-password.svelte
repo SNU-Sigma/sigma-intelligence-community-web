@@ -66,7 +66,7 @@
 {#if isLoading}
     <OverlaySpinner />
 {/if}
-<div class="flex flex-col items-center">
+<div class="my-auto flex flex-col items-center">
     <h2>비밀번호 설정</h2>
     <div class="h-9" />
     <form use:form class="flex w-64 flex-col gap-4">

@@ -20,16 +20,16 @@
 </script>
 
 <!-- routify:options preload="proximity" -->
-<div
-    class="relative mx-auto flex h-screen max-w-md items-center justify-center bg-gray-50 dark:bg-gray-900"
->
+<div class="relative mx-auto h-screen max-w-md bg-gray-50 dark:bg-gray-900">
     <Toast />
     <div class="absolute bottom-4 left-4">
         <LightSwitch />
     </div>
-    {#if $shouldShowLoginPage}
-        <Login />
-    {:else}
-        <slot />
-    {/if}
+    <div class="grid h-full w-full overflow-y-auto">
+        {#if $shouldShowLoginPage}
+            <Login />
+        {:else}
+            <slot />
+        {/if}
+    </div>
 </div>
