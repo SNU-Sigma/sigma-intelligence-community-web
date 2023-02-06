@@ -17,7 +17,7 @@ const config = {
 
     plugins: [
         require('@tailwindcss/forms'),
-        require('@skeletonlabs/skeleton/tailwind/theme.cjs'),
+        ...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')(),
     ],
 
     darkMode: 'class',

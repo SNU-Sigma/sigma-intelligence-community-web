@@ -66,11 +66,11 @@
 {#if isLoading}
     <OverlaySpinner />
 {/if}
-<div class="flex flex-col items-center">
+<div class="my-auto flex flex-col items-center">
     <h2>비밀번호 설정</h2>
     <div class="h-9" />
-    <form use:form class="w-64 flex flex-col gap-4">
-        <label for="username">
+    <form use:form class="flex w-64 flex-col gap-4">
+        <label for="username" class="input-label">
             <input
                 class="hidden"
                 type="email"
@@ -79,7 +79,7 @@
                 value={$params.email}
             />
         </label>
-        <label for="password">
+        <label for="password" class="input-label">
             <input
                 type="password"
                 name="password"
@@ -87,7 +87,7 @@
                 placeholder="새로운 비밀번호"
             />
         </label>
-        <label for="password-check">
+        <label for="password-check" class="input-label">
             <input
                 type="password"
                 name="passwordCheck"
@@ -95,6 +95,8 @@
                 placeholder="새로운 비밀번호 확인"
             />
         </label>
-        <button type="submit" class="btn btn-filled-primary">설정하기</button>
+        <button type="submit" class="btn variant-filled-primary">
+            설정하기
+        </button>
     </form>
 </div>
