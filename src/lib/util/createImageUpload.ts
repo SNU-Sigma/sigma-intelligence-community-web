@@ -2,7 +2,7 @@ import axios from 'axios'
 import { get, writable } from 'svelte/store'
 
 export const createImageUpload = () => {
-    const files$ = writable<FileList | undefined>(undefined)
+    const files$ = writable<FileList>(undefined)
 
     const validFileTypes = ['image/jpeg', 'image/png']
 

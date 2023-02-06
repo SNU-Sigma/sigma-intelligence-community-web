@@ -1,5 +1,5 @@
 export type CreatePostDto = {
     title: string
-    content: string
-    imageUrls: Array<string>
+    description: string
+    images: Array<string>
 }
