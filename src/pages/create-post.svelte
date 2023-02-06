@@ -40,7 +40,9 @@
                         preset: 'error',
                     })
                 })
-            isLoading = false
+                .finally(() => {
+                    isLoading = false
+                })
             // TODO: 게시글 목록으로 이동해야 함
         } else {
             toastStore.trigger({
