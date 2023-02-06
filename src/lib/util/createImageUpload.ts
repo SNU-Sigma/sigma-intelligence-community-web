@@ -42,6 +42,9 @@ export const createImageUpload = () => {
                         `/images/pre-signed-url?fileName=${file.name}`,
                     )
                     await axios.put(url, file, {
+                        headers: {
+                            'Content-Type': file.type,
+                        },
                         withCredentials: false,
                     })
                     multiUploadedUrl.push(uploadedUrl)
