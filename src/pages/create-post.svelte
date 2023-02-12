@@ -19,7 +19,7 @@
         })()
     }
 
-    function postUpload() {
+    let postUpload = () => {
         if (title.trim().length && description.trim().length) {
             isLoading = true
             PostAPIImpl.createPost({
@@ -28,10 +28,7 @@
                 images,
             })
                 .then(() => {
-                    toastStore.trigger({
-                        message: '게시글이 업로드 되었습니다.',
-                        preset: 'success',
-                    })
+                    window.location.href = '/feed'
                 })
                 .catch(() => {
                     toastStore.trigger({
@@ -43,7 +40,6 @@
                 .finally(() => {
                     isLoading = false
                 })
-            // TODO: 게시글 목록으로 이동해야 함
         } else {
             toastStore.trigger({
                 message: '제목과 내용이 비어있지 않아야 합니다.',
