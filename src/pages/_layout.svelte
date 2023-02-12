@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { LightSwitch, Toast } from '@skeletonlabs/skeleton'
+    import { Toast } from '@skeletonlabs/skeleton'
     import { derived } from 'svelte/store'
     import Login from '../lib/ui/login/Login.svelte'
     import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
@@ -22,9 +22,6 @@
 <!-- routify:options preload="proximity" -->
 <div class="relative mx-auto h-screen max-w-md bg-gray-50 dark:bg-gray-900">
     <Toast />
-    <div class="absolute bottom-4 left-4">
-        <LightSwitch />
-    </div>
     <div class="grid h-full w-full overflow-y-auto">
         {#if $shouldShowLoginPage}
             <Login />
