@@ -31,9 +31,29 @@
     <OverlaySpinner />
 {/if}
 
-{#each posts as post}
-    <p>{post.id}{post.title}</p>
-{/each}
+<div class="mx-auto flex w-10/12 scroll-pb-10 flex-col gap-5 pt-5">
+    <div class="text-xl">SIGMA BOARD</div>
+    {#each posts as post}
+        <button class="card card-hover p-2.5 text-left">
+            <div class="text-lg">{post.title}</div>
+            <div class="text-xs">{post.createdAt.substring(0, 10)}</div>
+            <p class="my-3 text-sm">
+                {post.description}
+            </p>
+            <div
+                class="flex overflow-x-auto overflow-y-hidden whitespace-nowrap"
+            >
+                {#each post.images as imgUrl}
+                    <img
+                        src={imgUrl}
+                        alt="이미지 미리보기"
+                        class="mx-3 mb-4 inline-block h-44 whitespace-nowrap"
+                    />
+                {/each}
+            </div>
+        </button>
+    {/each}
+</div>
 
 <div class="absolute bottom-6 right-6">
     <a href="/create-post" class="btn variant-filled-primary">새글작성</a>
