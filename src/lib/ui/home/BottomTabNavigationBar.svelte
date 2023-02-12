@@ -1,21 +1,27 @@
 <script lang="ts">
     import { isActive, url } from '@roxi/routify'
+    import HomeActiveIcon from '../../../assets/images/home_active.svg'
+    import HomeDefaultIcon from '../../../assets/images/home_default.svg'
+    import MyPageActiveIcon from '../../../assets/images/mypage_active.svg'
+    import MyPageDefaultIcon from '../../../assets/images/mypage_default.svg'
+    import PrinterActiveIcon from '../../../assets/images/printer_active.svg'
+    import PrinterDefaultIcon from '../../../assets/images/printer_default.svg'
 
     const config = [
         {
             path: '/post',
-            logoActiveVariantUrl: 'https://picsum.photos/20',
-            logoDefaultVariantUrl: 'https://picsum.photos/20',
+            logoActiveVariantUrl: HomeActiveIcon,
+            logoDefaultVariantUrl: HomeDefaultIcon,
         },
         {
             path: '/printer',
-            logoActiveVariantUrl: 'https://picsum.photos/20',
-            logoDefaultVariantUrl: 'https://picsum.photos/20',
+            logoActiveVariantUrl: PrinterActiveIcon,
+            logoDefaultVariantUrl: PrinterDefaultIcon,
         },
         {
             path: '/my-page',
-            logoActiveVariantUrl: 'https://picsum.photos/20',
-            logoDefaultVariantUrl: 'https://picsum.photos/20',
+            logoActiveVariantUrl: MyPageActiveIcon,
+            logoDefaultVariantUrl: MyPageDefaultIcon,
         },
     ] satisfies Array<{
         path: string
@@ -31,8 +37,8 @@
                 src={$isActive(path)
                     ? logoActiveVariantUrl
                     : logoDefaultVariantUrl}
-                alt="Post"
-                class="mx-auto my-auto"
+                alt={path}
+                class="mx-auto my-auto h-8 w-8"
             />
         </a>
     {/each}
