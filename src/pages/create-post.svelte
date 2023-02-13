@@ -3,6 +3,7 @@
     import { createImageUpload } from '../lib/util/createImageUpload'
     import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
     import { FileButton } from '@skeletonlabs/skeleton'
+    import { goto } from '@roxi/routify'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
 
     let isLoading = false
@@ -19,7 +20,7 @@
         })()
     }
 
-    function postUpload() {
+    const postUpload = () => {
         if (title.trim().length && description.trim().length) {
             isLoading = true
             PostAPIImpl.createPost({
@@ -32,6 +33,7 @@
                         message: '게시글이 업로드 되었습니다.',
                         preset: 'success',
                     })
+                    $goto('/feed')
                 })
                 .catch(() => {
                     toastStore.trigger({
@@ -43,7 +45,6 @@
                 .finally(() => {
                     isLoading = false
                 })
-            // TODO: 게시글 목록으로 이동해야 함
         } else {
             toastStore.trigger({
                 message: '제목과 내용이 비어있지 않아야 합니다.',
