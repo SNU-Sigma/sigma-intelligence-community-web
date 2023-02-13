@@ -3,6 +3,7 @@
     import { createImageUpload } from '../lib/util/createImageUpload'
     import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
     import { FileButton } from '@skeletonlabs/skeleton'
+    import { goto } from '@roxi/routify'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
 
     let isLoading = false
@@ -19,7 +20,7 @@
         })()
     }
 
-    let postUpload = () => {
+    const postUpload = () => {
         if (title.trim().length && description.trim().length) {
             isLoading = true
             PostAPIImpl.createPost({
@@ -28,7 +29,11 @@
                 images,
             })
                 .then(() => {
-                    window.location.href = '/feed'
+                    toastStore.trigger({
+                        message: '게시글이 업로드 되었습니다.',
+                        preset: 'success',
+                    })
+                    $goto('/feed')
                 })
                 .catch(() => {
                     toastStore.trigger({

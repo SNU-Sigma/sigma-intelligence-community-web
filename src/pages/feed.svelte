@@ -34,10 +34,18 @@
 <div class="mx-auto flex w-10/12 scroll-pb-10 flex-col gap-5 pt-5">
     <div class="text-xl">SIGMA BOARD</div>
     {#each posts as post}
-        <button class="card card-hover p-2.5 text-left">
+        <div class="card card-hover p-2.5 text-left">
             <div class="text-lg">{post.title}</div>
-            <div class="text-xs">{post.createdAt.substring(0, 10)}</div>
-            <p class="my-3 text-sm">
+            <div class="text-xs">
+                {new Date(post.createdAt).toLocaleString('ko-KR', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                })}
+            </div>
+            <p class="my-3 whitespace-pre-wrap text-sm">
                 {post.description}
             </p>
             <div
@@ -51,7 +59,7 @@
                     />
                 {/each}
             </div>
-        </button>
+        </div>
     {/each}
 </div>
 
