@@ -8,11 +8,9 @@ export type CreateReservationDto = {
 }
 
 export const PrintAPIImpl = {
-    UpdatePrintSchedule: async (
+    updatePrintSchedule: async (
         printReservation: CreateReservationDto,
     ): Promise<void> => {
-        await axios.post('/printer-reservation/create', {
-            printReservation,
-        })
+        await axios.post('/printer-reservation/create', printReservation)
     },
 }

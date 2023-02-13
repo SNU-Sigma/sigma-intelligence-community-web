@@ -40,6 +40,7 @@
   "dependencies": {
     "@skeletonlabs/skeleton": "^0.86.9",
     "axios": "^1.2.1",
+    "date-fns": "^2.29.3",
     "felte": "^1.2.6"
   }
 }

@@ -1,36 +1,16 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
-    // import { createForm } from 'felte'
+    import { addHours } from 'date-fns'
+    import { newDate } from '../../domain/printer/startingDate'
     import {
         PrintAPIImpl,
         type CreateReservationDto,
     } from '../../infrastructure/sigma-api/PrintAPIImpl'
-    // import { PrintInfo$, type PrinterReservationDto } from '../../domain/printer/PrintInfo'
     import OverlaySpinner from '../common/OverlaySpinner.svelte'
-    import { newDate } from '../../domain/printer/startingDate'
 
     let isLoading = false
-
-    /*const { form } = createForm<CreateReservationDto>({
-        onSubmit: async (values) => {
-            const { printerId, startDateTime, usageTime, reason } = values
-            isLoading = true
-            try {
-                await PrintAPIImpl.UpdatePrintSchedule(values)              
-                // PrintInfo$.setNewUserSchedule(values) -> user 정보 받기는 따로 구현할 필요 없음 (쿠키 사용?)
-            } catch (e) {
-                toastStore.trigger({
-                    message: '프린터 예약에 실패했습니다.',
-                    preset: 'error',
-                })
-            } finally {
-                isLoading = false
-            }
-        },
-    })*/
-
     let newPrintId: number
-    let newStartDateTime: Date
+    let newStartDateTime: string
     let newUsageTime: number
     let newReason: string
     let printerOptions = [
@@ -47,21 +27,33 @@
         { value: 7, label: '7시간' },
         { value: 8, label: '8시간' },
     ]
-    $: newStartTime = new Date(newStartDateTime)
-    $: newStartTime.setHours(newStartTime.getHours() + newUsageTime)
-    $: newEndDateTime = newStartTime
+    $: newEndDateTime =
+        $newDate > new Date(0, 0, 0, 0, 0, 0, 0)
+            ? addHours($newDate, newUsageTime)
+            : addHours(new Date(newStartDateTime), newUsageTime)
 
     const submitForm = async () => {
         let newPrinterSchedule: CreateReservationDto = {
             printerId: newPrintId,
-            startDateTime: newStartDateTime,
+            startDateTime: new Date(newStartDateTime),
             usageTime: newUsageTime,
             reason: newReason,
+        }
+        if (
+            newStartDateTime === undefined ||
+            newUsageTime === undefined ||
+            newReason === undefined ||
+            newReason.trim().length === 0
+        ) {
+            toastStore.trigger({
+                message: '비어있는 항목이 있습니다.',
+                preset: 'error',
+            })
         }
         isLoading = true
         try {
             console.log(newPrinterSchedule)
-            await PrintAPIImpl.UpdatePrintSchedule(newPrinterSchedule)
+            await PrintAPIImpl.updatePrintSchedule(newPrinterSchedule)
             toastStore.trigger({
                 message: '프린터 예약에 성공했습니다.',
                 preset: 'success',
@@ -85,26 +77,28 @@
     <h2>프린터 예약 화면</h2>
     <div class="h-8" />
     <div class="w-128 flex flex-col gap-2 text-left">
-        <span>제목</span>
-        <input
-            type="text"
-            name="reason"
-            class="placeholder:italic placeholder:text-slate-500"
-            placeholder="제목을 입력하세요..."
-            bind:value={newReason}
-        />
+        <label>
+            <span class="text-base">제목</span>
+            <input
+                type="text"
+                name="reason"
+                class="placeholder:italic placeholder:text-slate-500 placeholder:text-sm"
+                placeholder="제목을 입력하세요..."
+                bind:value={newReason}
+            />
+        </label>
         <span>프린터 아이디</span>
-        <select
-            class="placeholder:text-slate-50"
-            placeholder="프린터를 선택하세요..."
-            bind:value={newPrintId}
-        >
+        <select bind:value={newPrintId}>
             {#each printerOptions as option}
                 <option value={option.value}>{option.label}</option>
             {/each}
         </select>
-        {#if newStartDateTime}
-            <span>시작 시간 | {newStartDateTime} </span>
+        {#if $newDate > new Date(0, 0, 0, 0, 0, 0, 0)}
+            <span>시작 시간 | {$newDate.toLocaleString()}</span>
+        {:else if newStartDateTime}
+            <span
+                >시작 시간 | {new Date(newStartDateTime).toLocaleString()}
+            </span>
         {:else}
             <span>시작 시간</span>
         {/if}
@@ -119,23 +113,23 @@
         <div class="columns-4 space-y-4">
             {#each timeOptions as option}
                 <button
-                    class="flex btn btn-filled-secondary w-full"
+                    class:btn-ghost-primary={newUsageTime === option.value}
+                    class:btn-ringed-secondary={newUsageTime !== option.value}
+                    class="flex btn w-full"
                     on:click={() => {
                         newUsageTime = option.value
                     }}>{option.label}</button
                 >
             {/each}
         </div>
-        {#if newStartDateTime && newUsageTime}
-            <span>종료 시간 | </span>
-            <span>{newEndDateTime} </span>
+        {#if (newStartDateTime || $newDate > new Date(0, 0, 0, 0, 0, 0, 0)) && newUsageTime}
+            <span>종료 시간 | {newEndDateTime.toLocaleString()}</span>
         {:else}
             <span>종료 시간 | </span>
         {/if}
         <button on:click={submitForm} class="flex btn btn-filled-primary"
             >예약 확정</button
         >
-        <button on:click={() => console.log(newStartTime)}> 클릭 </button>
     </div>
     <div class="h-8" />
 </div>
