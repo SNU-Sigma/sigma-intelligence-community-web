@@ -1,11 +1,6 @@
 <script lang="ts">
-    import { createForm } from 'felte'
-    import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
-    import { AuthAPIImpl } from '../lib/infrastructure/sigma-api/AuthAPIImpl'
-    import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import type { ProfileDto } from '../lib/domain/profile/model/ProfileDto'
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
-    import axios from 'axios'
 
     const member: Promise<ProfileDto> = ProfileAPIImpl.getMyProfile()
 </script>
