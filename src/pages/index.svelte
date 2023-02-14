@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { goto, params } from '@roxi/routify'
+    import { goto } from '@roxi/routify'
 </script>
 
 <main>

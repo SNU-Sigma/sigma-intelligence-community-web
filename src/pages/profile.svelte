@@ -11,7 +11,11 @@
         {#await member}
             <p>loading</p>
         {:then item}
-            <img class="mb-5 w-1/3 rounded-full" src={item.profileImageUrl} />
+            <img
+                class="mb-5 w-1/3 rounded-full"
+                src={item.profileImageUrl}
+                alt=""
+            />
             <div class="mb-2 text-3xl font-bold">{item.name}</div>
             <div class="text-xl">{item.major} {item.freshmanYear}학번</div>
         {:catch error}
