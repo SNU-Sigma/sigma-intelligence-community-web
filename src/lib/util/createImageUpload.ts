@@ -2,7 +2,7 @@ import axios from 'axios'
 import { get, writable } from 'svelte/store'
 
 export const createImageUpload = () => {
-    const files$ = writable<FileList | undefined>(undefined)
+    const files$ = writable<FileList>(undefined)
 
     const validFileTypes = ['image/jpeg', 'image/png']
 
@@ -31,5 +31,32 @@ export const createImageUpload = () => {
         }
     }
 
-    return { files$, validFileTypes, handleUpload }
+    const handleMultiUpload = async (): Promise<Array<string>> => {
+        const multiUploadedUrl: Array<string> = []
+        for (const file of get(files$) ?? []) {
+            if (validFileTypes.includes(file.type)) {
+                try {
+                    const {
+                        data: { url, uploadedUrl },
+                    } = await axios.get(
+                        `/images/pre-signed-url?fileName=${file.name}`,
+                    )
+                    await axios.put(url, file, {
+                        headers: {
+                            'Content-Type': file.type,
+                        },
+                        withCredentials: false,
+                    })
+                    multiUploadedUrl.push(uploadedUrl)
+                } catch (e) {
+                    console.error('Upload failed', e)
+                }
+            } else {
+                console.error('Not valid file')
+            }
+        }
+        return multiUploadedUrl
+    }
+
+    return { files$, validFileTypes, handleUpload, handleMultiUpload }
 }
