@@ -13,7 +13,7 @@
             <OverlaySpinner />
         {:then item}
             <img
-                class="mb-5 w-1/3 rounded-full"
+                class="mb-5 aspect-square w-1/3 rounded-full object-cover"
                 src={item.profileImageUrl}
                 alt=""
             />
