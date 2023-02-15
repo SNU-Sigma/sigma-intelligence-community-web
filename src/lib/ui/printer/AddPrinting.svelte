@@ -83,7 +83,7 @@
             <input
                 type="text"
                 name="reason"
-                class="placeholder:italic placeholder:text-slate-500 placeholder:text-sm"
+                class="placeholder:text-sm placeholder:italic placeholder:text-slate-500"
                 placeholder="제목을 입력하세요..."
                 bind:value={newReason}
             />
@@ -97,8 +97,8 @@
         {#if $newDate > new Date(0, 0, 0, 0, 0, 0, 0)}
             <span>시작 시간 | {$newDate.toLocaleString()}</span>
         {:else if newStartDateTime}
-            <span
-                >시작 시간 | {new Date(newStartDateTime).toLocaleString()}
+            <span>
+                시작 시간 | {new Date(newStartDateTime).toLocaleString()}
             </span>
         {:else}
             <span>시작 시간</span>
@@ -114,23 +114,26 @@
         <div class="columns-4 space-y-4">
             {#each timeOptions as option}
                 <button
-                    class:btn-ghost-primary={newUsageTime === option.value}
-                    class:btn-ringed-secondary={newUsageTime !== option.value}
-                    class="flex btn w-full"
+                    class:variant-ghost-primary={newUsageTime === option.value}
+                    class:variant-ringed-secondary={newUsageTime !==
+                        option.value}
+                    class="btn flex w-full"
                     on:click={() => {
                         newUsageTime = option.value
-                    }}>{option.label}</button
+                    }}
                 >
+                    {option.label}
+                </button>
             {/each}
         </div>
         {#if (newStartDateTime || $newDate > new Date(0, 0, 0, 0, 0, 0, 0)) && newUsageTime}
             <span>종료 시간 | {newEndDateTime.toLocaleString()}</span>
         {:else}
-            <span>종료 시간 | </span>
+            <span>종료 시간 |</span>
         {/if}
-        <button on:click={submitForm} class="flex btn btn-filled-primary"
-            >예약 확정</button
-        >
+        <button on:click={submitForm} class="btn variant-filled-primary flex">
+            예약 확정
+        </button>
     </div>
     <div class="h-8" />
 </div>

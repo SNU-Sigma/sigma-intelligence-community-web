@@ -49,10 +49,10 @@
 </script>
 
 <div
-    class="flex flex-col absolute top-1 left-1 right-1 bg-primary-100 pb-2 rounded-md"
+    class="absolute top-1 left-1 right-1 flex flex-col rounded-md bg-primary-100 pb-2"
 >
-    <h2 class="font-bold relative left-1">SIGMA 3D PRINTER</h2>
-    <h2 class="text-base relative left-1">
+    <h2 class="relative left-1 font-bold">SIGMA 3D PRINTER</h2>
+    <h2 class="relative left-1 text-base">
         {showDate.getFullYear()}년 {showDate.getMonth() + 1}월
     </h2>
     <div class="flex-row space-x-2 space-y-0.5 bg-inherit">
@@ -61,7 +61,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-5 h-5"
+                class="h-5 w-5"
             >
                 <path
                     fill-rule="evenodd"
@@ -73,8 +73,8 @@
         {#each weekArrayCreator(showDate) as day}
             <button
                 class={printDate > day || printDate < day
-                    ? 'btn btn-filled-primary rounded-full text-xs px-2 py-1'
-                    : 'btn btn-filled-secondary rounded-full text-xs px-2 py-1'}
+                    ? 'btn variant-filled-primary rounded-full px-2 py-1 text-xs'
+                    : 'btn variant-filled-secondary rounded-full px-2 py-1 text-xs'}
                 on:click={() => {
                     setPrintDate(day)
                 }}
@@ -92,7 +92,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                class="w-5 h-5"
+                class="h-5 w-5"
             >
                 <path
                     fill-rule="evenodd"
@@ -104,17 +104,17 @@
     </div>
 </div>
 
-<div class="flex flex-row space-x-12 absolute top-28 left-6">
-    <h2 class="text-sm">Time</h2>
-    <h2 class="text-sm">Cubicon 프린터</h2>
-    <h2 class="text-sm">Guider2 프린터</h2>
+<div class="absolute top-28 left-6 flex flex-row space-x-12">
+    <span class="text-sm">Time</span>
+    <span class="text-sm">Cubicon 프린터</span>
+    <span class="text-sm">Guider2 프린터</span>
 </div>
 
 <div
-    class="flex flex-col absolute top-36 h-[calc(100vh-12rem)] max-h-screen overflow-y-scroll overscroll-contain"
+    class="absolute top-36 flex h-[calc(100vh-12rem)] max-h-screen flex-col overflow-y-scroll overscroll-contain"
 >
     {#each timeArray as time}
-        <div class="flex flex-row space-x-0 relative left-0">
+        <div class="relative left-0 flex flex-row space-x-0">
             {#if time <= 12}
                 {#if time < 10}
                     0{time}AM
@@ -128,13 +128,13 @@
             {/if}
 
             <button
-                class="text-black bg-gray-200 px-20 py-6 border-2 border-gray-300"
+                class="border-2 border-gray-300 bg-gray-200 px-20 py-6 text-black"
                 on:click={() => {
                     setTimePrinter(time)
                 }}
             />
             <button
-                class="text-black bg-gray-200 px-20 py-6 border-2 border-gray-300"
+                class="border-2 border-gray-300 bg-gray-200 px-20 py-6 text-black"
                 on:click={() => {
                     setTimePrinter(time)
                 }}
