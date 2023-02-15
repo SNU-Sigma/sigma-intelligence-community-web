@@ -2,17 +2,16 @@
     import { goto } from '@roxi/routify'
 
     // import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
-    import { addDays, addWeeks } from 'date-fns'
+    import { addDays, addWeeks, startOfWeek } from 'date-fns'
     import { newDate } from '../lib/domain/printer/startingDate'
 
     let printDate = new Date()
-    let todaysDate = new Date()
     let clickNum = 0
 
-    function weekArrayCreator(date: Date) {
+    const weekArrayCreator = (date: Date) => {
         let weekArray: Array<Date> = []
         let i = 0
-        const startDate = addDays(date, -1 * date.getDay())
+        const startDate = startOfWeek(date)
         for (i = 0; i < 7; i++) {
             weekArray.push(addDays(startDate, i))
         }
@@ -39,11 +38,12 @@
         $goto('/printer')
     }
 
-    let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토']
-    $: showDate = new Date(addWeeks(todaysDate, clickNum))
+    // let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토']
+    $: showDate = new Date(addWeeks(new Date(), clickNum))
 
     let timeArray = [
-        7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20, 21, 22, 23,
     ]
     //             btn btn-filled-primary rounded-full text-xs px-2 py-1
 </script>
@@ -84,7 +84,7 @@
                 {:else}
                     {day.getDate()}
                 {/if}
-                {daysOfWeek[day.getDay()]}
+                {day.toLocaleString('ko-KR', { weekday: 'short' })}
             </button>
         {/each}
         <button on:click={increment} class="static right-0">
@@ -111,7 +111,7 @@
 </div>
 
 <div
-    class="flex flex-col absolute top-36 h-[calc(100vh-12rem)] max-h-sceren overflow-y-scroll overscroll-contain"
+    class="flex flex-col absolute top-36 h-[calc(100vh-12rem)] max-h-screen overflow-y-scroll overscroll-contain"
 >
     {#each timeArray as time}
         <div class="flex flex-row space-x-0 relative left-0">

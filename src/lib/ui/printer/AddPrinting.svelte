@@ -13,11 +13,11 @@
     let newStartDateTime: string
     let newUsageTime: number
     let newReason: string
-    let printerOptions = [
-        { value: 1, label: '1번 프린터' },
-        { value: 2, label: '2번 프린터' },
+    const printerOptions = [
+        { value: 1, label: 'Cubicon 프린터' },
+        { value: 2, label: 'Guider2 프린터' },
     ]
-    let timeOptions = [
+    const timeOptions = [
         { value: 1, label: '1시간' },
         { value: 2, label: '2시간' },
         { value: 3, label: '3시간' },
@@ -49,6 +49,7 @@
                 message: '비어있는 항목이 있습니다.',
                 preset: 'error',
             })
+            return
         }
         isLoading = true
         try {
