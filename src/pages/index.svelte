@@ -1,14 +1,5 @@
 <script lang="ts">
-    import { goto } from '@roxi/routify'
-</script>
+    import { redirect } from '@roxi/routify'
 
-<main>
-    <h1>Hello, World!</h1>
-    <button class="btn variant-filled-primary">Hello</button>
-    <button
-        class="btn variant-filled-primary"
-        on:click={() => $goto('/profile')}
-    >
-        Profile
-    </button>
-</main>
+    $redirect('/feed')
+</script>

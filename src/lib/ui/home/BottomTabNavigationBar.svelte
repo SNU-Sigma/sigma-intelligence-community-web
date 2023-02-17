@@ -9,17 +9,17 @@
 
     const config = [
         {
-            path: '/post',
+            path: '/feed',
             logoActiveVariantUrl: HomeActiveIcon,
             logoDefaultVariantUrl: HomeDefaultIcon,
         },
         {
-            path: '/printer',
+            path: '/printer-calendar',
             logoActiveVariantUrl: PrinterActiveIcon,
             logoDefaultVariantUrl: PrinterDefaultIcon,
         },
         {
-            path: '/my-page',
+            path: '/profile',
             logoActiveVariantUrl: MyPageActiveIcon,
             logoDefaultVariantUrl: MyPageDefaultIcon,
         },
@@ -28,18 +28,24 @@
         logoActiveVariantUrl: string
         logoDefaultVariantUrl: string
     }>
+
+    $: isActivePath = config.some(({ path }) => $isActive(path))
 </script>
 
-<div class="flex h-16 w-full flex-row">
-    {#each config as { path, logoActiveVariantUrl, logoDefaultVariantUrl } (path)}
-        <a class="flex flex-1" href={$url(path)}>
-            <img
-                src={$isActive(path)
-                    ? logoActiveVariantUrl
-                    : logoDefaultVariantUrl}
-                alt={path}
-                class="mx-auto my-auto h-8 w-8"
-            />
-        </a>
-    {/each}
-</div>
+{#if isActivePath}
+    <div
+        class="z-50 flex h-16 w-full flex-shrink-0 flex-row bg-gray-50 dark:bg-gray-900"
+    >
+        {#each config as { path, logoActiveVariantUrl, logoDefaultVariantUrl } (path)}
+            <a class="flex flex-1" href={$url(path)}>
+                <img
+                    src={$isActive(path)
+                        ? logoActiveVariantUrl
+                        : logoDefaultVariantUrl}
+                    alt={path}
+                    class="mx-auto my-auto h-8 w-8"
+                />
+            </a>
+        {/each}
+    </div>
+{/if}

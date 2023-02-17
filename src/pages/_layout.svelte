@@ -4,6 +4,7 @@
     import Login from '../lib/ui/login/Login.svelte'
     import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
     import { isActive } from '@roxi/routify'
+    import BottomTabNavigationBar from '../lib/ui/home/BottomTabNavigationBar.svelte'
 
     const shouldShowLoginPage = derived(
         [LoginInfo$, isActive],
@@ -20,13 +21,16 @@
 </script>
 
 <!-- routify:options preload="proximity" -->
-<div class="relative mx-auto h-screen max-w-md bg-gray-50 dark:bg-gray-900">
+<div
+    class="relative mx-auto flex h-screen max-w-md flex-col bg-gray-50 dark:bg-gray-900"
+>
     <Toast />
-    <div class="grid h-full w-full overflow-y-auto">
+    <div class="grid w-full flex-shrink flex-grow overflow-y-auto">
         {#if $shouldShowLoginPage}
             <Login />
         {:else}
             <slot />
         {/if}
     </div>
+    <BottomTabNavigationBar />
 </div>
