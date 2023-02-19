@@ -22,7 +22,7 @@
 
 <!-- routify:options preload="proximity" -->
 <div
-    class="relative mx-auto flex max-w-md flex-col bg-gray-50 dark:bg-gray-900"
+    class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gray-50 dark:bg-gray-900"
 >
     <Toast />
     <div class="grid w-full flex-shrink flex-grow">
@@ -30,7 +30,7 @@
             <Login />
         {:else}
             <slot />
+            <BottomTabNavigationBar />
         {/if}
     </div>
-    <BottomTabNavigationBar />
 </div>
