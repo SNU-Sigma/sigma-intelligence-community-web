@@ -4,6 +4,7 @@
     import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
     import { toastStore } from '@skeletonlabs/skeleton'
     import type { PostDto } from '../lib/domain/posts/model/PostDto'
+    import BottomTabNavigationBar from '../lib/ui/home/BottomTabNavigationBar.svelte'
 
     let isLoading = false
 
@@ -66,3 +67,5 @@
 <div class="absolute bottom-20 right-6">
     <a href="/create-post" class="btn variant-filled-primary">새글작성</a>
 </div>
+
+<BottomTabNavigationBar />
