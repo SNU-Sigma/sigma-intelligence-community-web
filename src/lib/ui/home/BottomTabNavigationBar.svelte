@@ -28,26 +28,22 @@
         logoActiveVariantUrl: string
         logoDefaultVariantUrl: string
     }>
-
-    $: isActivePath = config.some(({ path }) => $isActive(path))
 </script>
 
-{#if isActivePath}
-    <nav class="flex h-16 w-full flex-shrink-0">
-        <div
-            class="fixed bottom-0 z-50 flex h-16 w-full max-w-md flex-row bg-gray-50 dark:bg-gray-900"
-        >
-            {#each config as { path, logoActiveVariantUrl, logoDefaultVariantUrl } (path)}
-                <a class="flex flex-1" href={$url(path)}>
-                    <img
-                        src={$isActive(path)
-                            ? logoActiveVariantUrl
-                            : logoDefaultVariantUrl}
-                        alt={path}
-                        class="mx-auto my-auto h-8 w-8"
-                    />
-                </a>
-            {/each}
-        </div>
-    </nav>
-{/if}
+<nav class="flex h-16 w-full flex-shrink-0">
+    <div
+        class="fixed bottom-0 z-50 flex h-16 w-full max-w-md flex-row bg-gray-50 dark:bg-gray-900"
+    >
+        {#each config as { path, logoActiveVariantUrl, logoDefaultVariantUrl } (path)}
+            <a class="flex flex-1" href={$url(path)}>
+                <img
+                    src={$isActive(path)
+                        ? logoActiveVariantUrl
+                        : logoDefaultVariantUrl}
+                    alt={path}
+                    class="mx-auto my-auto h-8 w-8"
+                />
+            </a>
+        {/each}
+    </div>
+</nav>
