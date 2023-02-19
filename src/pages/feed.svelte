@@ -36,15 +36,20 @@
     {#each posts as post}
         <div class="card card-hover p-2.5 text-left">
             <div class="text-lg">{post.title}</div>
-            <div class="text-xs">
-                {new Date(post.createdAt).toLocaleString('ko-KR', {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                })}
+
+            <div class="flex justify-between text-xs">
+                <div>{post.user.profile.name} ({post.user.email})</div>
+                <div>
+                    {new Date(post.createdAt).toLocaleString('ko-KR', {
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                    })}
+                </div>
             </div>
+
             <p class="my-3 whitespace-pre-wrap text-sm">
                 {post.description}
             </p>
@@ -66,3 +71,4 @@
 <div class="absolute bottom-6 right-6">
     <a href="/create-post" class="btn variant-filled-primary">새글작성</a>
 </div>
+ppp
