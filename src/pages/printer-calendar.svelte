@@ -4,7 +4,7 @@
     // import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import { addDays, addWeeks, startOfWeek } from 'date-fns'
     import { newDate } from '../lib/domain/printer/startingDate'
-    import BottomTabNavigationBar from '../lib/ui/home/BottomTabNavigationBar.svelte'
+    import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
 
     let printDate = new Date()
     let clickNum = 0

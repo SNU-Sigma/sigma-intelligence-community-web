@@ -4,7 +4,7 @@
     import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
     import { toastStore } from '@skeletonlabs/skeleton'
     import type { PostDto } from '../lib/domain/posts/model/PostDto'
-    import BottomTabNavigationBar from '../lib/ui/home/BottomTabNavigationBar.svelte'
+    import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
 
     let isLoading = false
 
