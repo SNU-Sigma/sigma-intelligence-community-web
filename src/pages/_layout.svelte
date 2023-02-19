@@ -30,7 +30,9 @@
             <Login />
         {:else}
             <slot />
-            <BottomTabNavigationBar />
         {/if}
     </div>
+    {#if $shouldShowLoginPage === false}
+        <BottomTabNavigationBar />
+    {/if}
 </div>
