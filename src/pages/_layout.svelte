@@ -21,7 +21,7 @@
 
 <!-- routify:options preload="proximity" -->
 <div
-    class="relative mx-auto flex min-h-screen max-w-md flex-col bg-gray-50 dark:bg-gray-900"
+    class="relative mx-auto flex min-h-screen max-w-md flex-1 flex-col bg-gray-50 dark:bg-gray-900"
 >
     <Toast />
     {#if $shouldShowLoginPage}
