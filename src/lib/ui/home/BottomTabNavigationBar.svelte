@@ -2,8 +2,8 @@
     import { isActive, url } from '@roxi/routify'
     import HomeActiveIcon from '../../../assets/images/home_active.svg'
     import HomeDefaultIcon from '../../../assets/images/home_default.svg'
-    import MyPageActiveIcon from '../../../assets/images/mypage_active.svg'
-    import MyPageDefaultIcon from '../../../assets/images/mypage_default.svg'
+    import MyPageActiveIcon from '../../../assets/images/my_page_active.svg'
+    import MyPageDefaultIcon from '../../../assets/images/my_page_default.svg'
     import PrinterActiveIcon from '../../../assets/images/printer_active.svg'
     import PrinterDefaultIcon from '../../../assets/images/printer_default.svg'
 
