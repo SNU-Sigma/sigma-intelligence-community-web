@@ -1,8 +1,9 @@
 export type PostDto = {
     id: number
+    createdAt: string
+    updatedAt: string
     title: string
     description: string
     images: Array<string>
-    createdAt: string
-    updatedAt: string
+    userId: number
 }
