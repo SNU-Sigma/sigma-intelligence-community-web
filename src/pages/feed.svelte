@@ -3,11 +3,11 @@
     import { onMount } from 'svelte'
     import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
     import { toastStore } from '@skeletonlabs/skeleton'
-    import type { PostDto } from '../lib/domain/posts/model/PostDto'
+    import type { PostFeedDto } from '../lib/domain/posts/model/PostFeedDto'
 
     let isLoading = false
 
-    let posts: Array<PostDto> = []
+    let posts: Array<PostFeedDto> = []
     onMount(() => {
         isLoading = true
         PostAPIImpl.fetchAllPosts()
