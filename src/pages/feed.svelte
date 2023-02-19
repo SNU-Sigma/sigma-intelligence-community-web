@@ -64,7 +64,7 @@
     {/each}
 </div>
 
-<div class="absolute bottom-20 right-6">
+<div class="fixed bottom-20 mr-3 self-end">
     <a href="/create-post" class="btn variant-filled-primary">새글작성</a>
 </div>
 
