@@ -3,6 +3,7 @@
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import { goto } from '@roxi/routify'
+    export let item: ProfileDto
 
     const member: Promise<ProfileDto> = ProfileAPIImpl.getMyProfile()
 </script>
@@ -23,7 +24,11 @@
             <button
                 class="btn variant-ghost-primary mt-4"
                 on:click={() => {
-                    $goto('/edit_profile', { name: item.name })
+                    $goto('/edit_profile', {
+                        Year: item.freshmanYear,
+                        major: item.major,
+                        url: item.profileImageUrl,
+                    })
                 }}
             >
                 수정
