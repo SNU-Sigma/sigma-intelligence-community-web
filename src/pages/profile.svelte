@@ -2,6 +2,7 @@
     import type { ProfileDto } from '../lib/domain/profile/model/ProfileDto'
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
+    import { goto } from '@roxi/routify'
 
     const member: Promise<ProfileDto> = ProfileAPIImpl.getMyProfile()
 </script>
@@ -19,6 +20,14 @@
             />
             <div class="mb-2 text-3xl font-bold">{item.name}</div>
             <div class="text-xl">{item.major} {item.freshmanYear}학번</div>
+            <button
+                class="btn variant-ghost-primary mt-4"
+                on:click={() => {
+                    $goto('/edit_profile', { name: item.name })
+                }}
+            >
+                수정
+            </button>
         {:catch error}
             <p style="color: red">{error.message}</p>
         {/await}
