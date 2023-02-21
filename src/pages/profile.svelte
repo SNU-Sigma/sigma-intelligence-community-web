@@ -3,7 +3,6 @@
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import { goto } from '@roxi/routify'
-    export let item: ProfileDto
 
     const member: Promise<ProfileDto> = ProfileAPIImpl.getMyProfile()
 </script>
