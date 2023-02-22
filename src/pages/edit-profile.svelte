@@ -1,13 +1,14 @@
 <script lang="ts">
     import type { UpdateProfileDto } from '../lib/domain/profile/model/UpdateProfileDto'
-    import { goto, params } from '@roxi/routify'
+    import { params } from '@roxi/routify'
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import { createImageUpload } from '../lib/util/createImageUpload'
+    import { toastStore } from '@skeletonlabs/skeleton'
 
     const member: UpdateProfileDto = {
-        profileImageUrl: $params.url,
+        profileImageUrl: $params.profileImageUrl,
         major: $params.major,
-        freshmanYear: Number($params.Year),
+        freshmanYear: Number($params.freshmanYear),
     }
     const { files$, validFileTypes, handleUpload } = createImageUpload()
     const handleClick = async () => {
@@ -22,7 +23,7 @@
         <div
             class="col-span-4 col-start-2 row-span-1 row-start-2 text-center text-2xl font-semibold"
         >
-            profile_url
+            프로필 사진
             <div class="my-auto flex flex-col items-center">
                 <input
                     class="mt-3 text-base font-normal"
@@ -30,37 +31,45 @@
                     type="file"
                     bind:files={$files$}
                 />
-                <button
-                    class="btn variant-ghost-primary mt-4"
-                    on:click={handleClick}
-                >
-                    Upload
-                </button>
             </div>
         </div>
-        <div
-            class="col-span-4 col-start-2 row-span-1 row-start-3 text-center text-2xl font-semibold"
+        <label
+            class="col-span-4 col-start-2 row-span-1 row-start-3 text-center"
         >
-            freshmanYear <input
+            <span class="text-2xl font-semibold">학번</span>
+            <input
                 class="mt-3 font-normal"
                 type="text"
                 bind:value={member.freshmanYear}
             />
-        </div>
-        <div
-            class="col-span-4 col-start-2 row-span-1 row-start-4 text-center text-2xl font-semibold"
+        </label>
+        <label
+            class="col-span-4 col-start-2 row-span-1 row-start-4 text-center"
         >
-            major <input
+            <span class="text-2xl font-semibold">전공</span>
+            <input
                 class="mt-3 font-normal"
                 type="text"
                 bind:value={member.major}
             />
-        </div>
+        </label>
         <button
             class="col-span-2 col-start-3 row-span-1 row-start-5 h-10 rounded-full bg-pink-900 text-center text-cyan-200"
-            on:click={() => {
-                ProfileAPIImpl.updateMyProfile(member)
-                $goto('/profile')
+            on:click={async () => {
+                try {
+                    await handleClick()
+                    await ProfileAPIImpl.updateMyProfile(member)
+                    toastStore.trigger({
+                        message: '성공적으로 수정되었습니다.',
+                        preset: 'success',
+                    })
+                    history.back()
+                } catch (e) {
+                    toastStore.trigger({
+                        message: '오류가 발생했습니다. 다시 시도해주세요.',
+                        preset: 'error',
+                    })
+                }
             }}
         >
             완료
