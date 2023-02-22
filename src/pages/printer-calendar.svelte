@@ -7,6 +7,8 @@
         cubiconPrinterInfo,
         guider2PrinterInfo,
     } from '../lib/domain/printer/PrintInfo'
+    import axios from 'axios'
+    import { toastStore } from '@skeletonlabs/skeleton'
 
     let clickNum = 0
     let printDate = new Date()
@@ -128,6 +130,13 @@
         }
         console.log(guider2TimeArray, topGuider2TimeArray)
     }
+    const deleteSchedule = async (id: number) => {
+        await axios.delete(`/printer-reservation/reservations/${id}`)
+        toastStore.trigger({
+            message: '프린터 삭제에 성공했습니다.',
+            preset: 'success',
+        })
+    }
 
     onMount(() => {
         cubiconPrinterInfo.getCubiconPrintSchedule(printDate)
@@ -222,11 +231,20 @@
 
             <button
                 class={cubiconTimeArray.includes(time)
-                    ? 'text-black bg-red-400 w-40 h-20 border-2 border-gray-300'
+                    ? 'text-black bg-red-400 w-40 h-20 border-gray-300'
                     : 'text-black bg-gray-200 w-40 h-20 border-2 border-gray-300'}
                 on:click={() => {
-                    setTimePrinter(time)
-                    printerId.setPrinterId(1)
+                    if (!cubiconTimeArray.includes(time)) {
+                        setTimePrinter(time)
+                        printerId.setPrinterId(1)
+                    } else {
+                        window.alert('삭제하시겠습니까?')
+                        deleteSchedule(
+                            $cubiconPrinterInfo[
+                                topCubiconTimeArray.indexOf(time)
+                            ]?.id ?? 0,
+                        )
+                    }
                 }}
             >
                 {#if topCubiconTimeArray.includes(time)}
@@ -241,11 +259,20 @@
             </button>
             <button
                 class={guider2TimeArray.includes(time)
-                    ? 'text-black bg-blue-400 w-40 h-20 border-2 border-gray-300'
+                    ? 'text-black bg-blue-400 w-40 h-20 border-gray-300'
                     : 'text-black bg-gray-200 w-40 h-20 border-2 border-gray-300'}
                 on:click={() => {
-                    setTimePrinter(time)
-                    printerId.setPrinterId(2)
+                    if (!guider2TimeArray.includes(time)) {
+                        setTimePrinter(time)
+                        printerId.setPrinterId(2)
+                    } else {
+                        window.alert('삭제하시겠습니까?')
+                        deleteSchedule(
+                            $guider2PrinterInfo[
+                                topCubiconTimeArray.indexOf(time)
+                            ]?.id ?? 0,
+                        )
+                    }
                 }}
             >
                 {#if topGuider2TimeArray.includes(time)}
