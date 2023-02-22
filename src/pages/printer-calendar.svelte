@@ -1,12 +1,24 @@
 <script lang="ts">
     import { goto } from '@roxi/routify'
-
-    // import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import { addDays, addWeeks, startOfWeek } from 'date-fns'
-    import { newDate } from '../lib/domain/printer/startingDate'
+    import { onMount } from 'svelte'
+    import { newDate, printerId } from '../lib/domain/printer/startingDate'
+    import {
+        cubiconPrinterInfo,
+        guider2PrinterInfo,
+    } from '../lib/domain/printer/PrintInfo'
 
-    let printDate = new Date()
     let clickNum = 0
+    let printDate = new Date()
+    let cubiconTimeArray: Array<number> = []
+    let topCubiconTimeArray: Array<number> = []
+    let guider2TimeArray: Array<number> = []
+    let topGuider2TimeArray: Array<number> = []
+    $: showDate = new Date(addWeeks(new Date(), clickNum))
+    let timeArray = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20, 21, 22, 23,
+    ]
 
     const weekArrayCreator = (date: Date) => {
         let weekArray: Array<Date> = []
@@ -22,8 +34,12 @@
     const decrement = () => {
         clickNum = clickNum - 1
     }
-    const setPrintDate = (day: Date) => {
+    const setPrintDate = async (day: Date) => {
         printDate = day
+        await cubiconPrinterInfo.getCubiconPrintSchedule(printDate)
+        getCubiconHours()
+        await guider2PrinterInfo.getGuider2PrintSchedule(printDate)
+        getGuider2Hours()
     }
     const setTimePrinter = async (time: number) => {
         printDate.setHours(time)
@@ -37,15 +53,90 @@
         )
         $goto('/printer')
     }
+    const getCubiconHours = () => {
+        let temp: Array<number> = []
+        for (let i = 0; i < $cubiconPrinterInfo.length; i++) {
+            let startDateString = $cubiconPrinterInfo[
+                i
+            ]?.requestStartTime.slice(11, 13)
+            let endDateString = $cubiconPrinterInfo[i]?.requestEndTime.slice(
+                11,
+                13,
+            )
+            let startHours,
+                endHours = 0
+            if (startDateString === undefined || endDateString === undefined) {
+                break
+            } else {
+                startHours = parseInt(startDateString)
+                endHours = parseInt(endDateString)
+            }
+            temp.push(startHours, endHours)
+        }
+        cubiconTimeArray = []
+        topCubiconTimeArray = []
+        for (let i = 0; i < temp.length; i += 2) {
+            let j = 0
+            for (
+                j = ((temp[i] ?? 0) + 9) % 24;
+                j < ((temp[i + 1] ?? 25) + 9) % 24;
+                j++
+            ) {
+                if (j === ((temp[i] ?? 0) + 9) % 24 ?? 0) {
+                    topCubiconTimeArray.push(j)
+                }
+                cubiconTimeArray.push(j)
+            }
+        }
+        console.log(cubiconTimeArray, topCubiconTimeArray)
+    }
 
-    // let daysOfWeek = ['일', '월', '화', '수', '목', '금', '토']
-    $: showDate = new Date(addWeeks(new Date(), clickNum))
+    const getGuider2Hours = () => {
+        let temp: Array<number> = []
+        for (let i = 0; i < $guider2PrinterInfo.length; i++) {
+            let startDateString = $guider2PrinterInfo[
+                i
+            ]?.requestStartTime.slice(11, 13)
+            let endDateString = $guider2PrinterInfo[i]?.requestEndTime.slice(
+                11,
+                13,
+            )
+            let startHours,
+                endHours = 0
+            if (startDateString === undefined || endDateString === undefined) {
+                break
+            } else {
+                startHours = parseInt(startDateString)
+                endHours = parseInt(endDateString)
+            }
+            temp.push(startHours, endHours)
+        }
+        guider2TimeArray = []
+        topGuider2TimeArray = []
+        for (let i = 0; i < temp.length; i += 2) {
+            let j = 0
+            for (
+                j = ((temp[i] ?? 0) + 9) % 24;
+                j < ((temp[i + 1] ?? 25) + 9) % 24;
+                j++
+            ) {
+                if (j === ((temp[i] ?? 0) + 9) % 24 ?? 0) {
+                    topGuider2TimeArray.push(j)
+                }
+                guider2TimeArray.push(j)
+            }
+        }
+        console.log(guider2TimeArray, topGuider2TimeArray)
+    }
 
-    let timeArray = [
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-        20, 21, 22, 23,
-    ]
-    //             btn btn-filled-primary rounded-full text-xs px-2 py-1
+    onMount(() => {
+        cubiconPrinterInfo.getCubiconPrintSchedule(printDate)
+    })
+    onMount(() => {
+        guider2PrinterInfo.getGuider2PrintSchedule(printDate)
+    })
+    onMount(getCubiconHours)
+    onMount(getGuider2Hours)
 </script>
 
 <div
@@ -72,7 +163,9 @@
         </button>
         {#each weekArrayCreator(showDate) as day}
             <button
-                class={printDate > day || printDate < day
+                class={printDate.getFullYear() === day.getFullYear() &&
+                printDate.getMonth() === day.getMonth() &&
+                printDate.getDate() === day.getDate()
                     ? 'btn variant-filled-primary rounded-full px-2 py-1 text-xs'
                     : 'btn variant-filled-secondary rounded-full px-2 py-1 text-xs'}
                 on:click={() => {
@@ -128,17 +221,43 @@
             {/if}
 
             <button
-                class="border-2 border-gray-300 bg-gray-200 px-20 py-6 text-black"
+                class={cubiconTimeArray.includes(time)
+                    ? 'text-black bg-red-400 w-40 h-20 border-2 border-gray-300'
+                    : 'text-black bg-gray-200 w-40 h-20 border-2 border-gray-300'}
                 on:click={() => {
                     setTimePrinter(time)
+                    printerId.setPrinterId(1)
                 }}
-            />
+            >
+                {#if topCubiconTimeArray.includes(time)}
+                    {$cubiconPrinterInfo[topCubiconTimeArray.indexOf(time)]
+                        ?.user.profile.name}
+                    <h2 class="text-xs">
+                        사유: {$cubiconPrinterInfo[
+                            topCubiconTimeArray.indexOf(time)
+                        ]?.reason}
+                    </h2>
+                {/if}
+            </button>
             <button
-                class="border-2 border-gray-300 bg-gray-200 px-20 py-6 text-black"
+                class={guider2TimeArray.includes(time)
+                    ? 'text-black bg-blue-400 w-40 h-20 border-2 border-gray-300'
+                    : 'text-black bg-gray-200 w-40 h-20 border-2 border-gray-300'}
                 on:click={() => {
                     setTimePrinter(time)
+                    printerId.setPrinterId(2)
                 }}
-            />
+            >
+                {#if topGuider2TimeArray.includes(time)}
+                    {$guider2PrinterInfo[topGuider2TimeArray.indexOf(time)]
+                        ?.user.profile.name}
+                    <h2 class="text-xs">
+                        사유: {$guider2PrinterInfo[
+                            topGuider2TimeArray.indexOf(time)
+                        ]?.reason}
+                    </h2>
+                {/if}
+            </button>
         </div>
     {/each}
 </div>

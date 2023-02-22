@@ -1,7 +1,7 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
     import { addHours } from 'date-fns'
-    import { newDate } from '../../domain/printer/startingDate'
+    import { newDate, printerId } from '../../domain/printer/startingDate'
     import {
         PrintAPIImpl,
         type CreateReservationDto,
@@ -16,6 +16,10 @@
     const printerOptions = [
         { value: 1, label: 'Cubicon 프린터' },
         { value: 2, label: 'Guider2 프린터' },
+    ]
+    const otherPrinterOptions = [
+        { value: 2, label: 'Guider2 프린터' },
+        { value: 1, label: 'Cubicon 프린터' },
     ]
     const timeOptions = [
         { value: 1, label: '1시간' },
@@ -35,12 +39,15 @@
     const submitForm = async () => {
         let newPrinterSchedule: CreateReservationDto = {
             printerId: newPrintId,
-            startDateTime: new Date(newStartDateTime),
+            startDateTime:
+                $newDate > new Date(0, 0, 0, 0, 0, 0, 0)
+                    ? $newDate
+                    : new Date(newStartDateTime),
             usageTime: newUsageTime,
             reason: newReason,
         }
         if (
-            newStartDateTime === undefined ||
+            newEndDateTime === undefined ||
             newUsageTime === undefined ||
             newReason === undefined ||
             newReason.trim().length === 0
@@ -90,9 +97,15 @@
         </label>
         <span>프린터 아이디</span>
         <select bind:value={newPrintId}>
-            {#each printerOptions as option}
-                <option value={option.value}>{option.label}</option>
-            {/each}
+            {#if $printerId === 1}
+                {#each printerOptions as option}
+                    <option value={option.value}>{option.label}</option>
+                {/each}
+            {:else}
+                {#each otherPrinterOptions as option}
+                    <option value={option.value}>{option.label}</option>
+                {/each}
+            {/if}
         </select>
         {#if $newDate > new Date(0, 0, 0, 0, 0, 0, 0)}
             <span>시작 시간 | {$newDate.toLocaleString()}</span>

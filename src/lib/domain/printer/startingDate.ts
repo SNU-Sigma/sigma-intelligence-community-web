@@ -18,3 +18,15 @@ export const newDate = (() => {
         makeNewDate,
     }
 })()
+
+export const printerId = (() => {
+    const printerId = 1
+    const { subscribe, set } = writable(printerId)
+    const setPrinterId = (id: number) => {
+        set(id)
+    }
+    return {
+        subscribe,
+        setPrinterId,
+    }
+})()
