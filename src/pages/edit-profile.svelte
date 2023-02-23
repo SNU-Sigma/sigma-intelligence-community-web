@@ -4,7 +4,9 @@
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import { createImageUpload } from '../lib/util/createImageUpload'
     import { toastStore } from '@skeletonlabs/skeleton'
+    import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
 
+    let isLoading = false
     const member: UpdateProfileDto = {
         profileImageUrl: $params.profileImageUrl,
         major: $params.major,
@@ -16,6 +18,9 @@
     }
 </script>
 
+{#if isLoading}
+    <OverlaySpinner />
+{/if}
 <div class="bg h-full w-full bg-gradient-to-br from-lime-200 to-indigo-400">
     <p class="md absolute left-5 top-5 mb-5 font-bold">SIGMA INTELLIGENCE</p>
     <h1 class="absolute top-10 left-5 mt-5 font-semibold">Edit Profile</h1>
@@ -56,6 +61,7 @@
         <button
             class="col-span-2 col-start-3 row-span-1 row-start-5 h-10 rounded-full bg-pink-900 text-center text-cyan-200"
             on:click={async () => {
+                isLoading = true
                 try {
                     await handleClick()
                     await ProfileAPIImpl.updateMyProfile(member)
@@ -69,6 +75,8 @@
                         message: '오류가 발생했습니다. 다시 시도해주세요.',
                         preset: 'error',
                     })
+                } finally {
+                    isLoading = false
                 }
             }}
         >
