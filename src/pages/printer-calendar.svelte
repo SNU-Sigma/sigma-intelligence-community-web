@@ -19,13 +19,15 @@
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
 
-    let clickNum = 0
-    let printDate = startOfDay(new Date())
+    let weekOffset = 0
+    let selectedDate = startOfDay(new Date())
+
     let cubiconTimeArray: Array<number> = []
     let topCubiconTimeArray: Array<number> = []
     let guider2TimeArray: Array<number> = []
     let topGuider2TimeArray: Array<number> = []
-    $: showDate = addWeeks(new Date(), clickNum)
+
+    $: displayedWeekDate = addWeeks(new Date(), weekOffset)
 
     const weekArrayCreator = (date: Date) => {
         let weekArray: Array<Date> = []
@@ -37,18 +39,19 @@
         i = 0
         return weekArray
     }
-    const increment = () => [(clickNum = clickNum + 1)]
+
+    const increment = () => [(weekOffset = weekOffset + 1)]
     const decrement = () => {
-        clickNum = clickNum - 1
+        weekOffset = weekOffset - 1
     }
 
     const handleSelectedDateChange = async (date: Date) => {
-        printDate = date
+        selectedDate = date
         await refetchPrinterReservations()
     }
 
     const setTimePrinter = async (hour: number) => {
-        const dateWithTime = addHours(startOfDay(printDate), hour)
+        const dateWithTime = addHours(startOfDay(selectedDate), hour)
         newDate.makeNewDate(
             dateWithTime.getFullYear(),
             dateWithTime.getMonth(),
@@ -57,6 +60,7 @@
         )
         $goto('/printer')
     }
+
     const getCubiconHours = () => {
         let temp: Array<number> = []
         for (let i = 0; i < $cubiconPrinterInfo.length; i++) {
@@ -132,6 +136,7 @@
         }
         console.log(guider2TimeArray, topGuider2TimeArray)
     }
+
     const deleteSchedule = async (id: number) => {
         await axios.delete(`/printer-reservation/reservations/${id}`)
         toastStore.trigger({
@@ -142,8 +147,8 @@
 
     const refetchPrinterReservations = async () => {
         await Promise.all([
-            cubiconPrinterInfo.fetchPrinterReservations(printDate),
-            guider2PrinterInfo.fetchPrinterReservations(printDate),
+            cubiconPrinterInfo.fetchPrinterReservations(selectedDate),
+            guider2PrinterInfo.fetchPrinterReservations(selectedDate),
         ])
         getCubiconHours()
         getGuider2Hours()
@@ -159,7 +164,7 @@
 >
     <h2 class="relative left-1 font-bold">SIGMA 3D PRINTER</h2>
     <h2 class="relative left-1 text-base">
-        {showDate.getFullYear()}년 {showDate.getMonth() + 1}월
+        {displayedWeekDate.getFullYear()}년 {displayedWeekDate.getMonth() + 1}월
     </h2>
     <div class="flex-row space-x-2 space-y-0.5 bg-inherit">
         <button on:click={decrement} class="relative left-0">
@@ -176,9 +181,9 @@
                 />
             </svg>
         </button>
-        {#each weekArrayCreator(showDate) as day}
+        {#each weekArrayCreator(displayedWeekDate) as day}
             <button
-                class={isEqual(printDate, day)
+                class={isEqual(selectedDate, day)
                     ? 'btn variant-filled-primary rounded-full px-2 py-1 text-xs'
                     : 'btn variant-filled-secondary rounded-full px-2 py-1 text-xs'}
                 on:click={() => {
