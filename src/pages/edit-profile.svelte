@@ -7,6 +7,7 @@
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
 
     let isLoading = false
+    const imageurl = $params.profileImageUrl
     const member: UpdateProfileDto = {
         profileImageUrl: $params.profileImageUrl,
         major: $params.major,
@@ -14,7 +15,9 @@
     }
     const { files$, validFileTypes, handleUpload } = createImageUpload()
     const handleClick = async () => {
-        member.profileImageUrl = await handleUpload()
+        if (imageurl !== member.profileImageUrl) {
+            member.profileImageUrl = await handleUpload()
+        }
     }
 </script>
 
@@ -29,6 +32,29 @@
             class="col-span-4 col-start-2 row-span-1 row-start-2 text-center text-2xl font-semibold"
         >
             프로필 사진
+            <button
+                class="btn variant-filled-primary"
+                on:click={async () => {
+                    isLoading = true
+                    try {
+                        await handleClick()
+                        toastStore.trigger({
+                            message: '사진을 확인할 수 있습니다!',
+                            preset: 'success',
+                        })
+                    } catch (e) {
+                        toastStore.trigger({
+                            message: '오류가 발생했습니다. 다시 시도해주세요.',
+                            preset: 'error',
+                        })
+                    } finally {
+                        isLoading = false
+                    }
+                }}
+            >
+                사진 미리보기
+            </button>
+
             <div class="my-auto flex flex-col items-center">
                 <input
                     class="mt-3 text-base font-normal"
@@ -63,7 +89,6 @@
             on:click={async () => {
                 isLoading = true
                 try {
-                    await handleClick()
                     await ProfileAPIImpl.updateMyProfile(member)
                     toastStore.trigger({
                         message: '성공적으로 수정되었습니다.',
