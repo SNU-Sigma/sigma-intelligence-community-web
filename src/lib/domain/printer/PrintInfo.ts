@@ -1,35 +1,9 @@
-import {
-    PrintAPIImpl,
-    type CreateReservationDto,
-} from '../../infrastructure/sigma-api/PrintAPIImpl'
 import { writable } from 'svelte/store'
-
-export type PrinterReservationDto = {
-    userId: number
-    printerInfo?: CreateReservationDto
-}
-
-export type Profile = {
-    name: string
-}
-
-export type UserInformation = {
-    email: string
-    profile: Profile
-}
-
-export type PrinterReservationSchedule = {
-    id: number
-    isMine: boolean
-    printerId: number
-    reason: string
-    requestEndTime: string
-    requestStartTime: string
-    user: UserInformation
-}
+import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
+import type { ListedPrinterReservationDto } from './model/ListedPrinterReservationDto'
 
 export const createPrinterStore = (printerId: number) => {
-    const { subscribe, set } = writable<Array<PrinterReservationSchedule>>([])
+    const { subscribe, set } = writable<Array<ListedPrinterReservationDto>>([])
 
     const fetchPrinterReservations = async (selectedDate: Date) => {
         const printerReservations = await PrintAPIImpl.fetchPrinterReservations(
@@ -47,5 +21,4 @@ export const createPrinterStore = (printerId: number) => {
 }
 
 export const cubiconPrinterInfo = createPrinterStore(1)
-
 export const guider2PrinterInfo = createPrinterStore(2)

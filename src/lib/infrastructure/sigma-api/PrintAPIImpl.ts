@@ -1,27 +1,6 @@
 import axios from 'axios'
-
-export type CreateReservationDto = {
-    printerId: number
-    startDateTime: Date
-    usageTime: number
-    reason: string
-}
-
-export type ListedPrinterReservationDto = {
-    id: number
-    printerId: number
-    requestStartTime: string
-    requestEndTime: string
-    reason: string
-    user: {
-        email: string
-        profile: {
-            id: number
-            name: string
-        }
-    }
-    isMine: boolean
-}
+import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
+import type { ListedPrinterReservationDto } from '../../domain/printer/model/ListedPrinterReservationDto'
 
 export const PrintAPIImpl = {
     updatePrintSchedule: async (

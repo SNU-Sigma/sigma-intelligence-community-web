@@ -2,10 +2,9 @@
     import { toastStore } from '@skeletonlabs/skeleton'
     import { addHours } from 'date-fns'
     import { newDate, printerId } from '../../domain/printer/startingDate'
-    import {
-        PrintAPIImpl,
-        type CreateReservationDto,
-    } from '../../infrastructure/sigma-api/PrintAPIImpl'
+    import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
+    import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
+
     import OverlaySpinner from '../common/OverlaySpinner.svelte'
 
     let isLoading = false
