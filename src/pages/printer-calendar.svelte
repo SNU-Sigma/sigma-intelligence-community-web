@@ -8,7 +8,7 @@
         startOfWeek,
     } from 'date-fns'
     import { onMount } from 'svelte'
-    import { CreatePrinterReservationPayload } from '../lib/domain/printer/startingDate'
+    import { CreatePrinterReservationPayload } from '../lib/domain/printer/CreatePrinterReservationPayload'
     import {
         cubiconPrinterInfo,
         guider2PrinterInfo,

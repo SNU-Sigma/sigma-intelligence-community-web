@@ -1,7 +1,7 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
     import { addHours } from 'date-fns'
-    import { CreatePrinterReservationPayload } from '../../domain/printer/startingDate'
+    import { CreatePrinterReservationPayload } from '../../domain/printer/CreatePrinterReservationPayload'
     import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
     import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
 
