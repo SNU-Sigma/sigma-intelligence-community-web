@@ -7,7 +7,7 @@
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
 
     let isLoading = false
-    const imageurl = $params.profileImageUrl
+    let button = false
     const member: UpdateProfileDto = {
         profileImageUrl: $params.profileImageUrl,
         major: $params.major,
@@ -15,7 +15,7 @@
     }
     const { files$, validFileTypes, handleUpload } = createImageUpload()
     const handleClick = async () => {
-        if (imageurl !== member.profileImageUrl) {
+        if ($files$) {
             member.profileImageUrl = await handleUpload()
         }
     }
@@ -27,15 +27,16 @@
 <div class="bg h-full w-full bg-gradient-to-br from-lime-200 to-indigo-400">
     <p class="md absolute left-5 top-5 mb-5 font-bold">SIGMA INTELLIGENCE</p>
     <h1 class="absolute top-10 left-5 mt-5 font-semibold">Edit Profile</h1>
-    <div class="grid h-full grid-cols-6 grid-rows-5">
-        <div
-            class="col-span-4 col-start-2 row-span-1 row-start-2 text-center text-2xl font-semibold"
-        >
+    <div
+        class="absolute top-10 grid h-full grid-flow-row auto-rows-max grid-cols-6 "
+    >
+        <div class="col-span-4 col-start-2 text-center text-2xl font-semibold">
             프로필 사진
             <button
                 class="btn variant-filled-primary"
                 on:click={async () => {
                     isLoading = true
+                    button = true
                     try {
                         await handleClick()
                         toastStore.trigger({
@@ -54,7 +55,13 @@
             >
                 사진 미리보기
             </button>
-
+            {#if button}
+                <img
+                    src={member.profileImageUrl}
+                    alt="preview"
+                    class="mx-3 mt-3 mb-4 inline-block aspect-square w-40 whitespace-nowrap rounded-full"
+                />
+            {/if}
             <div class="my-auto flex flex-col items-center">
                 <input
                     class="mt-3 text-base font-normal"
@@ -64,19 +71,15 @@
                 />
             </div>
         </div>
-        <label
-            class="col-span-4 col-start-2 row-span-1 row-start-3 text-center"
-        >
-            <span class="text-2xl font-semibold">학번</span>
+        <label class="col-span-4 col-start-2 text-center">
+            <span class="mt-5 text-2xl font-semibold">학번</span>
             <input
                 class="mt-3 font-normal"
                 type="text"
                 bind:value={member.freshmanYear}
             />
         </label>
-        <label
-            class="col-span-4 col-start-2 row-span-1 row-start-4 text-center"
-        >
+        <label class="col-span-4 col-start-2 text-center">
             <span class="text-2xl font-semibold">전공</span>
             <input
                 class="mt-3 font-normal"
@@ -85,7 +88,7 @@
             />
         </label>
         <button
-            class="col-span-2 col-start-3 row-span-1 row-start-5 h-10 rounded-full bg-pink-900 text-center text-cyan-200"
+            class="col-span-2 col-start-3 h-10 rounded-full bg-pink-900 text-center text-cyan-200"
             on:click={async () => {
                 isLoading = true
                 try {
