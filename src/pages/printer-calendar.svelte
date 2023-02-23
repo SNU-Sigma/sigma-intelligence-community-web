@@ -2,14 +2,16 @@
     import { goto } from '@roxi/routify'
     import {
         addDays,
-        addHours,
         addWeeks,
         isEqual,
         startOfDay,
         startOfWeek,
     } from 'date-fns'
     import { onMount } from 'svelte'
-    import { newDate, printerId } from '../lib/domain/printer/startingDate'
+    import {
+        StartingDateTime,
+        printerId,
+    } from '../lib/domain/printer/startingDate'
     import {
         cubiconPrinterInfo,
         guider2PrinterInfo,
@@ -51,13 +53,7 @@
     }
 
     const setTimePrinter = async (hour: number) => {
-        const dateWithTime = addHours(startOfDay(selectedDate), hour)
-        newDate.makeNewDate(
-            dateWithTime.getFullYear(),
-            dateWithTime.getMonth(),
-            dateWithTime.getDate(),
-            dateWithTime.getHours(),
-        )
+        StartingDateTime.setStartingTime(selectedDate, hour)
         $goto('/printer')
     }
 

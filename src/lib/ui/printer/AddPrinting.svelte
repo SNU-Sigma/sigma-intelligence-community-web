@@ -1,7 +1,10 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
     import { addHours } from 'date-fns'
-    import { newDate, printerId } from '../../domain/printer/startingDate'
+    import {
+        StartingDateTime,
+        printerId,
+    } from '../../domain/printer/startingDate'
     import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
     import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
 
@@ -31,16 +34,16 @@
         { value: 8, label: '8시간' },
     ]
     $: newEndDateTime =
-        $newDate > new Date(0, 0, 0, 0, 0, 0, 0)
-            ? addHours($newDate, newUsageTime)
+        $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
+            ? addHours($StartingDateTime, newUsageTime)
             : addHours(new Date(newStartDateTime), newUsageTime)
 
     const submitForm = async () => {
         let newPrinterSchedule: CreateReservationDto = {
             printerId: newPrintId,
             startDateTime:
-                $newDate > new Date(0, 0, 0, 0, 0, 0, 0)
-                    ? $newDate
+                $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
+                    ? $StartingDateTime
                     : new Date(newStartDateTime),
             usageTime: newUsageTime,
             reason: newReason,
@@ -106,8 +109,8 @@
                 {/each}
             {/if}
         </select>
-        {#if $newDate > new Date(0, 0, 0, 0, 0, 0, 0)}
-            <span>시작 시간 | {$newDate.toLocaleString()}</span>
+        {#if $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)}
+            <span>시작 시간 | {$StartingDateTime.toLocaleString()}</span>
         {:else if newStartDateTime}
             <span>
                 시작 시간 | {new Date(newStartDateTime).toLocaleString()}
@@ -138,7 +141,7 @@
                 </button>
             {/each}
         </div>
-        {#if (newStartDateTime || $newDate > new Date(0, 0, 0, 0, 0, 0, 0)) && newUsageTime}
+        {#if (newStartDateTime || $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)) && newUsageTime}
             <span>종료 시간 | {newEndDateTime.toLocaleString()}</span>
         {:else}
             <span>종료 시간 |</span>
