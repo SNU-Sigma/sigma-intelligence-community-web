@@ -8,10 +8,7 @@
         startOfWeek,
     } from 'date-fns'
     import { onMount } from 'svelte'
-    import {
-        StartingDateTime,
-        printerId,
-    } from '../lib/domain/printer/startingDate'
+    import { CreatePrinterReservationPayload } from '../lib/domain/printer/startingDate'
     import {
         cubiconPrinterInfo,
         guider2PrinterInfo,
@@ -21,6 +18,7 @@
     import {
         cubiconPrinter,
         guider2Printer,
+        type Printer,
     } from '../lib/domain/printer/model/Printer'
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
@@ -56,9 +54,15 @@
         await refetchPrinterReservations()
     }
 
-    const setTimePrinter = async (hour: number) => {
-        StartingDateTime.setStartingTime(selectedDate, hour)
-        $goto('/printer')
+    const setPayloadForCreation = async (
+        printerId: Printer['id'],
+        hour: number,
+    ) => {
+        CreatePrinterReservationPayload.setPayload(
+            printerId,
+            selectedDate,
+            hour,
+        )
     }
 
     const getCubiconHours = () => {
@@ -244,8 +248,8 @@
                     : 'h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black'}
                 on:click={() => {
                     if (!cubiconTimeArray.includes(time)) {
-                        setTimePrinter(time)
-                        printerId.setPrinterId(cubiconPrinter.id)
+                        setPayloadForCreation(cubiconPrinter.id, time)
+                        $goto('/printer')
                     } else {
                         window.alert('삭제하시겠습니까?')
                         deleteSchedule(
@@ -272,8 +276,8 @@
                     : 'h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black'}
                 on:click={() => {
                     if (!guider2TimeArray.includes(time)) {
-                        setTimePrinter(time)
-                        printerId.setPrinterId(guider2Printer.id)
+                        setPayloadForCreation(guider2Printer.id, time)
+                        $goto('/printer')
                     } else {
                         window.alert('삭제하시겠습니까?')
                         deleteSchedule(

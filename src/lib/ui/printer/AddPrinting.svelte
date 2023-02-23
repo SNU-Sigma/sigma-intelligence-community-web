@@ -1,10 +1,7 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
     import { addHours } from 'date-fns'
-    import {
-        StartingDateTime,
-        printerId,
-    } from '../../domain/printer/startingDate'
+    import { CreatePrinterReservationPayload } from '../../domain/printer/startingDate'
     import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
     import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
 
@@ -13,6 +10,7 @@
         cubiconPrinter,
         guider2Printer,
     } from '../../domain/printer/model/Printer'
+    import { derived } from 'svelte/store'
 
     let isLoading = false
     let newPrintId: number
@@ -37,6 +35,17 @@
         { value: 7, label: '7시간' },
         { value: 8, label: '8시간' },
     ]
+
+    const StartingDateTime = derived(
+        CreatePrinterReservationPayload,
+        ({ startingDateTime }) => startingDateTime,
+    )
+
+    const printerId = derived(
+        CreatePrinterReservationPayload,
+        ({ printerId }) => printerId,
+    )
+
     $: newEndDateTime =
         $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
             ? addHours($StartingDateTime, newUsageTime)
