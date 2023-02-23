@@ -9,6 +9,10 @@
     import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
 
     import OverlaySpinner from '../common/OverlaySpinner.svelte'
+    import {
+        cubiconPrinter,
+        guider2Printer,
+    } from '../../domain/printer/model/Printer'
 
     let isLoading = false
     let newPrintId: number
@@ -16,12 +20,12 @@
     let newUsageTime: number
     let newReason: string
     const printerOptions = [
-        { value: 1, label: 'Cubicon 프린터' },
-        { value: 2, label: 'Guider2 프린터' },
+        { value: cubiconPrinter.id, label: cubiconPrinter.label },
+        { value: guider2Printer.id, label: guider2Printer.label },
     ]
     const otherPrinterOptions = [
-        { value: 2, label: 'Guider2 프린터' },
-        { value: 1, label: 'Cubicon 프린터' },
+        { value: guider2Printer.id, label: guider2Printer.label },
+        { value: cubiconPrinter.id, label: cubiconPrinter.label },
     ]
     const timeOptions = [
         { value: 1, label: '1시간' },

@@ -18,6 +18,10 @@
     } from '../lib/domain/printer/PrintInfo'
     import axios from 'axios'
     import { toastStore } from '@skeletonlabs/skeleton'
+    import {
+        cubiconPrinter,
+        guider2Printer,
+    } from '../lib/domain/printer/model/Printer'
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
 
@@ -241,7 +245,7 @@
                 on:click={() => {
                     if (!cubiconTimeArray.includes(time)) {
                         setTimePrinter(time)
-                        printerId.setPrinterId(1)
+                        printerId.setPrinterId(cubiconPrinter.id)
                     } else {
                         window.alert('삭제하시겠습니까?')
                         deleteSchedule(
@@ -269,7 +273,7 @@
                 on:click={() => {
                     if (!guider2TimeArray.includes(time)) {
                         setTimePrinter(time)
-                        printerId.setPrinterId(2)
+                        printerId.setPrinterId(guider2Printer.id)
                     } else {
                         window.alert('삭제하시겠습니까?')
                         deleteSchedule(
