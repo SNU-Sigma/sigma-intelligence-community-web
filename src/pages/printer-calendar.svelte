@@ -2,6 +2,7 @@
     import { goto } from '@roxi/routify'
     import {
         addDays,
+        addHours,
         addWeeks,
         isEqual,
         startOfDay,
@@ -48,15 +49,13 @@
         await refetchPrinterReservations()
     }
 
-    const setTimePrinter = async (time: number) => {
-        printDate.setHours(time)
-        printDate.setMinutes(0)
-        printDate.setMilliseconds(0)
+    const setTimePrinter = async (hour: number) => {
+        const dateWithTime = addHours(startOfDay(printDate), hour)
         newDate.makeNewDate(
-            printDate.getFullYear(),
-            printDate.getMonth(),
-            printDate.getDate(),
-            printDate.getHours(),
+            dateWithTime.getFullYear(),
+            dateWithTime.getMonth(),
+            dateWithTime.getDate(),
+            dateWithTime.getHours(),
         )
         $goto('/printer')
     }
