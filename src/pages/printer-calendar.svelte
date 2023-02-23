@@ -36,13 +36,15 @@
     const decrement = () => {
         clickNum = clickNum - 1
     }
-    const setPrintDate = async (day: Date) => {
-        printDate = day
+
+    const handleSelectedDateChange = async (date: Date) => {
+        printDate = date
         await cubiconPrinterInfo.fetchPrinterReservations(printDate)
         getCubiconHours()
         await guider2PrinterInfo.fetchPrinterReservations(printDate)
         getGuider2Hours()
     }
+
     const setTimePrinter = async (time: number) => {
         printDate.setHours(time)
         printDate.setMinutes(0)
@@ -178,7 +180,7 @@
                     ? 'btn variant-filled-primary rounded-full px-2 py-1 text-xs'
                     : 'btn variant-filled-secondary rounded-full px-2 py-1 text-xs'}
                 on:click={() => {
-                    setPrintDate(day)
+                    handleSelectedDateChange(day)
                 }}
             >
                 {#if day.getDate() < 10}
