@@ -39,10 +39,7 @@
 
     const handleSelectedDateChange = async (date: Date) => {
         printDate = date
-        await cubiconPrinterInfo.fetchPrinterReservations(printDate)
-        getCubiconHours()
-        await guider2PrinterInfo.fetchPrinterReservations(printDate)
-        getGuider2Hours()
+        await refetchPrinterReservations()
     }
 
     const setTimePrinter = async (time: number) => {
@@ -140,14 +137,18 @@
         })
     }
 
+    const refetchPrinterReservations = async () => {
+        await Promise.all([
+            cubiconPrinterInfo.fetchPrinterReservations(printDate),
+            guider2PrinterInfo.fetchPrinterReservations(printDate),
+        ])
+        getCubiconHours()
+        getGuider2Hours()
+    }
+
     onMount(() => {
-        cubiconPrinterInfo.fetchPrinterReservations(printDate)
+        refetchPrinterReservations()
     })
-    onMount(() => {
-        guider2PrinterInfo.fetchPrinterReservations(printDate)
-    })
-    onMount(getCubiconHours)
-    onMount(getGuider2Hours)
 </script>
 
 <div
