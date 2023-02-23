@@ -17,6 +17,8 @@
     import axios from 'axios'
     import { toastStore } from '@skeletonlabs/skeleton'
 
+    const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
+
     let clickNum = 0
     let printDate = startOfDay(new Date())
     let cubiconTimeArray: Array<number> = []
@@ -24,10 +26,6 @@
     let guider2TimeArray: Array<number> = []
     let topGuider2TimeArray: Array<number> = []
     $: showDate = addWeeks(new Date(), clickNum)
-    let timeArray = [
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-        20, 21, 22, 23,
-    ]
 
     const weekArrayCreator = (date: Date) => {
         let weekArray: Array<Date> = []
@@ -221,7 +219,7 @@
 <div
     class="absolute top-36 flex h-[calc(100vh-12rem)] max-h-screen flex-col overflow-y-scroll overscroll-contain"
 >
-    {#each timeArray as time}
+    {#each allStartingHours as time}
         <div class="relative left-0 flex flex-row space-x-0">
             {#if time <= 12}
                 {#if time < 10}
