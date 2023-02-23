@@ -1,6 +1,12 @@
 <script lang="ts">
     import { goto } from '@roxi/routify'
-    import { addDays, addWeeks, startOfWeek } from 'date-fns'
+    import {
+        addDays,
+        addWeeks,
+        isEqual,
+        startOfDay,
+        startOfWeek,
+    } from 'date-fns'
     import { onMount } from 'svelte'
     import { newDate, printerId } from '../lib/domain/printer/startingDate'
     import {
@@ -11,7 +17,7 @@
     import { toastStore } from '@skeletonlabs/skeleton'
 
     let clickNum = 0
-    let printDate = new Date()
+    let printDate = startOfDay(new Date())
     let cubiconTimeArray: Array<number> = []
     let topCubiconTimeArray: Array<number> = []
     let guider2TimeArray: Array<number> = []
@@ -175,9 +181,7 @@
         </button>
         {#each weekArrayCreator(showDate) as day}
             <button
-                class={printDate.getFullYear() === day.getFullYear() &&
-                printDate.getMonth() === day.getMonth() &&
-                printDate.getDate() === day.getDate()
+                class={isEqual(printDate, day)
                     ? 'btn variant-filled-primary rounded-full px-2 py-1 text-xs'
                     : 'btn variant-filled-secondary rounded-full px-2 py-1 text-xs'}
                 on:click={() => {
