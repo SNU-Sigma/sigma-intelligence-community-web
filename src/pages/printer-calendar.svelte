@@ -38,9 +38,9 @@
     }
     const setPrintDate = async (day: Date) => {
         printDate = day
-        await cubiconPrinterInfo.getCubiconPrintSchedule(printDate)
+        await cubiconPrinterInfo.fetchPrinterReservations(printDate)
         getCubiconHours()
-        await guider2PrinterInfo.getGuider2PrintSchedule(printDate)
+        await guider2PrinterInfo.fetchPrinterReservations(printDate)
         getGuider2Hours()
     }
     const setTimePrinter = async (time: number) => {
@@ -139,10 +139,10 @@
     }
 
     onMount(() => {
-        cubiconPrinterInfo.getCubiconPrintSchedule(printDate)
+        cubiconPrinterInfo.fetchPrinterReservations(printDate)
     })
     onMount(() => {
-        guider2PrinterInfo.getGuider2PrintSchedule(printDate)
+        guider2PrinterInfo.fetchPrinterReservations(printDate)
     })
     onMount(getCubiconHours)
     onMount(getGuider2Hours)
@@ -231,8 +231,8 @@
 
             <button
                 class={cubiconTimeArray.includes(time)
-                    ? 'text-black bg-red-400 w-40 h-20 border-gray-300'
-                    : 'text-black bg-gray-200 w-40 h-20 border-2 border-gray-300'}
+                    ? 'h-20 w-40 border-gray-300 bg-red-400 text-black'
+                    : 'h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black'}
                 on:click={() => {
                     if (!cubiconTimeArray.includes(time)) {
                         setTimePrinter(time)
@@ -259,8 +259,8 @@
             </button>
             <button
                 class={guider2TimeArray.includes(time)
-                    ? 'text-black bg-blue-400 w-40 h-20 border-gray-300'
-                    : 'text-black bg-gray-200 w-40 h-20 border-2 border-gray-300'}
+                    ? 'h-20 w-40 border-gray-300 bg-blue-400 text-black'
+                    : 'h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black'}
                 on:click={() => {
                     if (!guider2TimeArray.includes(time)) {
                         setTimePrinter(time)

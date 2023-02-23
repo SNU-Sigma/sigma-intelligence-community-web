@@ -40,54 +40,28 @@ const setHoursToZero = (printDate: Date) => {
     return tempDate
 }
 
-export const cubiconPrinterInfo = (() => {
-    const cubiconPrintSchedule: Array<PrinterReservationSchedule> = []
-    let tempData: Array<PrinterReservationSchedule> = []
-    const { subscribe, update } = writable(cubiconPrintSchedule)
+export const createPrinterStore = (printerId: number) => {
+    const { subscribe, set } = writable<Array<PrinterReservationSchedule>>([])
 
-    const getCubiconPrintSchedule = async (printDate: Date) => {
-        await axios
-            .get(
-                `/printer-reservation/reservations/1?date=${setHoursToZero(
-                    printDate,
-                ).toString()}`,
-            )
-            .then((response) => {
-                tempData = response.data
-            })
-        update((datas) => {
-            datas = tempData
-            return datas
-        })
+    const fetchPrinterReservations = async (selectedDate: Date) => {
+        const printerReservations: Array<PrinterReservationSchedule> =
+            await axios
+                .get(
+                    `/printer-reservation/reservations/${printerId}?date=${setHoursToZero(
+                        selectedDate,
+                    ).toString()}`,
+                )
+                .then(({ data }) => data)
+
+        set(printerReservations)
     }
+
     return {
         subscribe,
-        getCubiconPrintSchedule,
+        fetchPrinterReservations,
     }
-})()
+}
 
-export const guider2PrinterInfo = (() => {
-    const guider2PrintSchedule: Array<PrinterReservationSchedule> = []
-    let tempData: Array<PrinterReservationSchedule> = []
-    const { subscribe, update } = writable(guider2PrintSchedule)
+export const cubiconPrinterInfo = createPrinterStore(1)
 
-    const getGuider2PrintSchedule = async (printDate: Date) => {
-        await axios
-            .get(
-                `/printer-reservation/reservations/2?date=${setHoursToZero(
-                    printDate,
-                ).toString()}`,
-            )
-            .then((response) => {
-                tempData = response.data
-            })
-        update((datas) => {
-            datas = tempData
-            return datas
-        })
-    }
-    return {
-        subscribe,
-        getGuider2PrintSchedule,
-    }
-})()
+export const guider2PrinterInfo = createPrinterStore(2)
