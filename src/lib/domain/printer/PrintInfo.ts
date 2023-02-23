@@ -1,7 +1,6 @@
 import type { CreateReservationDto } from '../../infrastructure/sigma-api/PrintAPIImpl'
 import { writable } from 'svelte/store'
 import axios from 'axios'
-import { addHours } from 'date-fns'
 
 export type PrinterReservationDto = {
     userId: number
@@ -33,13 +32,6 @@ export type PrinterReservationSchedule = {
     userId: number
 }
 
-const setHoursToZero = (printDate: Date) => {
-    let tempDate = printDate
-    tempDate.setHours(0, 0, 0, 0)
-    tempDate = addHours(tempDate, -9)
-    return tempDate
-}
-
 export const createPrinterStore = (printerId: number) => {
     const { subscribe, set } = writable<Array<PrinterReservationSchedule>>([])
 
@@ -47,9 +39,7 @@ export const createPrinterStore = (printerId: number) => {
         const printerReservations: Array<PrinterReservationSchedule> =
             await axios
                 .get(
-                    `/printer-reservation/reservations/${printerId}?date=${setHoursToZero(
-                        selectedDate,
-                    ).toString()}`,
+                    `/printer-reservation/reservations/${printerId}?date=${selectedDate.toISOString()}`,
                 )
                 .then(({ data }) => data)
 
