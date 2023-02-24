@@ -33,7 +33,7 @@
 >
     <p class="md p-5 font-bold">SIGMA INTELLIGENCE</p>
     <h1 class="p-5 font-semibold">Edit Profile</h1>
-    <div class="mt-10 grid flex-1 grid-cols-6 gap-3">
+    <div class="my-10 grid flex-1 grid-cols-6 gap-5">
         <div class="col-span-4 col-start-2 text-center text-2xl font-semibold">
             프로필 사진
             <div class="mx-auto my-3 w-40">
