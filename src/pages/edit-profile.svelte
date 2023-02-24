@@ -24,12 +24,12 @@
 {#if isLoading}
     <OverlaySpinner />
 {/if}
-<div class="bg h-full w-full bg-gradient-to-br from-lime-200 to-indigo-400">
-    <p class="md absolute left-5 top-5 mb-5 font-bold">SIGMA INTELLIGENCE</p>
-    <h1 class="absolute top-10 left-5 mt-5 font-semibold">Edit Profile</h1>
-    <div
-        class="absolute top-10 grid h-full grid-flow-row auto-rows-max grid-cols-6 "
-    >
+<div
+    class="bg flex h-full w-full flex-col bg-gradient-to-br from-lime-200 to-indigo-400"
+>
+    <p class="md p-5 font-bold">SIGMA INTELLIGENCE</p>
+    <h1 class="p-5 font-semibold">Edit Profile</h1>
+    <div class="mt-10 grid flex-1 grid-cols-6 gap-3">
         <div class="col-span-4 col-start-2 text-center text-2xl font-semibold">
             프로필 사진
             <button
