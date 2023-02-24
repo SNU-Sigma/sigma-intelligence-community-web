@@ -44,8 +44,10 @@
         return weekArray
     }
 
-    const increment = () => [(weekOffset = weekOffset + 1)]
-    const decrement = () => {
+    const incrementWeekOffset = () => {
+        weekOffset = weekOffset + 1
+    }
+    const decrementWeekOffset = () => {
         weekOffset = weekOffset - 1
     }
 
@@ -171,7 +173,7 @@
         {displayedWeekDate.getFullYear()}년 {displayedWeekDate.getMonth() + 1}월
     </h2>
     <div class="flex-row space-x-2 space-y-0.5 bg-inherit">
-        <button on:click={decrement} class="relative left-0">
+        <button on:click={decrementWeekOffset} class="relative left-0">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -202,7 +204,7 @@
                 {day.toLocaleString('ko-KR', { weekday: 'short' })}
             </button>
         {/each}
-        <button on:click={increment} class="static right-0">
+        <button on:click={incrementWeekOffset} class="static right-0">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
