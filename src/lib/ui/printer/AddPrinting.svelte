@@ -75,7 +75,6 @@
         }
         isLoading = true
         try {
-            console.log(newPrinterSchedule)
             await PrintAPIImpl.updatePrintSchedule(newPrinterSchedule)
             toastStore.trigger({
                 message: '프린터 예약에 성공했습니다.',

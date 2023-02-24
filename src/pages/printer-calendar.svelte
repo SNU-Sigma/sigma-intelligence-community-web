@@ -102,7 +102,6 @@
                 cubiconTimeArray.push(j)
             }
         }
-        console.log(cubiconTimeArray, topCubiconTimeArray)
     }
 
     const getGuider2Hours = () => {
@@ -140,7 +139,6 @@
                 guider2TimeArray.push(j)
             }
         }
-        console.log(guider2TimeArray, topGuider2TimeArray)
     }
 
     const deleteSchedule = async (id: number) => {
