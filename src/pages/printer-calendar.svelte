@@ -210,9 +210,9 @@
             {/if}
 
             <button
-                class={cubiconTimeArray.includes(time)
-                    ? 'h-20 w-40 border-gray-300 bg-red-400 text-black'
-                    : 'h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black'}
+                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black"
+                class:border-0={cubiconTimeArray.includes(time)}
+                class:bg-red-400={cubiconTimeArray.includes(time)}
                 on:click={() => {
                     if (!cubiconTimeArray.includes(time)) {
                         setPayloadForCreation(cubiconPrinter.id, time)
@@ -239,9 +239,9 @@
                 {/if}
             </button>
             <button
-                class={guider2TimeArray.includes(time)
-                    ? 'h-20 w-40 border-gray-300 bg-blue-400 text-black'
-                    : 'h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black'}
+                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black"
+                class:border-0={guider2TimeArray.includes(time)}
+                class:bg-blue-400={guider2TimeArray.includes(time)}
                 on:click={() => {
                     if (!guider2TimeArray.includes(time)) {
                         setPayloadForCreation(guider2Printer.id, time)
