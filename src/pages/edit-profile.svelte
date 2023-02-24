@@ -7,16 +7,19 @@
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
 
     let isLoading = false
-    let button = false
     const member: UpdateProfileDto = {
         profileImageUrl: $params.profileImageUrl,
         major: $params.major,
         freshmanYear: Number($params.freshmanYear),
     }
     const { files$, validFileTypes, handleUpload } = createImageUpload()
-    const handleClick = async () => {
+
+    $: {
         if ($files$) {
-            member.profileImageUrl = await handleUpload()
+            const uploadImage = async () => {
+                member.profileImageUrl = await handleUpload()
+            }
+            uploadImage()
         }
     }
 </script>
@@ -32,36 +35,11 @@
     <div class="mt-10 grid flex-1 grid-cols-6 gap-3">
         <div class="col-span-4 col-start-2 text-center text-2xl font-semibold">
             프로필 사진
-            <button
-                class="btn variant-filled-primary"
-                on:click={async () => {
-                    isLoading = true
-                    button = true
-                    try {
-                        await handleClick()
-                        toastStore.trigger({
-                            message: '사진을 확인할 수 있습니다!',
-                            preset: 'success',
-                        })
-                    } catch (e) {
-                        toastStore.trigger({
-                            message: '오류가 발생했습니다. 다시 시도해주세요.',
-                            preset: 'error',
-                        })
-                    } finally {
-                        isLoading = false
-                    }
-                }}
-            >
-                사진 미리보기
-            </button>
-            {#if button}
-                <img
-                    src={member.profileImageUrl}
-                    alt="preview"
-                    class="mx-3 mt-3 mb-4 inline-block aspect-square w-40 whitespace-nowrap rounded-full"
-                />
-            {/if}
+            <img
+                src={member.profileImageUrl}
+                alt="프로필 이미지 미리보기"
+                class="mx-3 mt-3 mb-4 inline-block aspect-square w-40 whitespace-nowrap rounded-full"
+            />
             <div class="my-auto flex flex-col items-center">
                 <input
                     class="mt-3 text-base font-normal"
