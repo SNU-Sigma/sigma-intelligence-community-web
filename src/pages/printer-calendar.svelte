@@ -34,6 +34,22 @@
 
     $: displayedWeekDate = addWeeks(new Date(), weekOffset)
 
+    const getTimeLabel = (hour: number): string => {
+        const hourRepresentation = (() => {
+            if (hour % 12 === 0) {
+                return 12
+            }
+            return hour % 12
+        })()
+        const suffix = (() => {
+            if (hour < 12) {
+                return 'AM'
+            }
+            return 'PM'
+        })()
+        return hourRepresentation.toString().padStart(2, '0') + suffix
+    }
+
     const weekArrayCreator = (date: Date) => {
         let weekArray: Array<Date> = []
         let i = 0
@@ -197,18 +213,7 @@
 >
     {#each allStartingHours as time}
         <div class="relative left-0 flex flex-row space-x-0">
-            {#if time <= 12}
-                {#if time < 10}
-                    0{time}AM
-                {:else}
-                    {time}AM
-                {/if}
-            {:else if time - 12 < 10}
-                0{time - 12}PM
-            {:else}
-                {time - 12}PM
-            {/if}
-
+            {getTimeLabel(time)}
             <button
                 class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
                 class:border-0={cubiconTimeArray.includes(time)}
