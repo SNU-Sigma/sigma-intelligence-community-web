@@ -210,7 +210,7 @@
             {/if}
 
             <button
-                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black"
+                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
                 class:border-0={cubiconTimeArray.includes(time)}
                 class:bg-red-400={cubiconTimeArray.includes(time)}
                 on:click={() => {
@@ -239,7 +239,7 @@
                 {/if}
             </button>
             <button
-                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 text-black"
+                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
                 class:border-0={guider2TimeArray.includes(time)}
                 class:bg-blue-400={guider2TimeArray.includes(time)}
                 on:click={() => {
