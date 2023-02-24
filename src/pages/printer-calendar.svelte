@@ -69,24 +69,13 @@
 
     const getCubiconHours = () => {
         let temp: Array<number> = []
-        for (let i = 0; i < $cubiconPrinterInfo.length; i++) {
-            let startDateString = $cubiconPrinterInfo[
-                i
-            ]?.requestStartTime.slice(11, 13)
-            let endDateString = $cubiconPrinterInfo[i]?.requestEndTime.slice(
-                11,
-                13,
-            )
-            let startHours,
-                endHours = 0
-            if (startDateString === undefined || endDateString === undefined) {
-                break
-            } else {
-                startHours = parseInt(startDateString)
-                endHours = parseInt(endDateString)
-            }
+        $cubiconPrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
+            let startDateString = requestStartTime.slice(11, 13)
+            let endDateString = requestEndTime.slice(11, 13)
+            let startHours = parseInt(startDateString)
+            let endHours = parseInt(endDateString)
             temp.push(startHours, endHours)
-        }
+        })
         cubiconTimeArray = []
         topCubiconTimeArray = []
         for (let i = 0; i < temp.length; i += 2) {
@@ -106,24 +95,13 @@
 
     const getGuider2Hours = () => {
         let temp: Array<number> = []
-        for (let i = 0; i < $guider2PrinterInfo.length; i++) {
-            let startDateString = $guider2PrinterInfo[
-                i
-            ]?.requestStartTime.slice(11, 13)
-            let endDateString = $guider2PrinterInfo[i]?.requestEndTime.slice(
-                11,
-                13,
-            )
-            let startHours,
-                endHours = 0
-            if (startDateString === undefined || endDateString === undefined) {
-                break
-            } else {
-                startHours = parseInt(startDateString)
-                endHours = parseInt(endDateString)
-            }
+        $guider2PrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
+            let startDateString = requestStartTime.slice(11, 13)
+            let endDateString = requestEndTime.slice(11, 13)
+            let startHours = parseInt(startDateString)
+            let endHours = parseInt(endDateString)
             temp.push(startHours, endHours)
-        }
+        })
         guider2TimeArray = []
         topGuider2TimeArray = []
         for (let i = 0; i < temp.length; i += 2) {
