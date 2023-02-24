@@ -69,51 +69,41 @@
     }
 
     const getCubiconHours = () => {
-        let temp: Array<number> = []
+        let temp: Array<[number, number]> = []
         $cubiconPrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
             const startHours = getHours(new Date(requestStartTime))
             const endHours = getHours(new Date(requestEndTime))
-            temp.push(startHours, endHours)
+            temp.push([startHours, endHours])
         })
         cubiconTimeArray = []
         topCubiconTimeArray = []
-        for (let i = 0; i < temp.length; i += 2) {
-            let j = 0
-            for (
-                j = ((temp[i] ?? 0) + 9) % 24;
-                j < ((temp[i + 1] ?? 25) + 9) % 24;
-                j++
-            ) {
-                if (j === ((temp[i] ?? 0) + 9) % 24 ?? 0) {
+        temp.forEach(([startHours, endHours]) => {
+            for (let j = startHours; j < endHours; j++) {
+                if (j === startHours) {
                     topCubiconTimeArray.push(j)
                 }
                 cubiconTimeArray.push(j)
             }
-        }
+        })
     }
 
     const getGuider2Hours = () => {
-        let temp: Array<number> = []
+        let temp: Array<[number, number]> = []
         $guider2PrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
             const startHours = getHours(new Date(requestStartTime))
             const endHours = getHours(new Date(requestEndTime))
-            temp.push(startHours, endHours)
+            temp.push([startHours, endHours])
         })
         guider2TimeArray = []
         topGuider2TimeArray = []
-        for (let i = 0; i < temp.length; i += 2) {
-            let j = 0
-            for (
-                j = ((temp[i] ?? 0) + 9) % 24;
-                j < ((temp[i + 1] ?? 25) + 9) % 24;
-                j++
-            ) {
-                if (j === ((temp[i] ?? 0) + 9) % 24 ?? 0) {
+        temp.forEach(([startHours, endHours]) => {
+            for (let j = startHours; j < endHours; j++) {
+                if (j === startHours) {
                     topGuider2TimeArray.push(j)
                 }
                 guider2TimeArray.push(j)
             }
-        }
+        })
     }
 
     const deleteSchedule = async (id: number) => {
