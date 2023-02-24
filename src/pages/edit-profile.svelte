@@ -5,6 +5,7 @@
     import { createImageUpload } from '../lib/util/createImageUpload'
     import { toastStore } from '@skeletonlabs/skeleton'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
+    import ProfileImage from '../lib/ui/common/ProfileImage.svelte'
 
     let isLoading = false
     const member: UpdateProfileDto = {
@@ -35,11 +36,9 @@
     <div class="mt-10 grid flex-1 grid-cols-6 gap-3">
         <div class="col-span-4 col-start-2 text-center text-2xl font-semibold">
             프로필 사진
-            <img
-                src={member.profileImageUrl}
-                alt="프로필 이미지 미리보기"
-                class="mx-3 mt-3 mb-4 inline-block aspect-square w-40 whitespace-nowrap rounded-full"
-            />
+            <div class="mx-auto my-3 w-40">
+                <ProfileImage src={member.profileImageUrl} />
+            </div>
             <div class="my-auto flex flex-col items-center">
                 <input
                     class="mt-3 text-base font-normal"
