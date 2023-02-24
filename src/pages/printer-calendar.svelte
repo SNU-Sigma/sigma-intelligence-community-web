@@ -3,6 +3,7 @@
     import {
         addDays,
         addWeeks,
+        getHours,
         isEqual,
         startOfDay,
         startOfWeek,
@@ -70,10 +71,8 @@
     const getCubiconHours = () => {
         let temp: Array<number> = []
         $cubiconPrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
-            let startDateString = requestStartTime.slice(11, 13)
-            let endDateString = requestEndTime.slice(11, 13)
-            let startHours = parseInt(startDateString)
-            let endHours = parseInt(endDateString)
+            const startHours = getHours(new Date(requestStartTime))
+            const endHours = getHours(new Date(requestEndTime))
             temp.push(startHours, endHours)
         })
         cubiconTimeArray = []
@@ -96,10 +95,8 @@
     const getGuider2Hours = () => {
         let temp: Array<number> = []
         $guider2PrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
-            let startDateString = requestStartTime.slice(11, 13)
-            let endDateString = requestEndTime.slice(11, 13)
-            let startHours = parseInt(startDateString)
-            let endHours = parseInt(endDateString)
+            const startHours = getHours(new Date(requestStartTime))
+            const endHours = getHours(new Date(requestEndTime))
             temp.push(startHours, endHours)
         })
         guider2TimeArray = []
