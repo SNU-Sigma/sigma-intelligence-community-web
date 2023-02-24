@@ -3,7 +3,7 @@
     import { params } from '@roxi/routify'
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import { createImageUpload } from '../lib/util/createImageUpload'
-    import { toastStore } from '@skeletonlabs/skeleton'
+    import { FileButton, toastStore } from '@skeletonlabs/skeleton'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import ProfileImage from '../lib/ui/common/ProfileImage.svelte'
 
@@ -39,14 +39,13 @@
             <div class="mx-auto my-3 w-40">
                 <ProfileImage src={member.profileImageUrl} />
             </div>
-            <div class="my-auto flex flex-col items-center">
-                <input
-                    class="mt-3 text-base font-normal"
-                    accept={validFileTypes.join(',')}
-                    type="file"
-                    bind:files={$files$}
-                />
-            </div>
+            <FileButton
+                bind:files={$files$}
+                button="variant-filled-secondary"
+                accept={validFileTypes}
+            >
+                사진 변경
+            </FileButton>
         </div>
         <label class="col-span-4 col-start-2 text-center">
             <span class="mt-5 text-2xl font-semibold">학번</span>
