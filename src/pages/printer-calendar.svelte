@@ -228,13 +228,14 @@
                 }}
             >
                 {#if topCubiconTimeArray.includes(time)}
-                    {$cubiconPrinterInfo[topCubiconTimeArray.indexOf(time)]
-                        ?.user.profile.name}
-                    <h2 class="text-xs">
-                        사유: {$cubiconPrinterInfo[
-                            topCubiconTimeArray.indexOf(time)
-                        ]?.reason}
-                    </h2>
+                    <p class="truncate">
+                        {$cubiconPrinterInfo[topCubiconTimeArray.indexOf(time)]
+                            ?.reason}
+                    </p>
+                    <span class="text-xs">
+                        {$cubiconPrinterInfo[topCubiconTimeArray.indexOf(time)]
+                            ?.user.profile.name}
+                    </span>
                 {/if}
             </button>
             <button
@@ -256,13 +257,14 @@
                 }}
             >
                 {#if topGuider2TimeArray.includes(time)}
-                    {$guider2PrinterInfo[topGuider2TimeArray.indexOf(time)]
-                        ?.user.profile.name}
-                    <h2 class="text-xs">
-                        사유: {$guider2PrinterInfo[
-                            topGuider2TimeArray.indexOf(time)
-                        ]?.reason}
-                    </h2>
+                    <p class="truncate">
+                        {$guider2PrinterInfo[topGuider2TimeArray.indexOf(time)]
+                            ?.reason}
+                    </p>
+                    <span class="text-xs">
+                        {$guider2PrinterInfo[topGuider2TimeArray.indexOf(time)]
+                            ?.user.profile.name}
+                    </span>
                 {/if}
             </button>
         </div>
