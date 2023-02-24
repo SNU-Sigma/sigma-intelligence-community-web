@@ -69,12 +69,13 @@
     }
 
     const getCubiconHours = () => {
-        let temp: Array<[number, number]> = []
-        $cubiconPrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
-            const startHours = getHours(new Date(requestStartTime))
-            const endHours = getHours(new Date(requestEndTime))
-            temp.push([startHours, endHours])
-        })
+        const temp: Array<[number, number]> = $cubiconPrinterInfo.map(
+            ({ requestStartTime, requestEndTime }) => {
+                const startHours = getHours(new Date(requestStartTime))
+                const endHours = getHours(new Date(requestEndTime))
+                return [startHours, endHours]
+            },
+        )
         cubiconTimeArray = []
         topCubiconTimeArray = []
         temp.forEach(([startHours, endHours]) => {
@@ -88,12 +89,13 @@
     }
 
     const getGuider2Hours = () => {
-        let temp: Array<[number, number]> = []
-        $guider2PrinterInfo.forEach(({ requestStartTime, requestEndTime }) => {
-            const startHours = getHours(new Date(requestStartTime))
-            const endHours = getHours(new Date(requestEndTime))
-            temp.push([startHours, endHours])
-        })
+        const temp: Array<[number, number]> = $guider2PrinterInfo.map(
+            ({ requestStartTime, requestEndTime }) => {
+                const startHours = getHours(new Date(requestStartTime))
+                const endHours = getHours(new Date(requestEndTime))
+                return [startHours, endHours]
+            },
+        )
         guider2TimeArray = []
         topGuider2TimeArray = []
         temp.forEach(([startHours, endHours]) => {
