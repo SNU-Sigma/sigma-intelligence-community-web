@@ -2,23 +2,20 @@
     import { toastStore } from '@skeletonlabs/skeleton'
     import PlusIcon from '../../../assets/images/+.svg'
     import DeleteIcon from '../../../assets/images/X.svg'
+    import PreviewImage from './PreviewImage.svelte'
 
     export let files: FileList
     export let validFileTypes: Array<string>
 
     let input: FileList
     let inputFiles: Array<File> = []
-    let imagePreview: Array<Element> = new Array<Element>(10)
-    let showPreview: Array<boolean> = new Array<boolean>(10)
-    showPreview.fill(false)
 
     const addImage = () => {
         if (inputFiles.length < 10) {
             const file = input[0]
             if (file) {
-                inputFiles.push(file)
+                inputFiles = [...inputFiles, file]
                 updatePreview()
-                showPreview[inputFiles.length - 1] = true
             } else {
                 toastStore.trigger({
                     message: '유효한 파일 형식이 아닙니다.',
@@ -34,9 +31,10 @@
     }
 
     const deleteImage = (idx: number) => {
-        inputFiles.splice(idx, 1)
+        const newInputFiles = [...inputFiles]
+        newInputFiles.splice(idx, 1)
+        inputFiles = newInputFiles
         updatePreview()
-        showPreview[inputFiles.length] = false
     }
 
     const refresh = (event: Event) => {
@@ -46,24 +44,8 @@
 
     const updatePreview = () => {
         const dataTransfer = new DataTransfer()
-        let fileArray: Array<File> = []
 
-        inputFiles.forEach((file, idx) => {
-            const image = imagePreview[idx]
-            if (image) {
-                const reader = new FileReader()
-                reader.addEventListener('load', () => {
-                    if (typeof reader.result === 'string') {
-                        image.setAttribute('src', reader.result)
-                        imagePreview[idx] = image
-                    }
-                })
-                reader.readAsDataURL(file)
-                fileArray.push(file)
-            }
-        })
-
-        fileArray.forEach((file) => {
+        inputFiles.forEach((file) => {
             dataTransfer.items.add(file)
         })
         files = dataTransfer.files
@@ -90,17 +72,12 @@
             on:click={(e) => refresh(e)}
         />
 
-        {#each imagePreview as image, i}
-            <div class="relative flex-shrink-0" class:hidden={!showPreview[i]}>
-                <img
-                    bind:this={image}
-                    src=""
-                    alt="Preview"
-                    class="h-44 w-44 object-cover"
-                />
+        {#each inputFiles as file, idx}
+            <div class="relative flex-shrink-0">
+                <PreviewImage {file} />
                 <button
                     class="btn absolute top-0 right-0 h-5 w-5 bg-error-900 p-0.5"
-                    on:click={() => deleteImage(i)}
+                    on:click={() => deleteImage(idx)}
                 >
                     <img src={DeleteIcon} alt="" />
                 </button>
@@ -108,9 +85,3 @@
         {/each}
     </div>
 </div>
-
-<style>
-    .hidden {
-        visibility: hidden;
-    }
-</style>
