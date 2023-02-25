@@ -12,6 +12,7 @@
     import { createPrinterStore } from '../lib/domain/printer/PrintInfo'
     import { deriveTimeArray } from '../lib/domain/printer/TimeArray'
     import PrinterCalendarCell from '../lib/ui/printer/PrinterCalendarCell.svelte'
+    import DirectionIcon from '../assets/images/DirectionIcon.svg'
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
 
@@ -93,18 +94,7 @@
     </h2>
     <div class="flex-row space-x-2 space-y-0.5 bg-inherit">
         <button on:click={decrementWeekOffset} class="relative left-0">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="h-5 w-5"
-            >
-                <path
-                    fill-rule="evenodd"
-                    d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
-                    clip-rule="evenodd"
-                />
-            </svg>
+            <img src={DirectionIcon} class="h-5 w-5" alt="왼쪽" />
         </button>
         {#each weekArrayCreator(displayedWeekDate) as day}
             <button
@@ -115,27 +105,12 @@
                     handleSelectedDateChange(day)
                 }}
             >
-                {#if day.getDate() < 10}
-                    0{day.getDate()}
-                {:else}
-                    {day.getDate()}
-                {/if}
+                {day.getDate().toString().padStart(2, '0')}
                 {day.toLocaleString('ko-KR', { weekday: 'short' })}
             </button>
         {/each}
         <button on:click={incrementWeekOffset} class="static right-0">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="h-5 w-5"
-            >
-                <path
-                    fill-rule="evenodd"
-                    d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
-                    clip-rule="evenodd"
-                />
-            </svg>
+            <img src={DirectionIcon} class="h-5 w-5 rotate-180" alt="오른쪽" />
         </button>
     </div>
 </div>
