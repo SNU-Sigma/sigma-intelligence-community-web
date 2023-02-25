@@ -25,6 +25,7 @@
     import { derived, type Readable } from 'svelte/store'
     import type { ListedPrinterReservationDto } from '../lib/domain/printer/model/ListedPrinterReservationDto'
     import type { CellPrinterReservation } from '../lib/ui/printer/model/CellPrinterReservation'
+    import PrinterCalendarCell from '../lib/ui/printer/PrinterCalendarCell.svelte'
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
 
@@ -72,17 +73,6 @@
         await refetchPrinterReservations()
     }
 
-    const setPayloadForCreation = async (
-        printerId: Printer['id'],
-        hour: number,
-    ) => {
-        CreatePrinterReservationPayload.setPayload(
-            printerId,
-            selectedDate,
-            hour,
-        )
-    }
-
     const deriveTimeArray = (
         printerInfo: Readable<Array<ListedPrinterReservationDto>>,
     ): Readable<Array<CellPrinterReservation>> => {
@@ -120,14 +110,6 @@
 
     const cubiconTimeArray = deriveTimeArray(cubiconPrinterInfo)
     const guider2TimeArray = deriveTimeArray(guider2PrinterInfo)
-
-    const deleteSchedule = async (id: number) => {
-        await axios.delete(`/printer-reservation/reservations/${id}`)
-        toastStore.trigger({
-            message: '프린터 삭제에 성공했습니다.',
-            preset: 'success',
-        })
-    }
 
     const refetchPrinterReservations = async () => {
         await Promise.all([
@@ -217,52 +199,20 @@
             <div class="px-2">
                 {getTimeLabel(time)}
             </div>
-            <button
-                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
-                class:border-0={cubiconCell !== undefined}
-                class:bg-red-400={cubiconCell !== undefined}
-                on:click={() => {
-                    if (cubiconCell === undefined) {
-                        setPayloadForCreation(cubiconPrinter.id, time)
-                        $goto('/printer')
-                    } else {
-                        window.alert('삭제하시겠습니까?')
-                        deleteSchedule(cubiconCell.originalReservation.id)
-                    }
-                }}
-            >
-                {#if cubiconCell?.isTop}
-                    <p class="truncate">
-                        {cubiconCell.originalReservation.reason}
-                    </p>
-                    <span class="text-xs">
-                        {cubiconCell.originalReservation.user.profile.name}
-                    </span>
-                {/if}
-            </button>
-            <button
-                class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
-                class:border-0={guider2Cell !== undefined}
-                class:bg-blue-400={guider2Cell !== undefined}
-                on:click={() => {
-                    if (guider2Cell === undefined) {
-                        setPayloadForCreation(guider2Printer.id, time)
-                        $goto('/printer')
-                    } else {
-                        window.alert('삭제하시겠습니까?')
-                        deleteSchedule(guider2Cell.originalReservation.id)
-                    }
-                }}
-            >
-                {#if guider2Cell?.isTop}
-                    <p class="truncate">
-                        {guider2Cell.originalReservation.reason}
-                    </p>
-                    <span class="text-xs">
-                        {guider2Cell.originalReservation.user.profile.name}
-                    </span>
-                {/if}
-            </button>
+            <PrinterCalendarCell
+                cell={cubiconCell}
+                {selectedDate}
+                hour={time}
+                printer={cubiconPrinter}
+                filledClass={'bg-red-400'}
+            />
+            <PrinterCalendarCell
+                cell={guider2Cell}
+                {selectedDate}
+                hour={time}
+                printer={guider2Printer}
+                filledClass={'bg-blue-400'}
+            />
         </div>
     {/each}
 </div>
