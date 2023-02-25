@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '@roxi/routify'
     import {
         addDays,
         addWeeks,
@@ -10,20 +9,17 @@
         startOfWeek,
     } from 'date-fns'
     import { onMount } from 'svelte'
+    import { derived, type Readable } from 'svelte/store'
     import { CreatePrinterReservationPayload } from '../lib/domain/printer/CreatePrinterReservationPayload'
+    import type { ListedPrinterReservationDto } from '../lib/domain/printer/model/ListedPrinterReservationDto'
+    import {
+        cubiconPrinter,
+        guider2Printer,
+    } from '../lib/domain/printer/model/Printer'
     import {
         cubiconPrinterInfo,
         guider2PrinterInfo,
     } from '../lib/domain/printer/PrintInfo'
-    import axios from 'axios'
-    import { toastStore } from '@skeletonlabs/skeleton'
-    import {
-        cubiconPrinter,
-        guider2Printer,
-        type Printer,
-    } from '../lib/domain/printer/model/Printer'
-    import { derived, type Readable } from 'svelte/store'
-    import type { ListedPrinterReservationDto } from '../lib/domain/printer/model/ListedPrinterReservationDto'
     import type { CellPrinterReservation } from '../lib/ui/printer/model/CellPrinterReservation'
     import PrinterCalendarCell from '../lib/ui/printer/PrinterCalendarCell.svelte'
 
