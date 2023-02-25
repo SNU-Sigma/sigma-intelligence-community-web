@@ -89,10 +89,9 @@
         const dataTransfer = new DataTransfer()
         let fileArray: Array<File> = []
 
-        for (let idx in inputFiles) {
-            const file = inputFiles[idx]
+        inputFiles.forEach((file, idx) => {
             const image = imagePreview[idx]
-            if (file && image) {
+            if (image) {
                 const reader = new FileReader()
                 reader.addEventListener('load', () => {
                     if (typeof reader.result === 'string') {
@@ -103,7 +102,8 @@
                 reader.readAsDataURL(file)
                 fileArray.push(file)
             }
-        }
+        })
+
         fileArray.forEach((file) => {
             dataTransfer.items.add(file)
         })
