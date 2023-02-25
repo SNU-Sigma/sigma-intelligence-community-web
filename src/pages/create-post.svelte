@@ -15,34 +15,30 @@
 
     const { files$, validFileTypes, handleMultiUpload } = createImageUpload()
 
-    const postUpload = () => {
+    const postUpload = async () => {
         if (title.trim().length && description.trim().length) {
             isLoading = true
-            handleMultiUpload().then((res) => {
-                images = res
-                PostAPIImpl.createPost({
+            try {
+                images = await handleMultiUpload()
+                await PostAPIImpl.createPost({
                     title,
                     description,
                     images,
                 })
-                    .then(() => {
-                        toastStore.trigger({
-                            message: '게시글이 업로드 되었습니다.',
-                            preset: 'success',
-                        })
-                        $goto('/feed')
-                    })
-                    .catch(() => {
-                        toastStore.trigger({
-                            message:
-                                '게시글 업로드 중 오류가 발생했습니다. 다시 시도해주세요.',
-                            preset: 'error',
-                        })
-                    })
-                    .finally(() => {
-                        isLoading = false
-                    })
-            })
+                toastStore.trigger({
+                    message: '게시글이 업로드 되었습니다.',
+                    preset: 'success',
+                })
+                $goto('/feed')
+            } catch (e) {
+                toastStore.trigger({
+                    message:
+                        '게시글 업로드 중 오류가 발생했습니다. 다시 시도해주세요.',
+                    preset: 'error',
+                })
+            } finally {
+                isLoading = false
+            }
         } else {
             toastStore.trigger({
                 message: '제목과 내용이 비어있지 않아야 합니다.',
