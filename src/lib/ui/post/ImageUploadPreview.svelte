@@ -11,15 +11,15 @@
     let inputFiles: Array<File> = []
 
     const addImage = () => {
-        if (inputFiles.length < 10) {
-            inputFiles = [...input, ...inputFiles]
-            updatePreview()
-        } else {
+        inputFiles = [...input, ...inputFiles]
+        if (inputFiles.length > 10) {
             toastStore.trigger({
                 message: '이미지 업로드는 최대 10장 까지 가능합니다.',
-                preset: 'error',
+                preset: 'warning',
             })
+            inputFiles = inputFiles.slice(-10)
         }
+        updatePreview()
     }
 
     const deleteImage = (idx: number) => {
