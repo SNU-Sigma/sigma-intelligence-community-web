@@ -92,7 +92,7 @@
 <div class="m-1 flex flex-col rounded-md bg-primary-100 pb-2">
     <h2 class="font-bold">SIGMA 3D PRINTER</h2>
     <h2 class="text-base">
-        {displayedWeekDate.getFullYear()}년 {displayedWeekDate.getMonth() + 1}월
+        {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월
     </h2>
     <div class="mt-2 flex flex-row gap-1">
         <button on:click={decrementWeekOffset}>
