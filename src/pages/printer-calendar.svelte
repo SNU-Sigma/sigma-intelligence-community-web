@@ -5,6 +5,7 @@
         addWeeks,
         getHours,
         isEqual,
+        isSameDay,
         startOfDay,
         startOfWeek,
     } from 'date-fns'
@@ -95,8 +96,17 @@
                 (printerReservation): Array<CellPrinterReservation> => {
                     const { requestStartTime, requestEndTime } =
                         printerReservation
-                    const startHours = getHours(new Date(requestStartTime))
-                    const endHours = getHours(new Date(requestEndTime))
+                    const requestStartDateTime = new Date(requestStartTime)
+                    const requestEndDateTime = new Date(requestEndTime)
+                    const startHours = isSameDay(
+                        requestStartDateTime,
+                        selectedDate,
+                    )
+                        ? getHours(new Date(requestStartTime))
+                        : 0
+                    const endHours = isSameDay(requestEndDateTime, selectedDate)
+                        ? getHours(new Date(requestEndTime))
+                        : 24
                     return Array.from(
                         { length: endHours - startHours },
                         (_, index) => {
