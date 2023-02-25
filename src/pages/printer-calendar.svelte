@@ -24,6 +24,7 @@
     } from '../lib/domain/printer/model/Printer'
     import { derived, type Readable } from 'svelte/store'
     import type { ListedPrinterReservationDto } from '../lib/domain/printer/model/ListedPrinterReservationDto'
+    import type { CellPrinterReservation } from '../lib/ui/printer/model/CellPrinterReservation'
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
 
@@ -80,12 +81,6 @@
             selectedDate,
             hour,
         )
-    }
-
-    type CellPrinterReservation = {
-        startingHour: number
-        isTop: boolean
-        originalReservation: ListedPrinterReservationDto
     }
 
     const deriveTimeArray = (
