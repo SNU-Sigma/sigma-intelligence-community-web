@@ -86,7 +86,6 @@
     <OverlaySpinner />
 {/if}
 <div class="flex flex-col items-baseline">
-    <!-- <img src="/logo.svg" alt="시그마 인텔리전스 로고" class="w-40" /> -->
     <h2>프린터 예약 화면</h2>
     <div class="h-8" />
     <div class="w-128 flex flex-col gap-2 text-left">
@@ -120,8 +119,6 @@
             name="startDateTime"
             bind:value={newStartDateTime}
         />
-        <!-- <span>사용 시간</span> -->
-        <!--<input type="text" name="usageTime" bind:value={newUsageTime} /> -->
         <span>사용 시간</span>
         <div class="columns-4 space-y-4">
             {#each timeOptions as option}
