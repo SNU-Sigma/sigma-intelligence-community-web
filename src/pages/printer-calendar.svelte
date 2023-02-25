@@ -21,15 +21,15 @@
         guider2Printer,
         type Printer,
     } from '../lib/domain/printer/model/Printer'
+    import { derived, type Readable } from 'svelte/store'
+    import type { ListedPrinterReservationDto } from '../lib/domain/printer/model/ListedPrinterReservationDto'
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
 
     let weekOffset = 0
     let selectedDate = startOfDay(new Date())
 
-    let cubiconTimeArray: Array<number> = []
     let topCubiconTimeArray: Array<number> = []
-    let guider2TimeArray: Array<number> = []
     let topGuider2TimeArray: Array<number> = []
 
     $: displayedWeekDate = addWeeks(new Date(), weekOffset)
@@ -84,6 +84,26 @@
         )
     }
 
+    const deriveTimeArray = (
+        printerInfo: Readable<Array<ListedPrinterReservationDto>>,
+    ) => {
+        return derived(printerInfo, (printerReservationList) => {
+            return printerReservationList.flatMap(
+                ({ requestStartTime, requestEndTime }) => {
+                    const startHours = getHours(new Date(requestStartTime))
+                    const endHours = getHours(new Date(requestEndTime))
+                    return Array.from(
+                        { length: endHours - startHours },
+                        (_, index) => startHours + index,
+                    )
+                },
+            )
+        })
+    }
+
+    const cubiconTimeArray = deriveTimeArray(cubiconPrinterInfo)
+    const guider2TimeArray = deriveTimeArray(guider2PrinterInfo)
+
     const getCubiconHours = () => {
         const temp: Array<[number, number]> = $cubiconPrinterInfo.map(
             ({ requestStartTime, requestEndTime }) => {
@@ -92,14 +112,12 @@
                 return [startHours, endHours]
             },
         )
-        cubiconTimeArray = []
         topCubiconTimeArray = []
         temp.forEach(([startHours, endHours]) => {
             for (let j = startHours; j < endHours; j++) {
                 if (j === startHours) {
                     topCubiconTimeArray.push(j)
                 }
-                cubiconTimeArray.push(j)
             }
         })
     }
@@ -112,14 +130,12 @@
                 return [startHours, endHours]
             },
         )
-        guider2TimeArray = []
         topGuider2TimeArray = []
         temp.forEach(([startHours, endHours]) => {
             for (let j = startHours; j < endHours; j++) {
                 if (j === startHours) {
                     topGuider2TimeArray.push(j)
                 }
-                guider2TimeArray.push(j)
             }
         })
     }
@@ -218,10 +234,10 @@
             </div>
             <button
                 class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
-                class:border-0={cubiconTimeArray.includes(time)}
-                class:bg-red-400={cubiconTimeArray.includes(time)}
+                class:border-0={$cubiconTimeArray.includes(time)}
+                class:bg-red-400={$cubiconTimeArray.includes(time)}
                 on:click={() => {
-                    if (!cubiconTimeArray.includes(time)) {
+                    if (!$cubiconTimeArray.includes(time)) {
                         setPayloadForCreation(cubiconPrinter.id, time)
                         $goto('/printer')
                     } else {
@@ -247,10 +263,10 @@
             </button>
             <button
                 class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
-                class:border-0={guider2TimeArray.includes(time)}
-                class:bg-blue-400={guider2TimeArray.includes(time)}
+                class:border-0={$guider2TimeArray.includes(time)}
+                class:bg-blue-400={$guider2TimeArray.includes(time)}
                 on:click={() => {
-                    if (!guider2TimeArray.includes(time)) {
+                    if (!$guider2TimeArray.includes(time)) {
                         setPayloadForCreation(guider2Printer.id, time)
                         $goto('/printer')
                     } else {
