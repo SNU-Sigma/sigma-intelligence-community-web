@@ -7,6 +7,7 @@ export const createPrinterStore = (printerId: number) => {
     const { subscribe, set } = writable<Array<ListedPrinterReservationDto>>([])
 
     const fetchPrinterReservations = async (selectedDate: Date) => {
+        set([])
         const printerReservations = await PrintAPIImpl.fetchPrinterReservations(
             printerId,
             selectedDate,
