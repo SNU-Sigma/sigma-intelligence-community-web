@@ -60,7 +60,7 @@
                     <img
                         src={imgUrl}
                         alt="이미지 미리보기"
-                        class="mx-3 mb-4 inline-block h-44 whitespace-nowrap"
+                        class="mx-3 mb-4 inline-block h-44 max-w-none whitespace-nowrap"
                     />
                 {/each}
             </div>
