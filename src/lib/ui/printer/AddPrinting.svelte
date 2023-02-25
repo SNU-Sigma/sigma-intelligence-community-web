@@ -2,29 +2,18 @@
     import { toastStore } from '@skeletonlabs/skeleton'
     import { addHours } from 'date-fns'
     import { CreatePrinterReservationPayload } from '../../domain/printer/CreatePrinterReservationPayload'
-    import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
     import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
+    import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
 
-    import OverlaySpinner from '../common/OverlaySpinner.svelte'
-    import {
-        cubiconPrinter,
-        guider2Printer,
-    } from '../../domain/printer/model/Printer'
     import { derived } from 'svelte/store'
+    import { allPrinters } from '../../domain/printer/model/Printer'
+    import OverlaySpinner from '../common/OverlaySpinner.svelte'
 
     let isLoading = false
-    let newPrintId: number
     let newStartDateTime: string
     let newUsageTime: number
     let newReason: string
-    const printerOptions = [
-        { value: cubiconPrinter.id, label: cubiconPrinter.label },
-        { value: guider2Printer.id, label: guider2Printer.label },
-    ]
-    const otherPrinterOptions = [
-        { value: guider2Printer.id, label: guider2Printer.label },
-        { value: cubiconPrinter.id, label: cubiconPrinter.label },
-    ]
+
     const timeOptions = [
         { value: 1, label: '1시간' },
         { value: 2, label: '2시간' },
@@ -45,6 +34,8 @@
         CreatePrinterReservationPayload,
         ({ printerId }) => printerId,
     )
+
+    let newPrintId = $printerId
 
     $: newEndDateTime =
         $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
@@ -111,15 +102,9 @@
         </label>
         <span>프린터 아이디</span>
         <select bind:value={newPrintId}>
-            {#if $printerId === 1}
-                {#each printerOptions as option}
-                    <option value={option.value}>{option.label}</option>
-                {/each}
-            {:else}
-                {#each otherPrinterOptions as option}
-                    <option value={option.value}>{option.label}</option>
-                {/each}
-            {/if}
+            {#each allPrinters as { id, label }}
+                <option value={id}>{label}</option>
+            {/each}
         </select>
         {#if $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)}
             <span>시작 시간 | {$StartingDateTime.toLocaleString()}</span>
