@@ -86,15 +86,13 @@
     })
 </script>
 
-<div
-    class="absolute top-1 left-1 right-1 flex flex-col rounded-md bg-primary-100 pb-2"
->
-    <h2 class="relative left-1 font-bold">SIGMA 3D PRINTER</h2>
-    <h2 class="relative left-1 text-base">
+<div class="m-1 flex flex-col rounded-md bg-primary-100 pb-2">
+    <h2 class="font-bold">SIGMA 3D PRINTER</h2>
+    <h2 class="text-base">
         {displayedWeekDate.getFullYear()}년 {displayedWeekDate.getMonth() + 1}월
     </h2>
-    <div class="flex-row space-x-2 space-y-0.5 bg-inherit">
-        <button on:click={decrementWeekOffset} class="relative left-0">
+    <div class="mt-2 flex flex-row flex-wrap justify-between gap-1">
+        <button on:click={decrementWeekOffset}>
             <img src={DirectionIcon} class="h-5 w-5" alt="왼쪽" />
         </button>
         {#each weekArrayCreator(displayedWeekDate) as day}
@@ -110,25 +108,23 @@
                 {day.toLocaleString('ko-KR', { weekday: 'short' })}
             </button>
         {/each}
-        <button on:click={incrementWeekOffset} class="static right-0">
+        <button on:click={incrementWeekOffset}>
             <img src={DirectionIcon} class="h-5 w-5 rotate-180" alt="오른쪽" />
         </button>
     </div>
 </div>
 
-<div class="absolute top-28 left-6 flex flex-row space-x-12">
-    <span class="text-sm">Time</span>
+<div class="flex flex-row">
+    <span class="w-16 text-center text-sm">Time</span>
     {#each allPrinters as { label }}
-        <span class="text-sm">{label}</span>
+        <span class="flex-1 text-center text-sm">{label}</span>
     {/each}
 </div>
 
-<div
-    class="absolute top-36 flex h-[calc(100vh-12rem)] max-h-screen flex-col overflow-y-scroll overscroll-contain"
->
+<div class="m-3 ml-0 flex flex-1 flex-col overflow-y-scroll overscroll-contain">
     {#each allStartingHours as time}
         <div class="flex flex-row">
-            <div class="px-2">
+            <div class="w-16 text-center">
                 {getTimeLabel(time)}
             </div>
             {#each allPrintersCells as { printer, timeArrayStore }}
