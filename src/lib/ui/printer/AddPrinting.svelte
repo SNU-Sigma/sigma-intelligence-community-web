@@ -1,6 +1,6 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
-    import { addHours } from 'date-fns'
+    import { addHours, startOfHour } from 'date-fns'
     import { CreatePrinterReservationPayload } from '../../domain/printer/CreatePrinterReservationPayload'
     import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
     import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
@@ -8,9 +8,10 @@
     import { derived } from 'svelte/store'
     import { allPrinters } from '../../domain/printer/model/Printer'
     import OverlaySpinner from '../common/OverlaySpinner.svelte'
+    import PrinterReservationDateTimePicker from './PrinterReservationDateTimePicker.svelte'
 
     let isLoading = false
-    let newStartDateTime: string
+    let newStartDateTime: Date = startOfHour(new Date())
     let newUsageTime: number
     let newReason: string
 
@@ -40,7 +41,7 @@
     $: newEndDateTime =
         $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
             ? addHours($StartingDateTime, newUsageTime)
-            : addHours(new Date(newStartDateTime), newUsageTime)
+            : addHours(newStartDateTime, newUsageTime)
 
     const submitForm = async () => {
         let newPrinterSchedule: CreateReservationDto = {
@@ -48,7 +49,7 @@
             startDateTime:
                 $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
                     ? $StartingDateTime
-                    : new Date(newStartDateTime),
+                    : newStartDateTime,
             usageTime: newUsageTime,
             reason: newReason,
         }
@@ -109,16 +110,12 @@
             <span>시작 시간 | {$StartingDateTime.toLocaleString()}</span>
         {:else if newStartDateTime}
             <span>
-                시작 시간 | {new Date(newStartDateTime).toLocaleString()}
+                시작 시간 | {newStartDateTime.toLocaleString()}
             </span>
         {:else}
             <span>시작 시간</span>
         {/if}
-        <input
-            type="datetime-local"
-            name="startDateTime"
-            bind:value={newStartDateTime}
-        />
+        <PrinterReservationDateTimePicker bind:value={newStartDateTime} />
         <span>사용 시간</span>
         <div class="columns-4 space-y-4">
             {#each timeOptions as option}
