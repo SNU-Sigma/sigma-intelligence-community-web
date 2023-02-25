@@ -67,8 +67,6 @@
             dataTransfer.items.add(file)
         })
         files = dataTransfer.files
-        console.log(files)
-        console.log(showPreview)
     }
 </script>
 
