@@ -1,7 +1,5 @@
 <script lang="ts">
     import { goto } from '@roxi/routify'
-    import { toastStore } from '@skeletonlabs/skeleton'
-    import axios from 'axios'
     import type { Readable } from 'svelte/store'
     import { CreatePrinterReservationPayload } from '../../domain/printer/CreatePrinterReservationPayload'
     import { PrinterId, type Printer } from '../../domain/printer/model/Printer'
@@ -21,14 +19,6 @@
                 return 'bg-blue-400'
         }
     })()
-
-    const deleteSchedule = async (id: number) => {
-        await axios.delete(`/printer-reservation/reservations/${id}`)
-        toastStore.trigger({
-            message: '프린터 삭제에 성공했습니다.',
-            preset: 'success',
-        })
-    }
 </script>
 
 <button
@@ -39,9 +29,6 @@
         if (cell === undefined) {
             CreatePrinterReservationPayload.setPrinterAndHour(printer.id, hour)
             $goto('/printer')
-        } else {
-            window.alert('삭제하시겠습니까?')
-            deleteSchedule(cell.originalReservation.id)
         }
     }}
 >
