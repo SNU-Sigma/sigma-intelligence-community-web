@@ -4,6 +4,7 @@
     import { PostAPIImpl } from '../../infrastructure/sigma-api/PostAPIImpl'
     import { toastStore } from '@skeletonlabs/skeleton'
     import type { PostFeedDto } from '../../domain/posts/model/PostFeedDto'
+    import { url } from '@roxi/routify'
 
     let isLoading = false
 
@@ -60,7 +61,7 @@
                     <img
                         src={imgUrl}
                         alt="이미지 미리보기"
-                        class="mx-3 mb-4 inline-block h-44 whitespace-nowrap"
+                        class="mx-3 mb-4 inline-block h-44 max-w-none whitespace-nowrap"
                     />
                 {/each}
             </div>
@@ -69,5 +70,7 @@
 </div>
 
 <div class="fixed bottom-20 z-20 mr-3 self-end">
-    <a href="/create-post" class="btn variant-filled-primary">새글작성</a>
+    <a href={$url('/create-post')} class="btn variant-filled-primary">
+        새글작성
+    </a>
 </div>

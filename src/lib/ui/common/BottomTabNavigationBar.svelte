@@ -1,11 +1,12 @@
 <script lang="ts">
     import { isActive, url } from '@roxi/routify'
-    import HomeActiveIcon from '../../../assets/images/home_active.svg'
-    import HomeDefaultIcon from '../../../assets/images/home_default.svg'
-    import MyPageActiveIcon from '../../../assets/images/my_page_active.svg'
-    import MyPageDefaultIcon from '../../../assets/images/my_page_default.svg'
-    import PrinterActiveIcon from '../../../assets/images/printer_active.svg'
-    import PrinterDefaultIcon from '../../../assets/images/printer_default.svg'
+    import type { ComponentType } from 'svelte'
+    import HomeActiveIcon from '../../../assets/images/home_active.svg?component'
+    import HomeDefaultIcon from '../../../assets/images/home_default.svg?component'
+    import MyPageActiveIcon from '../../../assets/images/my_page_active.svg?component'
+    import MyPageDefaultIcon from '../../../assets/images/my_page_default.svg?component'
+    import PrinterActiveIcon from '../../../assets/images/printer_active.svg?component'
+    import PrinterDefaultIcon from '../../../assets/images/printer_default.svg?component'
 
     const config = [
         {
@@ -25,8 +26,8 @@
         },
     ] satisfies Array<{
         path: string
-        logoActiveVariantUrl: string
-        logoDefaultVariantUrl: string
+        logoActiveVariantUrl: ComponentType
+        logoDefaultVariantUrl: ComponentType
     }>
 </script>
 
@@ -36,11 +37,10 @@
     >
         {#each config as { path, logoActiveVariantUrl, logoDefaultVariantUrl } (path)}
             <a class="flex flex-1" href={$url(path)}>
-                <img
-                    src={$isActive(path)
+                <svelte:component
+                    this={$isActive(path)
                         ? logoActiveVariantUrl
                         : logoDefaultVariantUrl}
-                    alt={path}
                     class="mx-auto my-auto h-8 w-8"
                 />
             </a>

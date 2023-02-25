@@ -36,7 +36,7 @@
     <OverlaySpinner />
 {/if}
 <div class="my-auto flex flex-col items-center">
-    <img src="/logo.svg" alt="시그마 인텔리전스 로고" class="w-40" />
+    <img src="/logo.svg" alt="" class="h-40 w-40" />
     <div class="h-4" />
     <h1>SIGMA</h1>
     <div class="h-8" />

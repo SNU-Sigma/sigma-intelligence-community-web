@@ -2,44 +2,53 @@
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream1.otf');
     font-weight: 100;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream2.otf');
     font-weight: 200;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream3.otf');
     font-weight: 300;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream4.otf');
     font-weight: 400;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream5.otf');
     font-weight: 500;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream6.otf');
     font-weight: 600;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream7.otf');
     font-weight: 700;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream8.otf');
     font-weight: 800;
+    font-display: swap;
 }
 @font-face {
     font-family: 'SCDream';
     src: url('./assets/fonts/SCDream/SCDream9.otf');
     font-weight: 900;
+    font-display: swap;
 }
