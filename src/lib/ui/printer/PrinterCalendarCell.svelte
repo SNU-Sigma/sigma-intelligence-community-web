@@ -7,21 +7,9 @@
     import { toastStore } from '@skeletonlabs/skeleton'
 
     export let cell: CellPrinterReservation | undefined
-    export let selectedDate: Date
     export let hour: number
     export let printer: Printer
     export let filledClass: string
-
-    const setPayloadForCreation = async (
-        printerId: Printer['id'],
-        hour: number,
-    ) => {
-        CreatePrinterReservationPayload.setPayload(
-            printerId,
-            selectedDate,
-            hour,
-        )
-    }
 
     const deleteSchedule = async (id: number) => {
         await axios.delete(`/printer-reservation/reservations/${id}`)
@@ -38,7 +26,7 @@
     class:border-0={cell !== undefined}
     on:click={() => {
         if (cell === undefined) {
-            setPayloadForCreation(printer.id, hour)
+            CreatePrinterReservationPayload.setPrinterAndHour(printer.id, hour)
             $goto('/printer')
         } else {
             window.alert('삭제하시겠습니까?')

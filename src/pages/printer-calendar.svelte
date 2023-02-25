@@ -70,6 +70,7 @@
 
     const handleSelectedDateChange = async (date: Date) => {
         selectedDate = date
+        CreatePrinterReservationPayload.setDate(selectedDate)
         await refetchPrinterReservations()
     }
 
@@ -201,14 +202,12 @@
             </div>
             <PrinterCalendarCell
                 cell={cubiconCell}
-                {selectedDate}
                 hour={time}
                 printer={cubiconPrinter}
                 filledClass={'bg-red-400'}
             />
             <PrinterCalendarCell
                 cell={guider2Cell}
-                {selectedDate}
                 hour={time}
                 printer={guider2Printer}
                 filledClass={'bg-blue-400'}
