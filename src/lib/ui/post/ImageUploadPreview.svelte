@@ -3,17 +3,25 @@
     import PlusIcon from '../../../assets/images/+.svg'
     import DeleteIcon from '../../../assets/images/X.svg'
     import PreviewImage from './PreviewImage.svelte'
+    import { flip } from 'svelte/animate'
+    import { scale } from 'svelte/transition'
 
     export let files: FileList
     export let validFileTypes: Array<string>
 
     let input: FileList
-    let inputFiles: Array<File> = []
+    let inputFiles: Array<{ file: File; id: string }> = []
 
     const MAX_IMAGE_COUNT = 10
 
     const addImage = () => {
-        inputFiles = [...input, ...inputFiles]
+        inputFiles = [
+            ...Array.from(input).map((file) => ({
+                file,
+                id: crypto.randomUUID(),
+            })),
+            ...inputFiles,
+        ]
         if (inputFiles.length > MAX_IMAGE_COUNT) {
             toastStore.trigger({
                 message: `이미지 업로드는 최대 ${MAX_IMAGE_COUNT}장까지 가능합니다.`,
@@ -43,7 +51,7 @@
         files = dataTransfer.files
     }
 
-    $: synchronizeFilesWithExternalProp(inputFiles)
+    $: synchronizeFilesWithExternalProp(inputFiles.map(({ file }) => file))
 </script>
 
 <div class="relative w-full">
@@ -66,17 +74,22 @@
             on:change={() => addImage()}
             on:click={(e) => refresh(e)}
         />
-
-        {#each inputFiles as file, idx}
-            <div class="relative flex-shrink-0">
-                <PreviewImage {file} />
-                <button
-                    class="btn absolute top-0 right-0 h-5 w-5 bg-error-900 p-0.5"
-                    on:click={() => deleteImage(idx)}
+        <div class="flex gap-3">
+            {#each inputFiles as { file, id }, idx (id)}
+                <div
+                    class="relative flex-shrink-0"
+                    transition:scale|local={{ duration: 500 }}
+                    animate:flip={{ duration: 500 }}
                 >
-                    <img src={DeleteIcon} alt="" />
-                </button>
-            </div>
-        {/each}
+                    <PreviewImage {file} />
+                    <button
+                        class="btn absolute top-0 right-0 h-5 w-5 bg-error-900 p-0.5"
+                        on:click={() => deleteImage(idx)}
+                    >
+                        <img src={DeleteIcon} alt="" />
+                    </button>
+                </div>
+            {/each}
+        </div>
     </div>
 </div>
