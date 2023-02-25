@@ -212,8 +212,10 @@
     class="absolute top-36 flex h-[calc(100vh-12rem)] max-h-screen flex-col overflow-y-scroll overscroll-contain"
 >
     {#each allStartingHours as time}
-        <div class="relative left-0 flex flex-row space-x-0">
-            {getTimeLabel(time)}
+        <div class="flex flex-row">
+            <div class="px-2">
+                {getTimeLabel(time)}
+            </div>
             <button
                 class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
                 class:border-0={cubiconTimeArray.includes(time)}
