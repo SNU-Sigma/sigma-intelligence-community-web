@@ -17,7 +17,7 @@
         switch (printer.id) {
             case PrinterId.cubicon:
                 return 'bg-red-400'
-            case PrinterId.guider2:
+            case PrinterId.guider:
                 return 'bg-blue-400'
         }
     })()
