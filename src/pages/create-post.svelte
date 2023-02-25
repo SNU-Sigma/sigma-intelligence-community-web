@@ -2,9 +2,9 @@
     import { toastStore } from '@skeletonlabs/skeleton'
     import { createImageUpload } from '../lib/util/createImageUpload'
     import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
-    import { FileButton } from '@skeletonlabs/skeleton'
     import { goto } from '@roxi/routify'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
+    import ImageUploadPreview from '../lib/ui/post/ImageUploadPreview.svelte'
 
     let isLoading = false
 
@@ -14,37 +14,30 @@
 
     const { files$, validFileTypes, handleMultiUpload } = createImageUpload()
 
-    $: if ($files$) {
-        ;(async () => {
-            images = await handleMultiUpload()
-        })()
-    }
-
-    const postUpload = () => {
+    const postUpload = async () => {
         if (title.trim().length && description.trim().length) {
             isLoading = true
-            PostAPIImpl.createPost({
-                title,
-                description,
-                images,
-            })
-                .then(() => {
-                    toastStore.trigger({
-                        message: '게시글이 업로드 되었습니다.',
-                        preset: 'success',
-                    })
-                    $goto('/feed')
+            try {
+                images = await handleMultiUpload()
+                await PostAPIImpl.createPost({
+                    title,
+                    description,
+                    images,
                 })
-                .catch(() => {
-                    toastStore.trigger({
-                        message:
-                            '게시글 업로드 중 오류가 발생했습니다. 다시 시도해주세요.',
-                        preset: 'error',
-                    })
+                toastStore.trigger({
+                    message: '게시글이 업로드 되었습니다.',
+                    preset: 'success',
                 })
-                .finally(() => {
-                    isLoading = false
+                $goto('/feed')
+            } catch (e) {
+                toastStore.trigger({
+                    message:
+                        '게시글 업로드 중 오류가 발생했습니다. 다시 시도해주세요.',
+                    preset: 'error',
                 })
+            } finally {
+                isLoading = false
+            }
         } else {
             toastStore.trigger({
                 message: '제목과 내용이 비어있지 않아야 합니다.',
@@ -57,6 +50,7 @@
 {#if isLoading}
     <OverlaySpinner />
 {/if}
+
 <div class="mx-auto flex w-11/12 flex-col items-center gap-3 pt-10">
     <div class="text-xl">게시글 작성하기</div>
     <input
@@ -74,29 +68,7 @@
         class="w-full text-sm"
         bind:value={description}
     />
-    <div class="relative w-full">
-        <div class="absolute top-2 right-2">
-            <FileButton
-                accept={validFileTypes.join(',')}
-                bind:files={$files$}
-                multiple
-                button="btn variant-filled-secondary float-right inline-block"
-            >
-                사진추가
-            </FileButton>
-        </div>
-        <div class="flex overflow-x-auto overflow-y-hidden whitespace-nowrap">
-            {#if $files$ && images}
-                {#each images as imgUrl}
-                    <img
-                        src={imgUrl}
-                        alt="이미지 미리보기"
-                        class="mx-3 mb-4 inline-block h-44 whitespace-nowrap"
-                    />
-                {/each}
-            {/if}
-        </div>
-    </div>
+    <ImageUploadPreview bind:files={$files$} {validFileTypes} />
 </div>
 <div class="absolute bottom-6 right-6">
     <button class="btn variant-filled-primary" on:click={postUpload}>

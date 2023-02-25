@@ -3,12 +3,12 @@
     import { onMount } from 'svelte'
     import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
     import { toastStore } from '@skeletonlabs/skeleton'
-    import type { PostDto } from '../lib/domain/posts/model/PostDto'
+    import type { PostFeedDto } from '../lib/domain/posts/model/PostFeedDto'
     import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
 
     let isLoading = false
 
-    let posts: Array<PostDto> = []
+    let posts: Array<PostFeedDto> = []
     onMount(() => {
         isLoading = true
         PostAPIImpl.fetchAllPosts()
@@ -37,15 +37,20 @@
     {#each posts as post}
         <div class="card card-hover p-2.5 text-left">
             <div class="text-lg">{post.title}</div>
-            <div class="text-xs">
-                {new Date(post.createdAt).toLocaleString('ko-KR', {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                })}
+
+            <div class="flex justify-between text-xs">
+                <div>{post.user.profile.name} ({post.user.email})</div>
+                <div>
+                    {new Date(post.createdAt).toLocaleString('ko-KR', {
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                    })}
+                </div>
             </div>
+
             <p class="my-3 whitespace-pre-wrap text-sm">
                 {post.description}
             </p>

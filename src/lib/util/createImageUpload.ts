@@ -6,56 +6,47 @@ export const createImageUpload = () => {
 
     const validFileTypes = ['image/jpeg', 'image/png']
 
-    const handleUpload = async (): Promise<string | undefined> => {
-        for (const file of get(files$) ?? []) {
-            if (validFileTypes.includes(file.type)) {
-                try {
-                    const {
-                        data: { url, uploadedUrl },
-                    } = await axios.get(
-                        `/images/pre-signed-url?fileName=${file.name}`,
-                    )
-                    await axios.put(url, file, {
-                        headers: {
-                            'Content-Type': file.type,
-                        },
-                        withCredentials: false,
-                    })
-                    return uploadedUrl
-                } catch (e) {
-                    console.error('Upload failed', e)
-                }
-            } else {
-                console.error('Not valid file')
+    const uploadImage = async (file: File) => {
+        if (validFileTypes.includes(file.type)) {
+            try {
+                const {
+                    data: { url, uploadedUrl },
+                } = await axios.get(
+                    `/images/pre-signed-url?fileName=${file.name}`,
+                )
+                await axios.put(url, file, {
+                    headers: {
+                        'Content-Type': file.type,
+                    },
+                    withCredentials: false,
+                })
+                return uploadedUrl
+            } catch (e) {
+                console.error('Upload failed', e)
+                throw new Error('업로드 실패')
             }
+        } else {
+            console.error('Not valid file')
+            throw new Error('지원되지 않는 파일 형식')
         }
     }
 
-    const handleMultiUpload = async (): Promise<Array<string>> => {
-        const multiUploadedUrl: Array<string> = []
-        for (const file of get(files$) ?? []) {
-            if (validFileTypes.includes(file.type)) {
-                try {
-                    const {
-                        data: { url, uploadedUrl },
-                    } = await axios.get(
-                        `/images/pre-signed-url?fileName=${file.name}`,
-                    )
-                    await axios.put(url, file, {
-                        headers: {
-                            'Content-Type': file.type,
-                        },
-                        withCredentials: false,
-                    })
-                    multiUploadedUrl.push(uploadedUrl)
-                } catch (e) {
-                    console.error('Upload failed', e)
-                }
-            } else {
-                console.error('Not valid file')
-            }
+    const handleUpload = async (): Promise<string> => {
+        const file = get(files$)[0]
+        if (file === undefined) {
+            throw new Error('파일이 없습니다.')
         }
-        return multiUploadedUrl
+        const imageUrl = await uploadImage(file)
+        return imageUrl
+    }
+
+    const handleMultiUpload = async (): Promise<Array<string>> => {
+        return Promise.all(
+            Array.from(get(files$)).map(async (file) => {
+                const imageUrl = await uploadImage(file)
+                return imageUrl
+            }),
+        )
     }
 
     return { files$, validFileTypes, handleUpload, handleMultiUpload }
