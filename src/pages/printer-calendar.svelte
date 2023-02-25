@@ -61,11 +61,12 @@
         await refetchPrinterReservations()
     }
 
-    const allPrintersInfo = allPrinters.map((printer) => ({
+    $: allPrintersInfo = allPrinters.map((printer) => ({
         printer,
         printerStore: createPrinterStore(printer.id),
     }))
-    const allPrintersCells = allPrintersInfo.map((printerInfo) =>
+
+    $: allPrintersCells = allPrintersInfo.map((printerInfo) =>
         deriveTimeArray({
             ...printerInfo,
             selectedDate,
