@@ -31,7 +31,16 @@ export const createImageUpload = () => {
         }
     }
 
-    const handleUpload = async () => {
+    const handleUpload = async (): Promise<string> => {
+        const file = get(files$)[0]
+        if (file === undefined) {
+            throw new Error('파일이 없습니다.')
+        }
+        const imageUrl = await uploadImage(file)
+        return imageUrl
+    }
+
+    const handleMultiUpload = async (): Promise<Array<string>> => {
         return Promise.all(
             Array.from(get(files$)).map(async (file) => {
                 const imageUrl = await uploadImage(file)
@@ -39,8 +48,6 @@ export const createImageUpload = () => {
             }),
         )
     }
-
-    const handleMultiUpload = handleUpload
 
     return { files$, validFileTypes, handleUpload, handleMultiUpload }
 }
