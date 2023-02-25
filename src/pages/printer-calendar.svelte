@@ -91,23 +91,27 @@
     <h2 class="text-base">
         {displayedWeekDate.getFullYear()}년 {displayedWeekDate.getMonth() + 1}월
     </h2>
-    <div class="mt-2 flex flex-row flex-wrap justify-between gap-1">
+    <div class="mt-2 flex flex-row gap-1">
         <button on:click={decrementWeekOffset}>
             <img src={DirectionIcon} class="h-5 w-5" alt="왼쪽" />
         </button>
-        {#each weekArrayCreator(displayedWeekDate) as day}
-            <button
-                class={isEqual(selectedDate, day)
-                    ? 'btn variant-filled-primary rounded-full px-2 py-1 text-xs'
-                    : 'btn variant-filled-secondary rounded-full px-2 py-1 text-xs'}
-                on:click={() => {
-                    handleSelectedDateChange(day)
-                }}
-            >
-                {day.getDate().toString().padStart(2, '0')}
-                {day.toLocaleString('ko-KR', { weekday: 'short' })}
-            </button>
-        {/each}
+        <div
+            class="hide-scrollbar flex flex-row justify-between gap-1 overflow-x-auto"
+        >
+            {#each weekArrayCreator(displayedWeekDate) as day}
+                <button
+                    class={isEqual(selectedDate, day)
+                        ? 'btn variant-filled-primary rounded-full px-2 py-1 text-xs'
+                        : 'btn variant-filled-secondary rounded-full px-2 py-1 text-xs'}
+                    on:click={() => {
+                        handleSelectedDateChange(day)
+                    }}
+                >
+                    {day.getDate().toString().padStart(2, '0')}
+                    {day.toLocaleString('ko-KR', { weekday: 'short' })}
+                </button>
+            {/each}
+        </div>
         <button on:click={incrementWeekOffset}>
             <img src={DirectionIcon} class="h-5 w-5 rotate-180" alt="오른쪽" />
         </button>
