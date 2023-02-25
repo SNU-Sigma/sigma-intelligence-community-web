@@ -12,16 +12,8 @@
 
     const addImage = () => {
         if (inputFiles.length < 10) {
-            const file = input[0]
-            if (file) {
-                inputFiles = [...inputFiles, file]
-                updatePreview()
-            } else {
-                toastStore.trigger({
-                    message: '유효한 파일 형식이 아닙니다.',
-                    preset: 'error',
-                })
-            }
+            inputFiles = [...input, ...inputFiles]
+            updatePreview()
         } else {
             toastStore.trigger({
                 message: '이미지 업로드는 최대 10장 까지 가능합니다.',
@@ -68,6 +60,7 @@
             id="file"
             bind:files={input}
             accept={validFileTypes.join(',')}
+            multiple
             on:change={() => addImage()}
             on:click={(e) => refresh(e)}
         />
