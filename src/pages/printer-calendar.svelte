@@ -84,7 +84,8 @@
     }
 
     onMount(() => {
-        refetchPrinterReservations()
+        // 처음 화면 진입 시에도 기본으로 날짜가 선택되어있기 때문에 아래 함수 실행
+        handleSelectedDateChange(selectedDate)
     })
 </script>
 
