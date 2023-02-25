@@ -2,6 +2,8 @@
     import type { ProfileDto } from '../lib/domain/profile/model/ProfileDto'
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
+    import { url } from '@roxi/routify'
+    import ProfileImage from '../lib/ui/common/ProfileImage.svelte'
 
     const member: Promise<ProfileDto> = ProfileAPIImpl.getMyProfile()
 </script>
@@ -12,13 +14,17 @@
         {#await member}
             <OverlaySpinner />
         {:then item}
-            <img
-                class="mb-5 aspect-square w-1/3 rounded-full object-cover"
-                src={item.profileImageUrl}
-                alt=""
-            />
+            <div class="mx-auto my-3 w-1/3">
+                <ProfileImage src={item.profileImageUrl} />
+            </div>
             <div class="mb-2 text-3xl font-bold">{item.name}</div>
             <div class="text-xl">{item.major} {item.freshmanYear}학번</div>
+            <a
+                class="btn variant-ghost-primary mt-4"
+                href={$url('/edit-profile', item)}
+            >
+                수정
+            </a>
         {:catch error}
             <p style="color: red">{error.message}</p>
         {/await}
