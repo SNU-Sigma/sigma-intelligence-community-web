@@ -17,7 +17,9 @@
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
 
     let weekOffset = 0
-    let selectedDate = startOfDay(new Date())
+    let selectedDate = startOfDay(
+        $CreatePrinterReservationPayload.startingDateTime,
+    )
 
     $: displayedWeekDate = addWeeks(new Date(), weekOffset)
 
