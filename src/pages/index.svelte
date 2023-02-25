@@ -1,5 +1,7 @@
 <script lang="ts">
-    import { redirect } from '@roxi/routify'
-
-    $redirect('/feed')
+    import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
+    import PostFeedScreen from '../lib/ui/post/PostFeedScreen.svelte'
 </script>
+
+<PostFeedScreen />
+<BottomTabNavigationBar />

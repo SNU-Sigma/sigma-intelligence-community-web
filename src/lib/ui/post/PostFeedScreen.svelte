@@ -1,10 +1,9 @@
 <script lang="ts">
-    import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
+    import OverlaySpinner from '../common/OverlaySpinner.svelte'
     import { onMount } from 'svelte'
-    import { PostAPIImpl } from '../lib/infrastructure/sigma-api/PostAPIImpl'
+    import { PostAPIImpl } from '../../infrastructure/sigma-api/PostAPIImpl'
     import { toastStore } from '@skeletonlabs/skeleton'
-    import type { PostFeedDto } from '../lib/domain/posts/model/PostFeedDto'
-    import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
+    import type { PostFeedDto } from '../../domain/posts/model/PostFeedDto'
 
     let isLoading = false
 
@@ -72,5 +71,3 @@
 <div class="fixed bottom-20 z-20 mr-3 self-end">
     <a href="/create-post" class="btn variant-filled-primary">새글작성</a>
 </div>
-
-<BottomTabNavigationBar />

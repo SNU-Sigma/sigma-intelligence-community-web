@@ -9,7 +9,7 @@
 
     const config = [
         {
-            path: '/feed',
+            path: '/index',
             logoActiveVariantUrl: HomeActiveIcon,
             logoDefaultVariantUrl: HomeDefaultIcon,
         },
