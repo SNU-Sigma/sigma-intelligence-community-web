@@ -4,6 +4,7 @@
     import { PostAPIImpl } from '../../infrastructure/sigma-api/PostAPIImpl'
     import { toastStore } from '@skeletonlabs/skeleton'
     import type { PostFeedDto } from '../../domain/posts/model/PostFeedDto'
+    import { url } from '@roxi/routify'
 
     let isLoading = false
 
@@ -69,5 +70,7 @@
 </div>
 
 <div class="fixed bottom-20 z-20 mr-3 self-end">
-    <a href="/create-post" class="btn variant-filled-primary">새글작성</a>
+    <a href={$url('/create-post')} class="btn variant-filled-primary">
+        새글작성
+    </a>
 </div>
