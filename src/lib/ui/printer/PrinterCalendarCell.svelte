@@ -22,7 +22,7 @@
 </script>
 
 <button
-    class={'h-20 w-40 flex-1 border-2 border-gray-300 px-2 text-black hover:brightness-75 ' +
+    class={'h-20 flex-1 overflow-hidden border-2 border-gray-300 px-2 text-black hover:brightness-75 ' +
         (cell !== undefined ? filledClass : 'bg-gray-200')}
     class:border-0={cell !== undefined}
     on:click={() => {
