@@ -1,19 +1,18 @@
 <script lang="ts">
     import { toastStore } from '@skeletonlabs/skeleton'
-    import { addHours, startOfHour } from 'date-fns'
+    import { addHours } from 'date-fns'
     import { CreatePrinterReservationPayload } from '../../domain/printer/CreatePrinterReservationPayload'
-    import type { CreateReservationDto } from '../../domain/printer/model/CreateReservationDto'
     import { PrintAPIImpl } from '../../infrastructure/sigma-api/PrintAPIImpl'
 
-    import { derived } from 'svelte/store'
     import { allPrinters } from '../../domain/printer/model/Printer'
     import OverlaySpinner from '../common/OverlaySpinner.svelte'
     import PrinterReservationDateTimePicker from './PrinterReservationDateTimePicker.svelte'
 
     let isLoading = false
-    let newStartDateTime: Date = startOfHour(new Date())
-    let newUsageTime: number
+    let newUsageTime: number | undefined
     let newReason: string
+    let newStartDateTime = $CreatePrinterReservationPayload.startingDateTime
+    let newPrinterId = $CreatePrinterReservationPayload.printerId
 
     const timeOptions = [
         { value: 1, label: '1시간' },
@@ -26,33 +25,12 @@
         { value: 8, label: '8시간' },
     ]
 
-    const StartingDateTime = derived(
-        CreatePrinterReservationPayload,
-        ({ startingDateTime }) => startingDateTime,
-    )
-
-    const printerId = derived(
-        CreatePrinterReservationPayload,
-        ({ printerId }) => printerId,
-    )
-
-    let newPrintId = $printerId
-
     $: newEndDateTime =
-        $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
-            ? addHours($StartingDateTime, newUsageTime)
+        newUsageTime === undefined
+            ? undefined
             : addHours(newStartDateTime, newUsageTime)
 
     const submitForm = async () => {
-        let newPrinterSchedule: CreateReservationDto = {
-            printerId: newPrintId,
-            startDateTime:
-                $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)
-                    ? $StartingDateTime
-                    : newStartDateTime,
-            usageTime: newUsageTime,
-            reason: newReason,
-        }
         if (
             newEndDateTime === undefined ||
             newUsageTime === undefined ||
@@ -67,7 +45,12 @@
         }
         isLoading = true
         try {
-            await PrintAPIImpl.updatePrintSchedule(newPrinterSchedule)
+            await PrintAPIImpl.updatePrintSchedule({
+                printerId: newPrinterId,
+                startDateTime: newStartDateTime,
+                usageTime: newUsageTime,
+                reason: newReason,
+            })
             toastStore.trigger({
                 message: '프린터 예약에 성공했습니다.',
                 preset: 'success',
@@ -101,20 +84,14 @@
             />
         </label>
         <span>프린터 아이디</span>
-        <select bind:value={newPrintId}>
+        <select bind:value={newPrinterId}>
             {#each allPrinters as { id, label }}
                 <option value={id}>{label}</option>
             {/each}
         </select>
-        {#if $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)}
-            <span>시작 시간 | {$StartingDateTime.toLocaleString()}</span>
-        {:else if newStartDateTime}
-            <span>
-                시작 시간 | {newStartDateTime.toLocaleString()}
-            </span>
-        {:else}
-            <span>시작 시간</span>
-        {/if}
+        <span>
+            시작 시간 | {newStartDateTime.toLocaleString()}
+        </span>
         <PrinterReservationDateTimePicker bind:value={newStartDateTime} />
         <span>사용 시간</span>
         <div class="columns-4 space-y-4">
@@ -132,7 +109,7 @@
                 </button>
             {/each}
         </div>
-        {#if (newStartDateTime || $StartingDateTime > new Date(0, 0, 0, 0, 0, 0, 0)) && newUsageTime}
+        {#if newEndDateTime}
             <span>종료 시간 | {newEndDateTime.toLocaleString()}</span>
         {:else}
             <span>종료 시간 |</span>

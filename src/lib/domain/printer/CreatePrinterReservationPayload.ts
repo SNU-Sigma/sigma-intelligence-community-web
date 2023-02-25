@@ -1,11 +1,11 @@
-import { addHours, startOfDay } from 'date-fns'
+import { addHours, startOfDay, startOfHour } from 'date-fns'
 import { writable } from 'svelte/store'
 import { cubiconPrinter, type Printer } from './model/Printer'
 
 export const CreatePrinterReservationPayload = (() => {
     const { subscribe, update } = writable({
         printerId: cubiconPrinter.id,
-        startingDateTime: new Date(0, 0, 0, 0, 0, 0, 0),
+        startingDateTime: startOfHour(new Date()),
     })
 
     const setDate = (selectedDate: Date) => {
