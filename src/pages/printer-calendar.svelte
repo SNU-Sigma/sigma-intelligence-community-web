@@ -29,9 +29,6 @@
     let weekOffset = 0
     let selectedDate = startOfDay(new Date())
 
-    let topCubiconTimeArray: Array<number> = []
-    let topGuider2TimeArray: Array<number> = []
-
     $: displayedWeekDate = addWeeks(new Date(), weekOffset)
 
     const getTimeLabel = (hour: number): string => {
@@ -84,17 +81,32 @@
         )
     }
 
+    type CellPrinterReservation = {
+        startingHour: number
+        isTop: boolean
+        originalReservation: ListedPrinterReservationDto
+    }
+
     const deriveTimeArray = (
         printerInfo: Readable<Array<ListedPrinterReservationDto>>,
-    ) => {
+    ): Readable<Array<CellPrinterReservation>> => {
         return derived(printerInfo, (printerReservationList) => {
             return printerReservationList.flatMap(
-                ({ requestStartTime, requestEndTime }) => {
+                (printerReservation): Array<CellPrinterReservation> => {
+                    const { requestStartTime, requestEndTime } =
+                        printerReservation
                     const startHours = getHours(new Date(requestStartTime))
                     const endHours = getHours(new Date(requestEndTime))
                     return Array.from(
                         { length: endHours - startHours },
-                        (_, index) => startHours + index,
+                        (_, index) => {
+                            const startingHour = startHours + index
+                            return {
+                                startingHour,
+                                originalReservation: printerReservation,
+                                isTop: index === 0,
+                            }
+                        },
                     )
                 },
             )
@@ -103,42 +115,6 @@
 
     const cubiconTimeArray = deriveTimeArray(cubiconPrinterInfo)
     const guider2TimeArray = deriveTimeArray(guider2PrinterInfo)
-
-    const getCubiconHours = () => {
-        const temp: Array<[number, number]> = $cubiconPrinterInfo.map(
-            ({ requestStartTime, requestEndTime }) => {
-                const startHours = getHours(new Date(requestStartTime))
-                const endHours = getHours(new Date(requestEndTime))
-                return [startHours, endHours]
-            },
-        )
-        topCubiconTimeArray = []
-        temp.forEach(([startHours, endHours]) => {
-            for (let j = startHours; j < endHours; j++) {
-                if (j === startHours) {
-                    topCubiconTimeArray.push(j)
-                }
-            }
-        })
-    }
-
-    const getGuider2Hours = () => {
-        const temp: Array<[number, number]> = $guider2PrinterInfo.map(
-            ({ requestStartTime, requestEndTime }) => {
-                const startHours = getHours(new Date(requestStartTime))
-                const endHours = getHours(new Date(requestEndTime))
-                return [startHours, endHours]
-            },
-        )
-        topGuider2TimeArray = []
-        temp.forEach(([startHours, endHours]) => {
-            for (let j = startHours; j < endHours; j++) {
-                if (j === startHours) {
-                    topGuider2TimeArray.push(j)
-                }
-            }
-        })
-    }
 
     const deleteSchedule = async (id: number) => {
         await axios.delete(`/printer-reservation/reservations/${id}`)
@@ -153,8 +129,6 @@
             cubiconPrinterInfo.fetchPrinterReservations(selectedDate),
             guider2PrinterInfo.fetchPrinterReservations(selectedDate),
         ])
-        getCubiconHours()
-        getGuider2Hours()
     }
 
     onMount(() => {
@@ -228,65 +202,59 @@
     class="absolute top-36 flex h-[calc(100vh-12rem)] max-h-screen flex-col overflow-y-scroll overscroll-contain"
 >
     {#each allStartingHours as time}
+        {@const cubiconCell = $cubiconTimeArray.find(
+            ({ startingHour }) => startingHour === time,
+        )}
+        {@const guider2Cell = $guider2TimeArray.find(
+            ({ startingHour }) => startingHour === time,
+        )}
         <div class="flex flex-row">
             <div class="px-2">
                 {getTimeLabel(time)}
             </div>
             <button
                 class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
-                class:border-0={$cubiconTimeArray.includes(time)}
-                class:bg-red-400={$cubiconTimeArray.includes(time)}
+                class:border-0={cubiconCell !== undefined}
+                class:bg-red-400={cubiconCell !== undefined}
                 on:click={() => {
-                    if (!$cubiconTimeArray.includes(time)) {
+                    if (cubiconCell === undefined) {
                         setPayloadForCreation(cubiconPrinter.id, time)
                         $goto('/printer')
                     } else {
                         window.alert('삭제하시겠습니까?')
-                        deleteSchedule(
-                            $cubiconPrinterInfo[
-                                topCubiconTimeArray.indexOf(time)
-                            ]?.id ?? 0,
-                        )
+                        deleteSchedule(cubiconCell.originalReservation.id)
                     }
                 }}
             >
-                {#if topCubiconTimeArray.includes(time)}
+                {#if cubiconCell?.isTop}
                     <p class="truncate">
-                        {$cubiconPrinterInfo[topCubiconTimeArray.indexOf(time)]
-                            ?.reason}
+                        {cubiconCell.originalReservation.reason}
                     </p>
                     <span class="text-xs">
-                        {$cubiconPrinterInfo[topCubiconTimeArray.indexOf(time)]
-                            ?.user.profile.name}
+                        {cubiconCell.originalReservation.user.profile.name}
                     </span>
                 {/if}
             </button>
             <button
                 class="h-20 w-40 border-2 border-gray-300 bg-gray-200 px-2 text-black"
-                class:border-0={$guider2TimeArray.includes(time)}
-                class:bg-blue-400={$guider2TimeArray.includes(time)}
+                class:border-0={guider2Cell !== undefined}
+                class:bg-blue-400={guider2Cell !== undefined}
                 on:click={() => {
-                    if (!$guider2TimeArray.includes(time)) {
+                    if (guider2Cell === undefined) {
                         setPayloadForCreation(guider2Printer.id, time)
                         $goto('/printer')
                     } else {
                         window.alert('삭제하시겠습니까?')
-                        deleteSchedule(
-                            $guider2PrinterInfo[
-                                topCubiconTimeArray.indexOf(time)
-                            ]?.id ?? 0,
-                        )
+                        deleteSchedule(guider2Cell.originalReservation.id)
                     }
                 }}
             >
-                {#if topGuider2TimeArray.includes(time)}
+                {#if guider2Cell?.isTop}
                     <p class="truncate">
-                        {$guider2PrinterInfo[topGuider2TimeArray.indexOf(time)]
-                            ?.reason}
+                        {guider2Cell.originalReservation.reason}
                     </p>
                     <span class="text-xs">
-                        {$guider2PrinterInfo[topGuider2TimeArray.indexOf(time)]
-                            ?.user.profile.name}
+                        {guider2Cell.originalReservation.user.profile.name}
                     </span>
                 {/if}
             </button>
