@@ -21,14 +21,12 @@
             })
             inputFiles = inputFiles.slice(-MAX_IMAGE_COUNT)
         }
-        updatePreview()
     }
 
     const deleteImage = (idx: number) => {
         const newInputFiles = [...inputFiles]
         newInputFiles.splice(idx, 1)
         inputFiles = newInputFiles
-        updatePreview()
     }
 
     const refresh = (event: Event) => {
@@ -36,14 +34,16 @@
         element.value = ''
     }
 
-    const updatePreview = () => {
+    const synchronizeFilesWithExternalProp = (fileArray: Array<File>) => {
         const dataTransfer = new DataTransfer()
 
-        inputFiles.forEach((file) => {
+        fileArray.forEach((file) => {
             dataTransfer.items.add(file)
         })
         files = dataTransfer.files
     }
+
+    $: synchronizeFilesWithExternalProp(inputFiles)
 </script>
 
 <div class="relative w-full">
