@@ -2,22 +2,15 @@
     import {
         addDays,
         addWeeks,
-        getHours,
         isEqual,
-        isSameDay,
         startOfDay,
         startOfWeek,
     } from 'date-fns'
     import { onMount } from 'svelte'
-    import { derived, type Readable } from 'svelte/store'
     import { CreatePrinterReservationPayload } from '../lib/domain/printer/CreatePrinterReservationPayload'
-    import type { ListedPrinterReservationDto } from '../lib/domain/printer/model/ListedPrinterReservationDto'
-    import {
-        allPrinters,
-        type Printer,
-    } from '../lib/domain/printer/model/Printer'
+    import { allPrinters } from '../lib/domain/printer/model/Printer'
     import { createPrinterStore } from '../lib/domain/printer/PrintInfo'
-    import type { CellPrinterReservation } from '../lib/ui/printer/model/CellPrinterReservation'
+    import { deriveTimeArray } from '../lib/domain/printer/TimeArray'
     import PrinterCalendarCell from '../lib/ui/printer/PrinterCalendarCell.svelte'
 
     const allStartingHours = Array.from({ length: 24 }, (_, index) => index)
@@ -67,63 +60,16 @@
         await refetchPrinterReservations()
     }
 
-    const deriveTimeArray = ({
-        printer,
-        printerStore,
-    }: {
-        printer: Printer
-        printerStore: Readable<Array<ListedPrinterReservationDto>>
-    }): {
-        timeArrayStore: Readable<Array<CellPrinterReservation>>
-        printer: Printer
-    } => {
-        const timeArrayStore = derived(
-            printerStore,
-            (printerReservationList) => {
-                return printerReservationList.flatMap(
-                    (printerReservation): Array<CellPrinterReservation> => {
-                        const { requestStartTime, requestEndTime } =
-                            printerReservation
-                        const requestStartDateTime = new Date(requestStartTime)
-                        const requestEndDateTime = new Date(requestEndTime)
-                        const startHours = isSameDay(
-                            requestStartDateTime,
-                            selectedDate,
-                        )
-                            ? getHours(new Date(requestStartTime))
-                            : 0
-                        const endHours = isSameDay(
-                            requestEndDateTime,
-                            selectedDate,
-                        )
-                            ? getHours(new Date(requestEndTime))
-                            : 24
-                        return Array.from(
-                            { length: endHours - startHours },
-                            (_, index) => {
-                                const startingHour = startHours + index
-                                return {
-                                    startingHour,
-                                    originalReservation: printerReservation,
-                                    isTop: index === 0,
-                                }
-                            },
-                        )
-                    },
-                )
-            },
-        )
-        return {
-            printer,
-            timeArrayStore,
-        }
-    }
-
     const allPrintersInfo = allPrinters.map((printer) => ({
         printer,
         printerStore: createPrinterStore(printer.id),
     }))
-    const allPrintersCells = allPrintersInfo.map(deriveTimeArray)
+    const allPrintersCells = allPrintersInfo.map((printerInfo) =>
+        deriveTimeArray({
+            ...printerInfo,
+            selectedDate,
+        }),
+    )
 
     const refetchPrinterReservations = async () => {
         await Promise.all(
