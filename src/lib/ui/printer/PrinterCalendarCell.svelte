@@ -1,15 +1,26 @@
 <script lang="ts">
-    import type { Printer } from '../../domain/printer/model/Printer'
-    import type { CellPrinterReservation } from './model/CellPrinterReservation'
     import { goto } from '@roxi/routify'
-    import { CreatePrinterReservationPayload } from '../../domain/printer/CreatePrinterReservationPayload'
-    import axios from 'axios'
     import { toastStore } from '@skeletonlabs/skeleton'
+    import axios from 'axios'
+    import type { Readable } from 'svelte/store'
+    import { CreatePrinterReservationPayload } from '../../domain/printer/CreatePrinterReservationPayload'
+    import { PrinterId, type Printer } from '../../domain/printer/model/Printer'
+    import type { CellPrinterReservation } from './model/CellPrinterReservation'
 
-    export let cell: CellPrinterReservation | undefined
     export let hour: number
     export let printer: Printer
-    export let filledClass: string
+    export let timeArrayStore: Readable<Array<CellPrinterReservation>>
+
+    $: cell = $timeArrayStore.find(({ startingHour }) => startingHour === hour)
+
+    $: filledClass = ((): string => {
+        switch (printer.id) {
+            case PrinterId.cubicon:
+                return 'bg-red-400'
+            case PrinterId.guider2:
+                return 'bg-blue-400'
+        }
+    })()
 
     const deleteSchedule = async (id: number) => {
         await axios.delete(`/printer-reservation/reservations/${id}`)

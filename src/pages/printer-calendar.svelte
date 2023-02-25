@@ -13,13 +13,10 @@
     import { CreatePrinterReservationPayload } from '../lib/domain/printer/CreatePrinterReservationPayload'
     import type { ListedPrinterReservationDto } from '../lib/domain/printer/model/ListedPrinterReservationDto'
     import {
-        cubiconPrinter,
-        guider2Printer,
+        allPrinters,
+        type Printer,
     } from '../lib/domain/printer/model/Printer'
-    import {
-        cubiconPrinterInfo,
-        guider2PrinterInfo,
-    } from '../lib/domain/printer/PrintInfo'
+    import { createPrinterStore } from '../lib/domain/printer/PrintInfo'
     import type { CellPrinterReservation } from '../lib/ui/printer/model/CellPrinterReservation'
     import PrinterCalendarCell from '../lib/ui/printer/PrinterCalendarCell.svelte'
 
@@ -70,49 +67,70 @@
         await refetchPrinterReservations()
     }
 
-    const deriveTimeArray = (
-        printerInfo: Readable<Array<ListedPrinterReservationDto>>,
-    ): Readable<Array<CellPrinterReservation>> => {
-        return derived(printerInfo, (printerReservationList) => {
-            return printerReservationList.flatMap(
-                (printerReservation): Array<CellPrinterReservation> => {
-                    const { requestStartTime, requestEndTime } =
-                        printerReservation
-                    const requestStartDateTime = new Date(requestStartTime)
-                    const requestEndDateTime = new Date(requestEndTime)
-                    const startHours = isSameDay(
-                        requestStartDateTime,
-                        selectedDate,
-                    )
-                        ? getHours(new Date(requestStartTime))
-                        : 0
-                    const endHours = isSameDay(requestEndDateTime, selectedDate)
-                        ? getHours(new Date(requestEndTime))
-                        : 24
-                    return Array.from(
-                        { length: endHours - startHours },
-                        (_, index) => {
-                            const startingHour = startHours + index
-                            return {
-                                startingHour,
-                                originalReservation: printerReservation,
-                                isTop: index === 0,
-                            }
-                        },
-                    )
-                },
-            )
-        })
+    const deriveTimeArray = ({
+        printer,
+        printerStore,
+    }: {
+        printer: Printer
+        printerStore: Readable<Array<ListedPrinterReservationDto>>
+    }): {
+        timeArrayStore: Readable<Array<CellPrinterReservation>>
+        printer: Printer
+    } => {
+        const timeArrayStore = derived(
+            printerStore,
+            (printerReservationList) => {
+                return printerReservationList.flatMap(
+                    (printerReservation): Array<CellPrinterReservation> => {
+                        const { requestStartTime, requestEndTime } =
+                            printerReservation
+                        const requestStartDateTime = new Date(requestStartTime)
+                        const requestEndDateTime = new Date(requestEndTime)
+                        const startHours = isSameDay(
+                            requestStartDateTime,
+                            selectedDate,
+                        )
+                            ? getHours(new Date(requestStartTime))
+                            : 0
+                        const endHours = isSameDay(
+                            requestEndDateTime,
+                            selectedDate,
+                        )
+                            ? getHours(new Date(requestEndTime))
+                            : 24
+                        return Array.from(
+                            { length: endHours - startHours },
+                            (_, index) => {
+                                const startingHour = startHours + index
+                                return {
+                                    startingHour,
+                                    originalReservation: printerReservation,
+                                    isTop: index === 0,
+                                }
+                            },
+                        )
+                    },
+                )
+            },
+        )
+        return {
+            printer,
+            timeArrayStore,
+        }
     }
 
-    const cubiconTimeArray = deriveTimeArray(cubiconPrinterInfo)
-    const guider2TimeArray = deriveTimeArray(guider2PrinterInfo)
+    const allPrintersInfo = allPrinters.map((printer) => ({
+        printer,
+        printerStore: createPrinterStore(printer.id),
+    }))
+    const allPrintersCells = allPrintersInfo.map(deriveTimeArray)
 
     const refetchPrinterReservations = async () => {
-        await Promise.all([
-            cubiconPrinterInfo.fetchPrinterReservations(selectedDate),
-            guider2PrinterInfo.fetchPrinterReservations(selectedDate),
-        ])
+        await Promise.all(
+            allPrintersInfo.map(({ printerStore }) =>
+                printerStore.fetchPrinterReservations(selectedDate),
+            ),
+        )
     }
 
     onMount(() => {
@@ -178,36 +196,22 @@
 
 <div class="absolute top-28 left-6 flex flex-row space-x-12">
     <span class="text-sm">Time</span>
-    <span class="text-sm">Cubicon 프린터</span>
-    <span class="text-sm">Guider2 프린터</span>
+    {#each allPrinters as { label }}
+        <span class="text-sm">{label}</span>
+    {/each}
 </div>
 
 <div
     class="absolute top-36 flex h-[calc(100vh-12rem)] max-h-screen flex-col overflow-y-scroll overscroll-contain"
 >
     {#each allStartingHours as time}
-        {@const cubiconCell = $cubiconTimeArray.find(
-            ({ startingHour }) => startingHour === time,
-        )}
-        {@const guider2Cell = $guider2TimeArray.find(
-            ({ startingHour }) => startingHour === time,
-        )}
         <div class="flex flex-row">
             <div class="px-2">
                 {getTimeLabel(time)}
             </div>
-            <PrinterCalendarCell
-                cell={cubiconCell}
-                hour={time}
-                printer={cubiconPrinter}
-                filledClass={'bg-red-400'}
-            />
-            <PrinterCalendarCell
-                cell={guider2Cell}
-                hour={time}
-                printer={guider2Printer}
-                filledClass={'bg-blue-400'}
-            />
+            {#each allPrintersCells as { printer, timeArrayStore }}
+                <PrinterCalendarCell hour={time} {printer} {timeArrayStore} />
+            {/each}
         </div>
     {/each}
 </div>
