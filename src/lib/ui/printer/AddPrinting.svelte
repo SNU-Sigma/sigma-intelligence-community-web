@@ -55,6 +55,7 @@
                 message: '프린터 예약에 성공했습니다.',
                 preset: 'success',
             })
+            history.back()
         } catch (e) {
             toastStore.trigger({
                 message: '프린터 예약에 실패했습니다',
