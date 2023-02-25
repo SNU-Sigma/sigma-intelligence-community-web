@@ -1,14 +1,7 @@
 <script lang="ts">
-    import { goto } from '@roxi/routify'
+    import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
+    import PostFeedScreen from '../lib/ui/post/PostFeedScreen.svelte'
 </script>
 
-<main>
-    <h1>Hello, World!</h1>
-    <button class="btn variant-filled-primary">Hello</button>
-    <button
-        class="btn variant-filled-primary"
-        on:click={() => $goto('/profile')}
-    >
-        Profile
-    </button>
-</main>
+<PostFeedScreen />
+<BottomTabNavigationBar />

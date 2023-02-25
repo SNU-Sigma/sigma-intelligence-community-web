@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { LightSwitch, Toast } from '@skeletonlabs/skeleton'
-    import { derived } from 'svelte/store'
-    import Login from '../lib/ui/login/Login.svelte'
-    import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
     import { isActive } from '@roxi/routify'
+    import { Toast } from '@skeletonlabs/skeleton'
+    import { derived } from 'svelte/store'
+    import { LoginInfo$ } from '../lib/domain/login/LoginInfo$'
+    import Login from '../lib/ui/login/Login.svelte'
 
     const shouldShowLoginPage = derived(
         [LoginInfo$, isActive],
@@ -20,16 +20,13 @@
 </script>
 
 <!-- routify:options preload="proximity" -->
-<div class="relative mx-auto h-screen max-w-md bg-gray-50 dark:bg-gray-900">
+<div
+    class="relative mx-auto flex min-h-screen max-w-md flex-1 flex-col bg-gray-50 dark:bg-gray-900"
+>
     <Toast />
-    <div class="absolute bottom-4 left-4">
-        <LightSwitch />
-    </div>
-    <div class="grid h-full w-full overflow-y-auto">
-        {#if $shouldShowLoginPage}
-            <Login />
-        {:else}
-            <slot />
-        {/if}
-    </div>
+    {#if $shouldShowLoginPage}
+        <Login />
+    {:else}
+        <slot />
+    {/if}
 </div>

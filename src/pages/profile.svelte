@@ -4,13 +4,14 @@
     import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import { url } from '@roxi/routify'
     import ProfileImage from '../lib/ui/common/ProfileImage.svelte'
+    import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
 
     const member: Promise<ProfileDto> = ProfileAPIImpl.getMyProfile()
 </script>
 
-<div class="bg h-full w-full bg-gradient-to-br from-pink-300 to-indigo-400">
+<div class="flex flex-1 bg-gradient-to-br from-pink-300 to-indigo-400">
     <p class="md absolute left-5 top-5 font-bold">SIGMA INTELLIGENCE</p>
-    <div class="flex h-full flex-col items-center justify-center">
+    <div class="flex flex-1 flex-col items-center justify-center">
         {#await member}
             <OverlaySpinner />
         {:then item}
@@ -30,3 +31,5 @@
         {/await}
     </div>
 </div>
+
+<BottomTabNavigationBar />
