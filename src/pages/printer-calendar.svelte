@@ -90,7 +90,7 @@
     })
 </script>
 
-<div class="m-1 flex flex-col rounded-md bg-primary-100 pb-2">
+<div class="sticky top-0 m-1 flex flex-col rounded-md bg-primary-100 p-2">
     <h2 class="font-bold">SIGMA 3D PRINTER</h2>
     <h2 class="text-base">
         {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월
@@ -100,7 +100,7 @@
             <img src={DirectionIcon} class="h-5 w-5" alt="왼쪽" />
         </button>
         <div
-            class="hide-scrollbar flex flex-row justify-between gap-1 overflow-x-auto"
+            class="hide-scrollbar flex flex-1 flex-row justify-between gap-1 overflow-x-auto"
         >
             {#each weekArrayCreator(displayedWeekDate) as day}
                 <button
