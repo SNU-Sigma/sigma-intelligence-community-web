@@ -10,14 +10,16 @@
     let input: FileList
     let inputFiles: Array<File> = []
 
+    const MAX_IMAGE_COUNT = 10
+
     const addImage = () => {
         inputFiles = [...input, ...inputFiles]
-        if (inputFiles.length > 10) {
+        if (inputFiles.length > MAX_IMAGE_COUNT) {
             toastStore.trigger({
-                message: '이미지 업로드는 최대 10장 까지 가능합니다.',
+                message: `이미지 업로드는 최대 ${MAX_IMAGE_COUNT}장까지 가능합니다.`,
                 preset: 'warning',
             })
-            inputFiles = inputFiles.slice(-10)
+            inputFiles = inputFiles.slice(-MAX_IMAGE_COUNT)
         }
         updatePreview()
     }
