@@ -1,14 +1,15 @@
 <script lang="ts">
-    import OverlaySpinner from '../common/OverlaySpinner.svelte'
-    import { onMount } from 'svelte'
-    import { PostAPIImpl } from '../../infrastructure/sigma-api/PostAPIImpl'
-    import { toastStore } from '@skeletonlabs/skeleton'
-    import type { PostFeedDto } from '../../domain/posts/model/PostFeedDto'
     import { url } from '@roxi/routify'
+    import { toastStore } from '@skeletonlabs/skeleton'
+    import { onMount } from 'svelte'
+    import type { PostFeedDto } from '../../domain/posts/model/PostFeedDto'
+    import { PostAPIImpl } from '../../infrastructure/sigma-api/PostAPIImpl'
+    import OverlaySpinner from '../common/OverlaySpinner.svelte'
 
     let isLoading = false
 
     let posts: Array<PostFeedDto> = []
+
     onMount(() => {
         isLoading = true
         PostAPIImpl.fetchAllPosts()
@@ -36,7 +37,19 @@
     <div class="text-xl">SIGMA BOARD</div>
     {#each posts as post}
         <div class="card card-hover p-2.5 text-left">
-            <div class="text-lg">{post.title}</div>
+            <div class="flex flex-row justify-between">
+                <div class="text-lg">{post.title}</div>
+                {#if post.isMyPost}
+                    <button
+                        class="btn p-0 text-xs text-error-500"
+                        on:click={async () => {
+                            await PostAPIImpl.deletePost(post.id)
+                        }}
+                    >
+                        삭제
+                    </button>
+                {/if}
+            </div>
 
             <div class="flex justify-between text-xs">
                 <div>{post.user.profile.name} ({post.user.email})</div>

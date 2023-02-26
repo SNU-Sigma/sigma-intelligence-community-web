@@ -19,4 +19,7 @@ export const PostAPIImpl = {
         const { data } = await axios.get('/posts/all-posts')
         return data
     },
+    deletePost: async (postId: PostDto['id']): Promise<void> => {
+        await axios.delete(`/posts/${postId}`)
+    },
 }
