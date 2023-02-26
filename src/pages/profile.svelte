@@ -1,5 +1,6 @@
 <script lang="ts">
     import { url } from '@roxi/routify'
+    import { LightSwitch } from '@skeletonlabs/skeleton'
     import type { UserProfile } from '../lib/domain/common/model/UserProfile'
     import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
@@ -9,8 +10,13 @@
     const member: Promise<UserProfile> = ProfileAPIImpl.getMyProfile()
 </script>
 
-<div class="flex flex-1 bg-gradient-to-br from-pink-300 to-indigo-400">
-    <p class="md absolute left-5 top-5 font-bold">SIGMA INTELLIGENCE</p>
+<div
+    class="flex flex-1 flex-col bg-gradient-to-br from-pink-300 to-indigo-400 dark:from-pink-600 dark:to-indigo-500"
+>
+    <div class="flex flex-row justify-between p-5">
+        <p class="md font-bold">SIGMA INTELLIGENCE</p>
+        <LightSwitch />
+    </div>
     <div class="flex flex-1 flex-col items-center justify-center">
         {#await member}
             <OverlaySpinner />

@@ -29,7 +29,7 @@
     <OverlaySpinner />
 {/if}
 <div
-    class="bg flex h-full w-full flex-1 flex-col bg-gradient-to-br from-lime-200 to-indigo-400"
+    class="bg flex h-full w-full flex-1 flex-col bg-gradient-to-br from-lime-200 to-indigo-400 dark:from-lime-700 dark:to-indigo-500"
 >
     <p class="md p-5 font-bold">SIGMA INTELLIGENCE</p>
     <h1 class="p-5 font-semibold">Edit Profile</h1>
