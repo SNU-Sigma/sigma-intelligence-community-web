@@ -28,7 +28,7 @@
                     message: '게시글이 업로드 되었습니다.',
                     preset: 'success',
                 })
-                $goto('/feed')
+                history.back()
             } catch (e) {
                 toastStore.trigger({
                     message:
