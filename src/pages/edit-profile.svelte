@@ -51,7 +51,7 @@
             <span class="mt-5 text-2xl font-semibold">학번</span>
             <input
                 class="mt-3 font-normal"
-                type="text"
+                type="number"
                 bind:value={member.freshmanYear}
             />
         </label>
