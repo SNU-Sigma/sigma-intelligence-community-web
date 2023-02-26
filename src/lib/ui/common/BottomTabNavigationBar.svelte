@@ -41,7 +41,7 @@
                     this={$isActive(path)
                         ? logoActiveVariantUrl
                         : logoDefaultVariantUrl}
-                    class="mx-auto my-auto h-8 w-8"
+                    class="mx-auto my-auto h-8 w-8 dark:invert"
                 />
             </a>
         {/each}
