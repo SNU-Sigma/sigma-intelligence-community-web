@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { ProfileDto } from '../lib/domain/profile/model/ProfileDto'
-    import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
-    import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
     import { url } from '@roxi/routify'
-    import ProfileImage from '../lib/ui/common/ProfileImage.svelte'
+    import type { UserProfile } from '../lib/domain/common/model/UserProfile'
+    import { ProfileAPIImpl } from '../lib/infrastructure/sigma-api/ProfileAPIImpl'
     import BottomTabNavigationBar from '../lib/ui/common/BottomTabNavigationBar.svelte'
+    import OverlaySpinner from '../lib/ui/common/OverlaySpinner.svelte'
+    import ProfileImage from '../lib/ui/common/ProfileImage.svelte'
 
-    const member: Promise<ProfileDto> = ProfileAPIImpl.getMyProfile()
+    const member: Promise<UserProfile> = ProfileAPIImpl.getMyProfile()
 </script>
 
 <div class="flex flex-1 bg-gradient-to-br from-pink-300 to-indigo-400">

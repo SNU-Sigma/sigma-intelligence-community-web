@@ -1,15 +1,7 @@
+import type { User } from '../../common/model/User'
+
 export type PostFeedDto = {
-    user: {
-        id: number
-        email: string
-        role: unknown
-        userAuthId: number
-        profileId: number
-        profile: {
-            id: number
-            name: string
-        }
-    }
+    user: User
     isMyPost: boolean
     id: number
     createdAt: string
