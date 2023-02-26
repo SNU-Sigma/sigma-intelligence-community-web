@@ -1,36 +1,23 @@
+import axios from 'axios'
+import type { User } from '../../domain/common/model/User'
 import type { UserProfile } from '../../domain/common/model/UserProfile'
 import type { UpdateProfileDto } from '../../domain/profile/model/UpdateProfileDto'
 
 export const ProfileAPIImpl = {
     getMyProfile: async (): Promise<UserProfile> => {
-        // TODO: 실제 API로 변경
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    name: '아무개',
-                    freshmanYear: 22,
-                    major: '전기정보공학부',
-                    profileImageUrl: 'https://picsum.photos/600',
-                })
-            }, 3000)
-        })
+        const { data } = await axios.get<User>('/users/my')
+        return data.profile
     },
     updateMyProfile: async ({
         profileImageUrl,
         major,
         freshmanYear,
     }: UpdateProfileDto): Promise<UserProfile> => {
-        // TODO: 실제 API로 변경
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve({
-                    name: '아무개',
-                    freshmanYear: freshmanYear ?? 22,
-                    major: major ?? '전기정보공학부',
-                    profileImageUrl:
-                        profileImageUrl ?? 'https://picsum.photos/600',
-                })
-            }, 3000)
+        const { data } = await axios.patch<User>('/users/my', {
+            profileImageUrl,
+            major,
+            freshmanYear,
         })
+        return data.profile
     },
 }
