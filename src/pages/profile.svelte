@@ -9,7 +9,9 @@
     const member: Promise<UserProfile> = ProfileAPIImpl.getMyProfile()
 </script>
 
-<div class="flex flex-1 bg-gradient-to-br from-pink-300 to-indigo-400">
+<div
+    class="flex flex-1 bg-gradient-to-br from-pink-300 to-indigo-400 dark:from-pink-600 dark:to-indigo-500"
+>
     <p class="md absolute left-5 top-5 font-bold">SIGMA INTELLIGENCE</p>
     <div class="flex flex-1 flex-col items-center justify-center">
         {#await member}
