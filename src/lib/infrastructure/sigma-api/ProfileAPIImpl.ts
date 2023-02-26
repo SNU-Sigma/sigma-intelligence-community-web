@@ -1,8 +1,8 @@
-import type { ProfileDto } from '../../domain/profile/model/ProfileDto'
+import type { UserProfile } from '../../domain/common/model/UserProfile'
 import type { UpdateProfileDto } from '../../domain/profile/model/UpdateProfileDto'
 
 export const ProfileAPIImpl = {
-    getMyProfile: async (): Promise<ProfileDto> => {
+    getMyProfile: async (): Promise<UserProfile> => {
         // TODO: 실제 API로 변경
         return new Promise((resolve) => {
             setTimeout(() => {
@@ -19,7 +19,7 @@ export const ProfileAPIImpl = {
         profileImageUrl,
         major,
         freshmanYear,
-    }: UpdateProfileDto): Promise<ProfileDto> => {
+    }: UpdateProfileDto): Promise<UserProfile> => {
         // TODO: 실제 API로 변경
         return new Promise((resolve) => {
             setTimeout(() => {

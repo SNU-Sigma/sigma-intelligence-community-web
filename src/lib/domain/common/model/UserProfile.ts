@@ -1,4 +1,4 @@
-export type ProfileDto = {
+export type UserProfile = {
     /**
      * 이름
      */
